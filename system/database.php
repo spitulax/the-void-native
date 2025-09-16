@@ -7,7 +7,7 @@ class Database
     private const USERNAME = 'root';
     private const PASSWORD = 'root';
 
-    private static null|Database $instance = null;
+    private static null|self $instance = null;
     private mysqli $connection;
 
     protected function __construct()

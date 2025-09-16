@@ -1,11 +1,12 @@
 <?php
 
 require_once 'system/main.php';
+require_once 'system/auth.php';
 require_once 'components/button.php';
 
 $layout = new HTML('The Void');
 
-$user = $_SESSION['user'];
+$user = Auth::user();
 ?>
 
 <div>

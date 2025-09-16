@@ -1,6 +1,7 @@
 
 <?php
 
+require_once 'system/auth.php';
 require_once 'system/redirect.php';
 require_once 'system/tables/user.php';
 
@@ -16,7 +17,7 @@ class UserController
         $user = UserTable::match($data['username'], $data['password']);
 
         if ($user) {
-            $_SESSION['user'] = $user;
+            Auth::get()->login($user);
             return redirect()->intended();
         } else {
             return redirect()->back()->with('error', 'Username atau password salah.');
@@ -25,9 +26,7 @@ class UserController
 
     public static function logout(array $data): Redirect
     {
-        unset($_SESSION['user']);
-        session_unset();
-        session_destroy();
+        Auth::get()->logout();
         return redirect('/');
     }
 }
