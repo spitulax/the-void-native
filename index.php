@@ -1,8 +1,12 @@
 <?php
 
+const BUFFERED = true;
+
 session_start();
 
-ob_start();
+if (BUFFERED) {
+    ob_start();
+}
 
 require_once 'system/router.php';
 require_once 'system/controllers/user.php';
@@ -20,4 +24,6 @@ $router->post('/logout', [UserController::class, 'logout']);
 
 $router->dispatch();
 
-ob_end_flush();
+if (BUFFERED) {
+    ob_end_flush();
+}

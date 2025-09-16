@@ -51,7 +51,7 @@ class Redirect
         return $this;
     }
 
-    public function with(string $key, $value): self
+    public function with(string $key, mixed $value): self
     {
         $_SESSION['flash'][$key] = $value;
         return $this;
@@ -63,7 +63,7 @@ function redirect(string $target = ''): Redirect
     return new Redirect($target);
 }
 
-function flash(string $key): null|string
+function flash(string $key): mixed
 {
     if (isset($_SESSION['flash'][$key])) {
         $value = $_SESSION['flash'][$key];

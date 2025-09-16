@@ -3,16 +3,21 @@
 
 require_once 'system/auth.php';
 require_once 'system/redirect.php';
+require_once 'system/validation.php';
 require_once 'system/tables/user.php';
 
 class UserController
 {
     public static function login(array $data): Redirect
     {
-        if (!isset($data['username']) || empty($data['username']))
-            return redirect()->back();
-        if (!isset($data['password']) || empty($data['password']))
-            return redirect()->back();
+        $data = new Validation($data)
+            ->add('username', 'Username', ['required'])
+            ->add('password', 'Password', ['required'])
+            ->finalize();
+
+        if ($data instanceof Redirect) {
+            return $data;
+        }
 
         $user = UserTable::match($data['username'], $data['password']);
 
