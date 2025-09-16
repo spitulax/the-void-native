@@ -1,0 +1,23 @@
+<?php
+
+require_once 'system/main.php';
+require_once 'components/button.php';
+
+$layout = new HTML('The Void');
+
+$user = $_SESSION['user'];
+?>
+
+<div>
+    <h1>The Void</h1>
+    <?php if ($user): ?>
+        <h2>Welcome <?= htmlspecialchars($user['name']) ?>!</h2>
+        <?php if ($user['admin']): ?>
+            <?php button('get', '/admin/dashboard', 'DASHBOARD'); ?>
+        <?php endif; ?>
+        <?php button('post', '/logout', 'LOGOUT'); ?>
+    <?php else: ?>
+        <h2>Welcome Guest!</h2>
+        <?php button('get', '/login.php', 'LOGIN'); ?>
+    <?php endif; ?>
+</div>

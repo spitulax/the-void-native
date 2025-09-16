@@ -1,8 +1,8 @@
 <?php
 
-require 'system/main.php';
+require_once 'system/main.php';
 
-$layout = new HTML(title: 'The Void: Test');
+$layout = new HTML('The Void: Test');
 ?>
 
 <div>

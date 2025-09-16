@@ -1,16 +1,23 @@
 <?php
 
-define('ROOT', __DIR__);
+session_start();
 
-require 'system/router.php';
+ob_start();
+
+require_once 'system/router.php';
+require_once 'system/controllers/user.php';
 
 $router = new Router();
 
-$router->add('get', '/', function () {
-    require 'pages/index.php';
-});
-$router->add('get', '/test.php', function () {
-    require 'pages/test.php';
-});
+$router->page('/', 'app.php');
+
+$router->page('test.php');
+
+$router->page('login.php');
+$router->post('/login', [UserController::class, 'login']);
+
+$router->post('/logout', [UserController::class, 'logout']);
 
 $router->dispatch();
+
+ob_end_flush();

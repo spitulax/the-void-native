@@ -30,4 +30,14 @@ class Database
         }
         return self::$instance->connection;
     }
+
+    public static function execute(string $query, array $args): mysqli_result
+    {
+        $query = self::get()->prepare($query);
+        foreach ($args as $arg) {
+            $query->bind_param($arg[1] ?? 's', $arg[0]);
+        }
+        $query->execute();
+        return $query->get_result();
+    }
 }

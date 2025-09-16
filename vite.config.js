@@ -1,14 +1,17 @@
 import { defineConfig } from "vite";
-import usePHP from "vite-plugin-php";
+import usePHP, { EPHPError } from "vite-plugin-php";
 import tailwindcss from "@tailwindcss/vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
+// FIXME: Building does not work
 export default defineConfig({
     plugins: [
         usePHP({
             entry: ["index.php", "pages/**/*.php", "components/**/*.php"],
+            errorLevels: EPHPError.ERROR | EPHPError.WARNING | EPHPError.STRICT,
+            cleanup: true,
             rewriteUrl(requestUrl) {
                 const filePath = fileURLToPath(
                     new URL("." + requestUrl.pathname, import.meta.url),
