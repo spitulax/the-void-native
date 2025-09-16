@@ -26,8 +26,8 @@ class HTML
 
 			<title><?= $this->title; ?></title>
 
-			<link href="/src/styles/tailwind.css" rel="stylesheet" />
-			<link href="/src/styles/global.css" rel="stylesheet" />
+			<link href="/src/css/tailwind.css" rel="stylesheet" />
+			<link href="/src/css/global.css" rel="stylesheet" />
 		</head>
 
 		<body class="w-screen h-screen">

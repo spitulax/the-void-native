@@ -10,4 +10,4 @@ $layout = new HTML(title: 'The Void');
     <a href="./test.php">GO TO TEST</a>
 </div>
 
-<script src="/src/scripts/index.ts" type="module"></script>
+<script src="/src/js/index.ts" type="module"></script>

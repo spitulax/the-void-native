@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Noto+Color+Emoji&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+    --font-sans: "Roboto", "Noto Color Emoji", ui-sans-serif, sans-serif;
+    --font-serif: "PT Serif", ui-serif, serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+input {
+    @apply border block m-2;
+}
+
+button {
+    @apply border m-2 cursor-pointer;
+}
+
+* {
+    @apply font-sans;
+}
+
+h1 {
+    @apply text-3xl font-bold leading-12;
+}
+
+h1 {
+    @apply text-2xl font-bold leading-10;
+}
+
+table {
+    @apply table-auto border-collapse border-3 border-black;
+}
+
+th,
+td {
+    @apply p-1 border border-black text-center;
+}
