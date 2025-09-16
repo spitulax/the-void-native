@@ -43,6 +43,14 @@ class Router
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
         $uri = self::normalize(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
+        if (!isset($_SESSION['current_loc'])) {
+            $_SESSION['current_loc'] = '/';
+        }
+        if ($_SESSION['current_loc'] !== $_SERVER['REQUEST_URI']) {
+            $_SESSION['previous_loc'] = $_SESSION['current_loc'];
+            $_SESSION['current_loc'] = $_SERVER['REQUEST_URI'];
+        }
+
         $routes = $this->routes[$method] ?? [];
 
         if (isset($routes[$uri])) {

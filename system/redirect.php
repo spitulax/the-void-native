@@ -17,17 +17,17 @@ class Redirect
 
     public static function curLoc(): string
     {
-        return $_SERVER['REQUEST_URI'];
+        return $_SERVER['current_loc'];
     }
 
-    public static function lastLoc(): null|string
+    public static function prevLoc(): string
     {
-        return $_SERVER['HTTP_REFERER'] ?? null;
+        return $_SESSION['previous_loc'];
     }
 
-    public function back(string $fallback = '/'): self
+    public function back(): self
     {
-        $this->target = self::lastLoc() ?? $fallback;
+        $this->target = self::prevLoc();
         $_SESSION['flash']['__back'] = true;
         return $this;
     }
@@ -40,7 +40,7 @@ class Redirect
     public static function markLastLoc(): void
     {
         if (!flash('__back')) {
-            self::markIntendedDest(self::lastLoc() ?? '/');
+            self::markIntendedDest(self::prevLoc());
         }
     }
 

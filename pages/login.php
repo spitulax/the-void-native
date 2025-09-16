@@ -8,11 +8,18 @@ Redirect::markLastLoc();
 $layout = new HTML('The Void: Login');
 
 $errors = flash('validation_errors') ?? [];
+
+// TODO: Retain form values after refresh
 ?>
 
 <h1>Login</h1>
 <form method="post" action="/login">
-    <input type="text" name="username" placeholder="Insert username" required />
+    <input
+        type="text"
+        name="username"
+        placeholder="Insert username"
+        required
+    />
     <?php if ($errors['username'] ?? false): ?>
         <div><?= htmlspecialchars($errors['username']) ?></div>
     <?php endif; ?>
@@ -21,7 +28,6 @@ $errors = flash('validation_errors') ?? [];
         type="password"
         name="password"
         placeholder="Insert password"
-        required
     />
     <?php if ($errors['password'] ?? false): ?>
         <div><?= htmlspecialchars($errors['password']) ?></div>

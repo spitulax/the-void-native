@@ -30,7 +30,7 @@ class Validation
         return $this;
     }
 
-    public function finalize(): array|Redirect
+    public function finalize(): array
     {
         $errs = [];
         foreach ($this->errors as $key => $errors) {
@@ -44,7 +44,7 @@ class Validation
         }
 
         if (count($errs) > 0) {
-            return redirect()->back()->with('validation_errors', $errs);
+            redirect()->back()->with('validation_errors', $errs)->send();
         }
 
         return $this->usedData;

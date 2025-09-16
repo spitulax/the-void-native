@@ -2,7 +2,9 @@
 
 const BUFFERED = true;
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (BUFFERED) {
     ob_start();

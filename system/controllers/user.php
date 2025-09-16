@@ -15,10 +15,6 @@ class UserController
             ->add('password', 'Password', ['required'])
             ->finalize();
 
-        if ($data instanceof Redirect) {
-            return $data;
-        }
-
         $user = UserTable::match($data['username'], $data['password']);
 
         if ($user) {
