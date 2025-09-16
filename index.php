@@ -20,9 +20,10 @@ $router->page('/', 'app.php');
 $router->page('test.php');
 
 $router->page('login.php');
+$router->page('register.php');
 $router->post('/login', [UserController::class, 'login']);
-
 $router->post('/logout', [UserController::class, 'logout']);
+$router->post('/register', [UserController::class, 'register']);
 
 $router->dispatch();
 

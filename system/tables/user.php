@@ -9,7 +9,7 @@ class UserTable extends Table
 
     public static function match(string $username, string $password): null|array
     {
-        $match = Database::execute('SELECT * FROM users WHERE username=?', [[$username, 's']])->fetch_assoc();
+        $match = Database::fetch('SELECT * FROM users WHERE username=?', [[$username, 's']])->fetch_assoc();
         if ($match && password_verify($password, $match['password'])) {
             return $match;
         } else {

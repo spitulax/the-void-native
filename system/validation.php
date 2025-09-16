@@ -17,11 +17,21 @@ class Validation
     public function add(string $key, string $readableName, array $checks): self
     {
         $this->usedData[$key] = $this->data[$key];
-        $this->readableName[$key] = $readableName;
+        $this->readableName[$key] = "\"$readableName\"";
         foreach ($checks as $check) {
-            switch ($check) {
+            $args = explode(':', $check, 2);
+            switch ($args[0]) {
                 case 'required':
                     $this->required($key);
+                    break;
+                case 'min':
+                    $this->min($key, intval($args[1]));
+                    break;
+                case 'max':
+                    $this->max($key, intval($args[1]));
+                    break;
+                case 'same':
+                    $this->same($key, $args[1]);
                     break;
                 default:
                     throw new Exception("Unknown check `$check`");
@@ -38,6 +48,8 @@ class Validation
             foreach ($errors as $i => $error) {
                 if ($i > 0)
                     $msgs .= ', ';
+                if ($i > 0 && $i === (count($errors) - 1))
+                    $msgs .= 'dan ';
                 $msgs .= $error;
             }
             $errs[$key] = $this->readableName[$key] . ' ' . $msgs . '.';
@@ -62,6 +74,31 @@ class Validation
     {
         if (!isset($this->usedData[$key]) || empty($this->usedData[$key])) {
             $this->error($key, 'tidak boleh kosong');
+        }
+    }
+
+    private function min(string $key, int $n): void
+    {
+        if (strlen($this->usedData[$key] ?? '') < $n) {
+            $this->error($key, "minimal sebanyak $n karakter");
+        }
+    }
+
+    private function max(string $key, int $n): void
+    {
+        $this->required($key);
+        // NOTE: Let's assume inclusive, I don't really know...
+        if (strlen($this->usedData[$key] ?? '') > $n) {
+            $this->error($key, "maksimal sebanyak $n karakter");
+        }
+    }
+
+    private function same(string $key, string $other): void
+    {
+        if (isset($this->usedData[$key]) && isset($this->usedData[$other])) {
+            if ($this->usedData[$key] !== $this->usedData[$other]) {
+                $this->error($key, 'harus sama dengan ' . $this->readableName[$other]);
+            }
         }
     }
 }

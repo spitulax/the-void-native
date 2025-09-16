@@ -17,7 +17,7 @@ $errors = flash('validation_errors') ?? [];
     <input
         type="text"
         name="username"
-        placeholder="Insert username"
+        placeholder="Masukkan username"
         required
     />
     <?php if ($errors['username'] ?? false): ?>
@@ -27,7 +27,8 @@ $errors = flash('validation_errors') ?? [];
     <input
         type="password"
         name="password"
-        placeholder="Insert password"
+        placeholder="Masukkan password"
+        required
     />
     <?php if ($errors['password'] ?? false): ?>
         <div><?= htmlspecialchars($errors['password']) ?></div>

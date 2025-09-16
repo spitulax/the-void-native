@@ -12,10 +12,11 @@ class Database
 
     protected function __construct()
     {
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         try {
             $this->connection = mysqli_connect(self::HOSTNAME, self::USERNAME, self::PASSWORD, self::NAME);
-        } catch (\Throwable $th) {
-            throw new Exception('Gagal untuk menyambungkan ke MySQL: ' . $th);
+        } catch (Throwable $th) {
+            throw new Exception('Failed to connect to MySQL: ' . $th);
         }
     }
 
@@ -31,12 +32,27 @@ class Database
         return self::$instance->connection;
     }
 
-    public static function execute(string $query, array $args): mysqli_result
+    public static function execute(string $query, array $args = []): void
     {
         $query = self::get()->prepare($query);
         foreach ($args as $arg) {
             $query->bind_param($arg[1] ?? 's', $arg[0]);
         }
+        $query->execute();
+    }
+
+    public static function fetch(string $query, array $args = []): mysqli_result
+    {
+        $types = '';
+        $values = [];
+        foreach ($args as $arg) {
+            $types .= $arg[1] ?? 's';
+            $values[] = $arg[0];
+        }
+
+        $query = self::get()->prepare($query);
+
+        $query->bind_param($types, ...array_map(fn(&$v) => $v, $values));
         $query->execute();
         return $query->get_result();
     }
