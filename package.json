@@ -1,0 +1,21 @@
+{
+  "name": "the-void-native",
+  "description": "Blog platforms built using native PHP",
+  "version": "0.0.0",
+  "type": "module",
+  "readme": "README.md",
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.13",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5",
+    "vite-plugin-ejs": "^1.7.0",
+    "vite-plugin-php": "^2.0.3",
+    "vite-plugin-static-copy": "^3.1.2"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build"
+  }
+}

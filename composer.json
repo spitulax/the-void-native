@@ -1,0 +1,19 @@
+{
+  "name": "bintang/the-void-native",
+  "description": "Blog platforms built using native PHP",
+  "type": "project",
+  "license": "MIT",
+  "readme": "README.md",
+  "authors": [
+    {
+      "name": "Bintang Adiputra Pratama",
+      "email": "bintangadiputra@proton.me"
+    }
+  ],
+  "scripts": {
+    "dev": [
+      "pnpm run dev"
+    ]
+  },
+  "require": {}
+}

@@ -1,0 +1,5 @@
+.php-tmp
+.phpactor.json
+node_modules/
+vendor/
+dist/

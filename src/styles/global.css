@@ -1,0 +1,5 @@
+a {
+    @apply underline;
+
+    @apply hover:no-underline;
+}
