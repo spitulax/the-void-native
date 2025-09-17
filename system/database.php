@@ -52,7 +52,7 @@ class Database
 
         $query = self::get()->prepare($query);
 
-        $query->bind_param($types, ...array_map(fn(&$v) => $v, $values));
+        $query->bind_param($types, ...$values);
         $query->execute();
         return $query->get_result();
     }
