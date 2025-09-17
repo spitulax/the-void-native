@@ -5,7 +5,7 @@ require_once 'system/redirect.php';
 
 Redirect::markLastLoc();
 
-$layout = new HTML('The Void: Login');
+$layout = new HTML('The Void: Masuk');
 
 $errors = flash('validation_errors') ?? [];
 
@@ -34,7 +34,7 @@ $errors = flash('validation_errors') ?? [];
         <div><?= h($errors['password']) ?></div>
     <?php endif; ?>
 
-    <button type="submit">LOGIN</button>
+    <button type="submit">MASUK</button>
 </form>
 
 <?php if ($msg = flash('error')): ?>

@@ -16,9 +16,9 @@ $user = Auth::user();
         <?php if ($user['admin']): ?>
             <?php button('get', '/admin/dashboard.php', 'DASHBOARD'); ?>
         <?php endif; ?>
-        <?php button('post', '/logout', 'LOGOUT'); ?>
+        <?php button('post', '/logout', 'KELUAR'); ?>
     <?php else: ?>
         <h2>Welcome Guest!</h2>
-        <?php button('get', '/login.php', 'LOGIN'); ?>
+        <?php button('get', '/login.php', 'MASUK'); ?>
     <?php endif; ?>
 </div>

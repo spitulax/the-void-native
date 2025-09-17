@@ -4,15 +4,13 @@ require_once 'system/redirect.php';
 
 class Validation
 {
-    protected array $data;
     protected array $usedData;
     protected array $readableName;
     protected array $errors = [];
 
-    public function __construct(array $data)
-    {
-        $this->data = $data;
-    }
+    public function __construct(
+        protected array $data,
+    ) {}
 
     public function add(string $key, array $checks, null|string $readableName = null): self
     {

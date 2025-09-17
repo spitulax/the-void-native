@@ -6,7 +6,7 @@ require_once 'system/redirect.php';
 require_once 'system/tables/user.php';
 require_once 'components/button.php';
 
-$layout = new HTML('The Void');
+$layout = new HTML('The Void: Admin Dashboard');
 
 $user_query = UserTable::all();
 ?>
@@ -19,7 +19,7 @@ $user_query = UserTable::all();
             <tr>
                 <th>ID</th>
                 <th>Username</th>
-                <th>Name</th>
+                <th>Nama</th>
                 <th>Admin</th>
                 <th>Aksi</th>
             </tr>
@@ -33,7 +33,7 @@ $user_query = UserTable::all();
                 <td><?= $user['admin'] ? 'YA' : 'TIDAK' ?> </td>
                 <td>
                     <div>
-                        <?= button('post', '/user/delete', 'DELETE', data: ['id' => $user['id']]) ?>
+                        <?= button('post', '/user/delete', 'HAPUS', data: ['id' => $user['id']]) ?>
                     </div>
                 </td>
             </tr>

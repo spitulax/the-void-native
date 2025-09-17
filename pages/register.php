@@ -2,7 +2,7 @@
 
 require_once 'system/main.php';
 
-$layout = new HTML('The Void: Register');
+$layout = new HTML('The Void: Daftar');
 
 $errors = flash('validation_errors') ?? [];
 
@@ -41,7 +41,7 @@ $errors = flash('validation_errors') ?? [];
         <div><?= h($errors['confirm_password']) ?></div>
     <?php endif; ?>
 
-    <button type="submit">REGISTER</button>
+    <button type="submit">DAFTAR</button>
 </form>
 
 <?php if ($msg = flash('error')): ?>

@@ -44,7 +44,7 @@ class Database
         $query = self::get()->prepare($query);
 
         if (!empty($values)) {
-            $query->bind_param($types, ...array_map(fn(&$v) => $v, $values));
+            $query->bind_param($types, ...$values);
         }
 
         if (!$query->execute()) {

@@ -2,12 +2,9 @@
 
 class Redirect
 {
-    protected string $target;
-
-    public function __construct(string $target = '')
-    {
-        $this->target = $target;
-    }
+    public function __construct(
+        protected string $target = '',
+    ) {}
 
     public function send(): void
     {
