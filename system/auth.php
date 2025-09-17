@@ -42,4 +42,10 @@ class Auth
     {
         return static::get()->user ?? null;
     }
+
+    public static function isAdmin(): bool
+    {
+        $user = static::user() ?? null;
+        return $user ? boolval($user['admin']) : false;
+    }
 }

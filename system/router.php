@@ -1,6 +1,6 @@
 <?php
 
-require_once 'redirect.php';
+require_once 'system/redirect.php';
 
 class Router
 {
@@ -69,7 +69,7 @@ class Router
             }
         } else {
             http_response_code(404);
-            require 'pages/404.php';
+            redirect('/404.php')->send();
         }
     }
 }

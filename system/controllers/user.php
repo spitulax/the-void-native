@@ -1,8 +1,8 @@
-
 <?php
 
 require_once 'system/auth.php';
 require_once 'system/redirect.php';
+require_once 'system/response.php';
 require_once 'system/validation.php';
 require_once 'system/tables/user.php';
 
@@ -52,13 +52,21 @@ class UserController
 
     public static function logout(array $data): Redirect
     {
+        if (!Auth::user()) {
+            Response::notFound();
+        }
+
         Auth::get()->logout();
         return redirect('/');
     }
 
-    // TODO: Let user delete themself
     public static function delete(array $data): Redirect
     {
+        // TODO: Let user delete themself
+        if (!Auth::isAdmin()) {
+            Response::notFound();
+        }
+
         $data = new Validation($data)
             ->add('id', ['required', 'integer'])
             ->finalize();

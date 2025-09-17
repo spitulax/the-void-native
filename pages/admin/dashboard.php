@@ -3,10 +3,15 @@
 require_once 'system/auth.php';
 require_once 'system/main.php';
 require_once 'system/redirect.php';
+require_once 'system/response.php';
 require_once 'system/tables/user.php';
 require_once 'components/button.php';
 
-$layout = new HTML('The Void: Admin Dashboard');
+if (!Auth::isAdmin()) {
+    Response::notFound();
+}
+
+$layout = new HTML('The Void: Dashboard Admin');
 
 $user_query = UserTable::all();
 ?>

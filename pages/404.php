@@ -2,9 +2,9 @@
 
 require_once 'system/main.php';
 
-$layout = new HTML('The Void: Page Not Found');
+$layout = new HTML('The Void: Halaman Tidak Ditemukan');
 ?>
 
 <div>
-    <h1>PAGE NOT FOUND</h1>
+    <h1>HALAMAN TIDAK DITEMUKAN</h1>
 </div>

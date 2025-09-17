@@ -6,6 +6,7 @@ require_once 'system/controllers/user.php';
 $router = new Router();
 
 $router->page('/', 'app.php');
+$router->page('404.php');
 
 $router->page('test.php');
 
