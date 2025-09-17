@@ -12,9 +12,9 @@ $user = Auth::user();
 <div>
     <h1>The Void</h1>
     <?php if ($user): ?>
-        <h2>Welcome <?= htmlspecialchars($user['name']) ?>!</h2>
+        <h2>Welcome <?= h($user['name']) ?>!</h2>
         <?php if ($user['admin']): ?>
-            <?php button('get', '/admin/dashboard', 'DASHBOARD'); ?>
+            <?php button('get', '/admin/dashboard.php', 'DASHBOARD'); ?>
         <?php endif; ?>
         <?php button('post', '/logout', 'LOGOUT'); ?>
     <?php else: ?>

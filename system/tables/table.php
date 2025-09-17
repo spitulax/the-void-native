@@ -4,6 +4,17 @@ class Table
 {
     protected static string $name;
 
+    public static function all(): mysqli_result
+    {
+        return Database::fetch('SELECT * FROM ' . static::$name);
+    }
+
+    public static function fromId(int $id): null|array
+    {
+        $res = Database::fetch('SELECT * FROM ' . static::$name . ' WHERE id=?', [[$id, 'i']])->fetch_assoc();
+        return $res ?: null;
+    }
+
     public static function insert(array $data): array
     {
         $keys = array_keys($data);
@@ -42,19 +53,18 @@ class Table
             ++$i;
         }
 
-        $user = Database::fetch(
+        $res = Database::fetch(
             'INSERT INTO ' . static::$name . " ($columns) VALUES ($placeholder) RETURNING *",
             $values,
         )->fetch_assoc();
-        if (!$user) {
+        if (!$res) {
             throw new Exception('Could not get the last inserted value');
         }
-        return $user;
+        return $res;
     }
 
-    public static function fromId(int $id): null|array
+    public static function delete(int $id): void
     {
-        $user = Database::fetch('SELECT * FROM ' . static::$name . ' WHERE id=?', [[$id, 'i']])->fetch_assoc();
-        return $user ?: null;
+        Database::execute('DELETE FROM ' . static::$name . ' WHERE id=?', [[$id, 'i']]);
     }
 }

@@ -32,16 +32,7 @@ class Database
         return self::$instance->connection;
     }
 
-    public static function execute(string $query, array $args = []): void
-    {
-        $query = self::get()->prepare($query);
-        foreach ($args as $arg) {
-            $query->bind_param($arg[1] ?? 's', $arg[0]);
-        }
-        $query->execute();
-    }
-
-    public static function fetch(string $query, array $args = []): mysqli_result
+    public static function execute(string $query, array $args = []): mysqli_stmt
     {
         $types = '';
         $values = [];
@@ -52,8 +43,19 @@ class Database
 
         $query = self::get()->prepare($query);
 
-        $query->bind_param($types, ...$values);
-        $query->execute();
-        return $query->get_result();
+        if (!empty($values)) {
+            $query->bind_param($types, ...array_map(fn(&$v) => $v, $values));
+        }
+
+        if (!$query->execute()) {
+            throw new Exception("Failed to run SQL query `$query`");
+        }
+
+        return $query;
+    }
+
+    public static function fetch(string $query, array $args = []): mysqli_result
+    {
+        return self::execute($query, $args)->get_result();
     }
 }

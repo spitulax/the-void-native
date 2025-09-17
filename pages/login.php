@@ -21,7 +21,7 @@ $errors = flash('validation_errors') ?? [];
         required
     />
     <?php if ($errors['username'] ?? false): ?>
-        <div><?= htmlspecialchars($errors['username']) ?></div>
+        <div><?= h($errors['username']) ?></div>
     <?php endif; ?>
 
     <input
@@ -31,12 +31,12 @@ $errors = flash('validation_errors') ?? [];
         required
     />
     <?php if ($errors['password'] ?? false): ?>
-        <div><?= htmlspecialchars($errors['password']) ?></div>
+        <div><?= h($errors['password']) ?></div>
     <?php endif; ?>
 
     <button type="submit">LOGIN</button>
 </form>
 
 <?php if ($msg = flash('error')): ?>
-    <div><?= htmlspecialchars($msg) ?></div>
+    <div><?= h($msg) ?></div>
 <?php endif;

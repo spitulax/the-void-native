@@ -14,10 +14,10 @@ class Validation
         $this->data = $data;
     }
 
-    public function add(string $key, string $readableName, array $checks): self
+    public function add(string $key, array $checks, null|string $readableName = null): self
     {
         $this->usedData[$key] = $this->data[$key];
-        $this->readableName[$key] = "\"$readableName\"";
+        $this->readableName[$key] = '"' . ($readableName ?: $key) . '"';
         foreach ($checks as $check) {
             $args = explode(':', $check, 2);
             switch ($args[0]) {
@@ -32,6 +32,9 @@ class Validation
                     break;
                 case 'same':
                     $this->same($key, $args[1]);
+                    break;
+                case 'integer':
+                    $this->integer($key);
                     break;
                 default:
                     throw new Exception("Unknown check `$check`");
@@ -99,6 +102,15 @@ class Validation
             if ($this->usedData[$key] !== $this->usedData[$other]) {
                 $this->error($key, 'harus sama dengan ' . $this->readableName[$other]);
             }
+        }
+    }
+
+    private function integer(string $key): void
+    {
+        if (!ctype_digit($this->usedData[$key] ?? null)) {
+            $this->error($key, 'harus berupa angka');
+        } else {
+            $this->usedData[$key] = intval($this->usedData[$key]);
         }
     }
 }
