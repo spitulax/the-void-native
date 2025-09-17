@@ -56,6 +56,7 @@ class UserController
         return redirect('/');
     }
 
+    // TODO: Let user delete themself
     public static function delete(array $data): Redirect
     {
         $data = new Validation($data)
