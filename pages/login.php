@@ -12,7 +12,7 @@ $errors = flash('validation_errors') ?? [];
 // TODO: Retain form values after refresh
 ?>
 
-<h1>Login</h1>
+<h1>Masuk</h1>
 <form method="post" action="/login">
     <input
         type="text"

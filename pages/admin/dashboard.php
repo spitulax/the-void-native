@@ -16,7 +16,7 @@ $layout = new HTML('The Void: Dashboard Admin');
 $user_query = UserTable::all();
 ?>
 
-<h1>Admin Dashboard</h1>
+<h1>Dashboard Admin</h1>
 
 <div>
     <table>
