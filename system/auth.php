@@ -18,10 +18,10 @@ class Auth
 
     public static function get(): self
     {
-        if (self::$instance === null) {
-            self::$instance = new self();
+        if (static::$instance === null) {
+            static::$instance = new static();
         }
-        return self::$instance;
+        return static::$instance;
     }
 
     public function login(array $user): void
@@ -40,6 +40,6 @@ class Auth
 
     public static function user(): null|array
     {
-        return self::get()->user ?? null;
+        return static::get()->user ?? null;
     }
 }

@@ -24,7 +24,7 @@ class Redirect
 
     public function back(): self
     {
-        $this->target = self::prevLoc();
+        $this->target = static::prevLoc();
         $_SESSION['flash']['__back'] = true;
         return $this;
     }
@@ -37,7 +37,7 @@ class Redirect
     public static function markLastLoc(): void
     {
         if (!flash('__back')) {
-            self::markIntendedDest(self::prevLoc());
+            static::markIntendedDest(static::prevLoc());
         }
     }
 

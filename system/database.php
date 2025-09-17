@@ -14,7 +14,7 @@ class Database
     {
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         try {
-            $this->connection = mysqli_connect(self::HOSTNAME, self::USERNAME, self::PASSWORD, self::NAME);
+            $this->connection = mysqli_connect(static::HOSTNAME, static::USERNAME, static::PASSWORD, static::NAME);
         } catch (Throwable $th) {
             throw new Exception('Failed to connect to MySQL: ' . $th);
         }
@@ -26,10 +26,10 @@ class Database
 
     public static function get(): mysqli
     {
-        if (self::$instance === null) {
-            self::$instance = new self();
+        if (static::$instance === null) {
+            static::$instance = new static();
         }
-        return self::$instance->connection;
+        return static::$instance->connection;
     }
 
     public static function execute(string $query, array $args = []): mysqli_stmt
@@ -41,7 +41,7 @@ class Database
             $values[] = $arg[0];
         }
 
-        $query = self::get()->prepare($query);
+        $query = static::get()->prepare($query);
 
         if (!empty($values)) {
             $query->bind_param($types, ...$values);
@@ -56,6 +56,6 @@ class Database
 
     public static function fetch(string $query, array $args = []): mysqli_result
     {
-        return self::execute($query, $args)->get_result();
+        return static::execute($query, $args)->get_result();
     }
 }

@@ -41,7 +41,7 @@ class Router
     public function dispatch(): void
     {
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
-        $uri = self::normalize(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        $uri = static::normalize(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
         if (!isset($_SESSION['current_loc'])) {
             $_SESSION['current_loc'] = '/';
