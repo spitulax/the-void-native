@@ -2,7 +2,7 @@
 
 class Table
 {
-    protected static $name = 'users';
+    protected static string $name;
 
     public static function insert(array $data): array
     {
@@ -43,7 +43,7 @@ class Table
         }
 
         $user = Database::fetch(
-            'INSERT INTO ' . self::$name . " ($columns) VALUES ($placeholder) RETURNING *",
+            'INSERT INTO ' . static::$name . " ($columns) VALUES ($placeholder) RETURNING *",
             $values,
         )->fetch_assoc();
         if (!$user) {
@@ -54,7 +54,7 @@ class Table
 
     public static function fromId(int $id): null|array
     {
-        $user = Database::fetch('SELECT * FROM ' . self::$name . ' WHERE id=?', [[$id, 'i']])->fetch_assoc();
+        $user = Database::fetch('SELECT * FROM ' . static::$name . ' WHERE id=?', [[$id, 'i']])->fetch_assoc();
         return $user ?: null;
     }
 }
