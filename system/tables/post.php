@@ -32,11 +32,13 @@ class PostTable extends Table
     public static function allCanView(): mysqli_result
     {
         $user = Auth::user();
+        $args = [];
         $whenPrivate = '';
         if ($user && $user['admin']) {
             $whenPrivate = 'TRUE';
         } elseif ($user) {
-            $whenPrivate = 'u.id=' . $user['id'];
+            $whenPrivate = 'u.id=?';
+            $args[] = [$user['id'], 'i'];
         } else {
             $whenPrivate = 'FALSE';
         }
@@ -50,6 +52,6 @@ class PostTable extends Table
                 WHEN p.private=1 THEN {$whenPrivate}
                 ELSE TRUE
             END)
-            ");
+            ", $args);
     }
 }

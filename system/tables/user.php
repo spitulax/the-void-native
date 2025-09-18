@@ -3,7 +3,6 @@
 require_once 'system/database.php';
 require_once 'system/table.php';
 
-// FIXME: When deleting a user delete all of their private posts
 class UserTable extends Table
 {
     protected static string $name = 'users';
@@ -19,5 +18,22 @@ class UserTable extends Table
         } else {
             return null;
         }
+    }
+
+    public static function delete(int $id): void
+    {
+        $res = Database::fetch('
+            SELECT p.id
+            FROM posts p
+            INNER JOIN users u
+            ON p.author_id=u.id
+            WHERE u.id=? AND p.private=1
+            ', [[$id, 'i']]);
+        $privatePosts = [];
+        while ($post = $res->fetch_assoc()) {
+            PostTable::delete($post['id']);
+        }
+
+        parent::delete($id);
     }
 }

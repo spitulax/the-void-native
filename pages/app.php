@@ -18,14 +18,16 @@ $layout = new HTML('The Void');
 <div>
     <h1>The Void</h1>
     <?php if ($user): ?>
-        <h2>Welcome <?= h($user['name']) ?>!</h2>
+        <h2>Selamat Datang <?= h($user['name']) ?>!</h2>
         <?php if ($user['admin']): ?>
             <?php button('get', '/admin/dashboard.php', 'DASHBOARD'); ?>
         <?php endif; ?>
+        <?php button('get', '/post.php', 'POST'); ?>
         <?php button('post', '/logout', 'KELUAR'); ?>
     <?php else: ?>
-        <h2>Welcome Guest!</h2>
+        <h2>Selamat Datang!</h2>
         <?php button('get', '/login.php', 'MASUK'); ?>
+        <?php button('get', '/register.php', 'DAFTAR'); ?>
     <?php endif; ?>
 
     <?php while ($post = $posts->fetch_assoc()): ?>
