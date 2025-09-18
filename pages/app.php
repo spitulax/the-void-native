@@ -45,8 +45,8 @@ $layout = new HTML('The Void');
                     <i>[Deleted]</i>
                 <?php endif; ?>
             </div>
-            <!-- <hr class="mx-2 text-gray-400" /> -->
-            <!-- <p>{post.text}</p> -->
+            <hr class="mx-2 text-gray-400" />
+            <p><?= h($post['text']) ?></p>
             <!-- <div> -->
             <!--     <button -->
             <!--         use:inertia={{ href: `/posts/${post.id}/like`, method: "post" }} -->

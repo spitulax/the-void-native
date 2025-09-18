@@ -37,7 +37,7 @@ class Table
 
         $placeholder = '';
         $i = 0;
-        foreach ($data as $value) {
+        foreach ($data as &$value) {
             if ($i > 0)
                 $placeholder .= ', ';
             $placeholder .= '?';
@@ -52,6 +52,10 @@ class Table
                     break;
                 case 'string':
                     $type = 's';
+                    break;
+                case 'boolean':
+                    $type = 'i';
+                    $value = $value ? 1 : 0;
                     break;
                 default:
                     throw new Exception("Unknown type `$t`");

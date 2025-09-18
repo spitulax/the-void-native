@@ -1,6 +1,7 @@
 <?php
 
 require_once 'system/router.php';
+require_once 'system/controllers/post.php';
 require_once 'system/controllers/user.php';
 
 $router = new Router();
@@ -16,6 +17,9 @@ $router->post('/login', [UserController::class, 'login']);
 $router->post('/logout', [UserController::class, 'logout']);
 $router->post('/register', [UserController::class, 'register']);
 $router->post('/user/delete', [UserController::class, 'delete']);
+
+$router->page('post.php');
+$router->post('/post', [PostController::class, 'post']);
 
 $router->page('admin/dashboard.php');
 

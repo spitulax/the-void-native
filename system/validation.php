@@ -14,7 +14,7 @@ class Validation
 
     public function add(string $key, array $checks, null|string $readableName = null): self
     {
-        $this->usedData[$key] = $this->data[$key];
+        $this->usedData[$key] = $this->data[$key] ?? null;
         $this->readableName[$key] = '"' . ($readableName ?: $key) . '"';
         foreach ($checks as $check) {
             $args = explode(':', $check, 2);
@@ -33,6 +33,9 @@ class Validation
                     break;
                 case 'integer':
                     $this->integer($key);
+                    break;
+                case 'checkbox':
+                    $this->checkbox($key);
                     break;
                 default:
                     throw new Exception("Unknown check `$check`");
@@ -110,5 +113,10 @@ class Validation
         } else {
             $this->usedData[$key] = intval($this->usedData[$key]);
         }
+    }
+
+    private function checkbox(string $key): void
+    {
+        $this->usedData[$key] = $this->usedData[$key] !== null;
     }
 }
