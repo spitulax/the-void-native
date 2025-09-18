@@ -3,11 +3,9 @@
 require_once 'system/main.php';
 require_once 'system/redirect.php';
 
-Redirect::markLastLoc();
+$errors = flash('validation_errors') ?? [];
 
 $layout = new HTML('The Void: Masuk');
-
-$errors = flash('validation_errors') ?? [];
 
 // TODO: Retain form values after refresh
 ?>

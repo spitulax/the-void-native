@@ -11,9 +11,10 @@ if (!Auth::isAdmin()) {
     Response::notFound();
 }
 
+$user_query = UserTable::all();
+
 $layout = new HTML('The Void: Dashboard Admin');
 
-$user_query = UserTable::all();
 ?>
 
 <h1>Dashboard Admin</h1>

@@ -2,9 +2,9 @@
 
 require_once 'system/main.php';
 
-$layout = new HTML('The Void: Daftar');
-
 $errors = flash('validation_errors') ?? [];
+
+$layout = new HTML('The Void: Daftar');
 
 // TODO: Retain form values after refresh
 ?>

@@ -14,12 +14,17 @@ class Redirect
 
     public static function curLoc(): string
     {
-        return $_SERVER['current_loc'];
+        return $_SESSION['current_loc'];
     }
 
     public static function prevLoc(): string
     {
         return $_SESSION['previous_loc'];
+    }
+
+    public static function intendedDest(): string
+    {
+        return $_SESSION['intended_dest'] ?? '';
     }
 
     public function back(): self
@@ -34,6 +39,11 @@ class Redirect
         $_SESSION['intended_dest'] = $target;
     }
 
+    public static function markCurLoc(): void
+    {
+        static::markIntendedDest(static::curLoc());
+    }
+
     public static function markLastLoc(): void
     {
         if (!flash('__back')) {
@@ -43,7 +53,8 @@ class Redirect
 
     public function intended(string $fallback = '/'): self
     {
-        $this->target = $_SESSION['intended_dest'] ?? $fallback;
+        $intended = static::intendedDest();
+        $this->target = !empty($intended) ? $intended : $fallback;
         unset($_SESSION['intended_dest']);
         return $this;
     }

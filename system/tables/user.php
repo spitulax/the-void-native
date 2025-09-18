@@ -1,7 +1,7 @@
 <?php
 
 require_once 'system/database.php';
-require_once 'system/tables/table.php';
+require_once 'system/table.php';
 
 class UserTable extends Table
 {

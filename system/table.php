@@ -15,6 +15,14 @@ class Table
         return $res ?: null;
     }
 
+    public static function fromIdJoin(int $id, string $table, string $foreignId, string $otherId = 'id'): mysqli_result
+    {
+        return Database::fetch(
+            'SELECT b.* FROM ' . static::$name . " a INNER JOIN $table b ON a.{$foreignId}=b.{$otherId} WHERE a.id=?",
+            [[$id, 'i']],
+        );
+    }
+
     public static function insert(array $data): array
     {
         $keys = array_keys($data);

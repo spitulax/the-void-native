@@ -42,9 +42,14 @@ class Database
         }
 
         $query = static::get()->prepare($query);
+        if (!$query) {
+            throw new Exception("Failed to prepare SQL query `$query`");
+        }
 
         if (!empty($values)) {
-            $query->bind_param($types, ...$values);
+            if (!$query->bind_param($types, ...$values)) {
+                throw new Exception("Failed to bind parameter to SQL query `$query`");
+            }
         }
 
         if (!$query->execute()) {
