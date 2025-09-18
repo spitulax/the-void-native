@@ -2,9 +2,16 @@
 
 class Redirect
 {
-    public function __construct(
-        protected string $target = '',
-    ) {}
+    protected string $target = '';
+
+    public function __construct(string $target = '', array $query = [])
+    {
+        if (!empty($query)) {
+            $this->target = $target . '?' . http_build_query($query);
+        } else {
+            $this->target = $target;
+        }
+    }
 
     public function send(): void
     {
@@ -66,9 +73,9 @@ class Redirect
     }
 }
 
-function redirect(string $target = ''): Redirect
+function redirect(string $target = '', array $query = []): Redirect
 {
-    return new Redirect($target);
+    return new Redirect($target, $query);
 }
 
 function flash(string $key): mixed

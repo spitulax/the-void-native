@@ -33,7 +33,7 @@ class Router
     {
         $actualPage = 'pages/' . ($page ?: $path);
         $actualPath = $page ? $path : ('/' . $path);
-        $this->get($actualPath, function () use ($actualPage) {
+        $this->get($actualPath, function (array $data) use ($actualPage) {
             require $actualPage;
         });
     }

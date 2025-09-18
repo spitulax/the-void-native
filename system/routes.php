@@ -19,6 +19,7 @@ $router->post('/register', [UserController::class, 'register']);
 $router->post('/user/delete', [UserController::class, 'delete']);
 
 $router->page('post.php');
+$router->page('view.php');
 $router->post('/post', [PostController::class, 'post']);
 
 $router->page('admin/dashboard.php');

@@ -26,7 +26,6 @@ class PostController
             'author_id' => $user['id'],
         ]);
 
-        // FIXME: Redirect to post page
-        return redirect('/');
+        return redirect('/view.php', ['post' => $post['id']]);
     }
 }
