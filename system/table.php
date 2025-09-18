@@ -1,5 +1,7 @@
 <?php
 
+require_once 'system/database.php';
+
 class Table
 {
     protected static string $name;
@@ -17,8 +19,15 @@ class Table
 
     public static function fromIdJoin(int $id, string $table, string $foreignId, string $otherId = 'id'): mysqli_result
     {
+        $name = static::$name;
         return Database::fetch(
-            'SELECT b.* FROM ' . static::$name . " a INNER JOIN $table b ON a.{$foreignId}=b.{$otherId} WHERE a.id=?",
+            "
+            SELECT b.*
+            FROM $name a
+            INNER JOIN $table b
+            ON a.{$foreignId}=b.{$otherId}
+            WHERE a.id=?
+            ",
             [[$id, 'i']],
         );
     }

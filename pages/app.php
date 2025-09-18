@@ -8,7 +8,7 @@ require_once 'components/post.php';
 
 $user = Auth::user();
 
-$posts = PostTable::all();
+$posts = PostTable::allCanView();
 
 $layout = new HTML('The Void');
 

@@ -3,6 +3,7 @@
 require_once 'system/database.php';
 require_once 'system/table.php';
 
+// FIXME: When deleting a user delete all of their private posts
 class UserTable extends Table
 {
     protected static string $name = 'users';

@@ -13,6 +13,8 @@ if (!$postId) {
 $post = PostTable::fromId($postId);
 if (!$post) {
     Response::notFound();
+} elseif ($post && !PostTable::canView($post)) {
+    Response::notFound();
 }
 
 $layout = new HTML('The Void: Post by ');
