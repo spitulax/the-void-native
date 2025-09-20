@@ -3,6 +3,7 @@
 require_once 'system/redirect.php';
 require_once 'system/response.php';
 require_once 'system/tables/like.php';
+require_once 'system/tables/post.php';
 
 class LikeController
 {
@@ -20,15 +21,15 @@ class LikeController
         $id = $data['post_id'];
         $userId = Auth::user()['id'];
 
-        if (LikeTable::userLiked($id, $userId)) {
+        if (PostTable::userLiked($id, $userId)) {
             LikeTable::removeLike($id, $userId);
         } else {
             LikeTable::addLike($id, $userId);
         }
 
         JsonResponse::data([
-            'liked' => LikeTable::userLiked($id, $userId),
-            'likes' => LikeTable::likes($id),
+            'liked' => PostTable::userLiked($id, $userId),
+            'likes' => PostTable::likes($id),
         ]);
     }
 }

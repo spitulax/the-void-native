@@ -5,11 +5,13 @@ function button(string $method, string $href, string $child, string $class = '',
     switch ($method) {
         case 'get':
             if (!empty($data)) {
-                throw new Exception('Unimplemented');
+                $href .= '?' . http_build_query($data);
             }
 
             ?>
-            <button class="<?= $class ?>" type="button" onclick="window.location.href = '<?= $href ?>'"><?= $child ?></button>
+            <a href="<?= $href ?>" class="<?= $class ?>">
+                <button type="button"><?= $child ?></button>
+            </a>
             <?php
 
             break;

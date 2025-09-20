@@ -19,11 +19,13 @@ $router->post('/logout', [UserController::class, 'logout']);
 $router->post('/register', [UserController::class, 'register']);
 $router->post('/user/delete', [UserController::class, 'delete']);
 
-$router->page('post.php');
 $router->page('view.php');
+$router->page('post.php');
+$router->page('reply.php');
 $router->post('/post', [PostController::class, 'post']);
+$router->post('/post/reply', [PostController::class, 'reply']);
 $router->post('/post/delete', [PostController::class, 'delete']);
-$router->post('/like', [LikeController::class, 'like']);
+$router->post('/post/like', [LikeController::class, 'like']);
 
 $router->page('admin/dashboard.php');
 

@@ -10,7 +10,9 @@ class PostController
 {
     public static function post(array $data): Redirect
     {
-        if (!Auth::user()) {
+        $user = Auth::user();
+
+        if (!$user) {
             Response::notFound();
         }
 
@@ -19,11 +21,33 @@ class PostController
             ->add('text', ['required', 'max:2048'], 'Text')
             ->finalize();
 
-        $user = Auth::user();
         $post = PostTable::insert([
             'text' => $data['text'],
             'private' => $data['private'],
             'author_id' => $user['id'],
+        ]);
+
+        return redirect('/view.php', ['post' => $post['id']]);
+    }
+
+    public static function reply(array $data): Redirect
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            Response::notFound();
+        }
+
+        $data = new Validation($data)
+            ->add('text', ['required', 'max:2048'], 'Text')
+            ->add('parent_id', ['required', 'integer'])
+            ->finalize();
+
+        $post = PostTable::insert([
+            'text' => $data['text'],
+            'private' => false,
+            'author_id' => $user['id'],
+            'parent_id' => $data['parent_id'],
         ]);
 
         return redirect('/view.php', ['post' => $post['id']]);
@@ -37,6 +61,11 @@ class PostController
         $id = $data['id'];
 
         $user = Auth::user();
+        $parent = PostTable::fromIdJoin($id, 'posts', 'parent_id');
+        $parentId = null;
+        if ($parent) {
+            $parentId = $parent->fetch_assoc()['id'];
+        }
 
         if (!PostTable::canDelete($id, $user)) {
             Response::notFound();
@@ -44,6 +73,8 @@ class PostController
 
         PostTable::delete($id);
 
-        return redirect()->current()->with('success', 'Berhasil menghapus postingan.');
+        $redirectUrl = $parentId ? ('/view.php?' . http_build_query(['post' => $parentId])) : '/';
+
+        return redirect($redirectUrl)->with('success', 'Berhasil menghapus postingan.');
     }
 }

@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const formData = new FormData();
                 formData.append("post_id", div.dataset.id!);
 
-                fetch("/like", {
+                fetch("/post/like", {
                     method: "POST",
                     body: formData,
                 })

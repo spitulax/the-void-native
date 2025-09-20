@@ -42,13 +42,19 @@ class Router
     {
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
         $uri = static::normalize(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        $query = $_SERVER['QUERY_STRING'];
+        $uriWithQueries = $uri . ($query ? ('?' . $query) : '');
+
+        if ($method === 'GET' && $uri === '/favicon.ico') {
+            return;
+        }
 
         if (!isset($_SESSION['current_loc'])) {
             $_SESSION['current_loc'] = '/';
         }
-        if ($method === 'GET' && $_SESSION['current_loc'] !== $uri) {
+        if ($method === 'GET' && $_SESSION['current_loc'] !== $uriWithQueries) {
             $_SESSION['previous_loc'] = $_SESSION['current_loc'];
-            $_SESSION['current_loc'] = $uri;
+            $_SESSION['current_loc'] = $uriWithQueries;
         }
 
         $routes = $this->routes[$method] ?? [];

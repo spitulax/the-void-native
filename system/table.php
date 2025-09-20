@@ -94,3 +94,26 @@ class Table
         Database::execute('DELETE FROM ' . static::$name . " WHERE {$column}{$op}?", [$value]);
     }
 }
+
+class AuthoredTable extends Table
+{
+    protected static string $authorTable;
+
+    public static function author(int $id): null|array
+    {
+        $res = static::fromIdJoin($id, static::$authorTable, 'author_id')->fetch_assoc();
+        return $res ?: null;
+    }
+
+    public static function owns(int $id, null|array $user): bool
+    {
+        $author = static::author($id);
+        if ($user && $user['admin']) {
+            return true;
+        } elseif ($user && $author) {
+            return $user['id'] === $author['id'];
+        } else {
+            return false;
+        }
+    }
+}

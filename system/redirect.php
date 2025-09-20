@@ -42,6 +42,7 @@ class Redirect
         return $this;
     }
 
+    // NOTE: Unreliable AF
     public function back(): self
     {
         $this->target = static::prevLoc();

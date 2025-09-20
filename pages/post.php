@@ -4,11 +4,12 @@ require_once 'system/auth.php';
 require_once 'system/main.php';
 require_once 'system/response.php';
 
-if (!Auth::user()) {
+$user = Auth::user();
+
+if (!$user) {
     Response::login();
 }
 
-$user = Auth::user();
 $errors = flash('validation_errors') ?? [];
 
 $layout = new HTML('The Void: Posting');

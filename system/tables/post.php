@@ -3,26 +3,54 @@
 require_once 'system/database.php';
 require_once 'system/table.php';
 
-class PostTable extends Table
+class PostTable extends AuthoredTable
 {
     protected static string $name = 'posts';
+    protected static string $authorTable = 'users';
 
-    public static function author(int $id): null|array
+    public static function userLiked(int $id, null|int $userId): bool
     {
-        $res = self::fromIdJoin($id, 'users', 'author_id')->fetch_assoc();
-        return $res ?: null;
+        $res = Database::fetch('
+            SELECT COUNT(*) AS count
+            FROM likes l
+            INNER JOIN users u ON l.user_id=u.id
+            INNER JOIN posts p ON l.post_id=p.id
+            WHERE p.id=? AND u.id=?
+            ', [[$id, 'i'], [$userId, 'i']])->fetch_assoc();
+        return $res ? $res['count'] > 0 : false;
     }
 
-    public static function owns(int $id, null|array $user): bool
+    public static function likes(int $id): int
     {
-        $author = static::author($id);
-        if ($user && $user['admin']) {
-            return true;
-        } elseif ($user && $author) {
-            return $user['id'] === $author['id'];
-        } else {
-            return false;
-        }
+        $res = Database::fetch('
+            SELECT COUNT(*) AS count
+            FROM likes l
+            INNER JOIN users u ON l.user_id=u.id
+            INNER JOIN posts p ON l.post_id=p.id
+            WHERE p.id=?
+            ', [[$id, 'i']])->fetch_assoc();
+        return $res ? intval($res['count']) : 0;
+    }
+
+    public static function getReplies(int $id): mysqli_result
+    {
+        return Database::fetch('
+            SELECT r.*
+            FROM posts r
+            INNER JOIN posts p ON r.parent_id=p.id
+            WHERE p.id=?;
+            ', [[$id, 'i']]);
+    }
+
+    public static function replies(int $id): int
+    {
+        $res = Database::fetch('
+            SELECT COUNT(*) AS count
+            FROM posts r
+            INNER JOIN posts p ON r.parent_id=p.id
+            WHERE p.id=?
+            ', [[$id, 'i']])->fetch_assoc();
+        return $res ? intval($res['count']) : 0;
     }
 
     public static function canView(array $post, null|array $user): bool
@@ -33,9 +61,10 @@ class PostTable extends Table
         return static::owns($post['id'], $user);
     }
 
-    public static function allCanView(null|array $user): mysqli_result
+    public static function allCanView(null|array $user, bool $excludeReplies = true): mysqli_result
     {
         $args = [];
+
         $whenPrivate = '';
         if ($user && $user['admin']) {
             $whenPrivate = 'TRUE';
@@ -45,16 +74,24 @@ class PostTable extends Table
         } else {
             $whenPrivate = 'FALSE';
         }
+
+        $whenExcludeReplies = 'TRUE';
+        if ($excludeReplies) {
+            $whenExcludeReplies = 'p.parent_id IS NULL';
+        }
+
         return Database::fetch("
             SELECT p.*
             FROM posts p
             LEFT JOIN users u
             ON p.author_id=u.id
             WHERE
-            (CASE
-                WHEN p.private=1 THEN {$whenPrivate}
-                ELSE TRUE
-            END)
+                (CASE
+                    WHEN p.private=1 THEN {$whenPrivate}
+                    ELSE TRUE
+                END)
+                AND
+                {$whenExcludeReplies}
             ", $args);
     }
 

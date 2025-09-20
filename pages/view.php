@@ -18,7 +18,8 @@ if (!$post) {
 }
 
 $user = Auth::user();
+$author = PostTable::author($postId);
 
-$layout = new HTML('The Void: Post by ');
+$layout = new HTML('The Void: Postingan oleh @' . $author['username']);
 
-post($post);
+post($post, true);
