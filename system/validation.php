@@ -60,7 +60,7 @@ class Validation
         }
 
         if (count($errs) > 0) {
-            redirect()->back()->with('validation_errors', $errs)->send();
+            redirect()->current()->with('validation_errors', $errs)->send();
         }
 
         return $this->usedData;

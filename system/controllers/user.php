@@ -19,7 +19,7 @@ class UserController
 
         $username = strtolower($data['username']);
         if (Database::fetch('SELECT * FROM users WHERE username=?', [[$username, 's']])->fetch_assoc()) {
-            return redirect()->back()->with('error', "Pengguna @$username telah teregistrasi.");
+            return redirect()->current()->with('error', "Pengguna @$username telah terdaftar.");
         }
 
         $user = UserTable::insert([
@@ -46,7 +46,7 @@ class UserController
             Auth::get()->login($user);
             return redirect()->intended();
         } else {
-            return redirect()->back()->with('error', 'Username atau password salah.');
+            return redirect()->current()->with('error', 'Username atau password salah.');
         }
     }
 
@@ -73,17 +73,17 @@ class UserController
         $id = $data['id'];
 
         if (Auth::user()['id'] === $id) {
-            return redirect()->back()->with('error', 'Tidak bisa menghapus diri sendiri.');
+            return redirect()->current()->with('error', 'Tidak bisa menghapus diri sendiri.');
         }
 
         $user = UserTable::fromId($id);
         if (!$user) {
-            return redirect()->back()->with('error', "Pengguna dengan ID `$id` tidak ditemukan.");
+            return redirect()->current()->with('error', "Pengguna dengan ID `$id` tidak ditemukan.");
         }
         $username = $user['username'];
 
         UserTable::delete($id);
 
-        return redirect()->back()->with('success', "Berhasil menghapus @$username.");
+        return redirect()->current()->with('success', "Berhasil menghapus @$username.");
     }
 }

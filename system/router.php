@@ -46,9 +46,9 @@ class Router
         if (!isset($_SESSION['current_loc'])) {
             $_SESSION['current_loc'] = '/';
         }
-        if ($_SESSION['current_loc'] !== $_SERVER['REQUEST_URI']) {
+        if ($method === 'GET' && $_SESSION['current_loc'] !== $uri) {
             $_SESSION['previous_loc'] = $_SESSION['current_loc'];
-            $_SESSION['current_loc'] = $_SERVER['REQUEST_URI'];
+            $_SESSION['current_loc'] = $uri;
         }
 
         $routes = $this->routes[$method] ?? [];

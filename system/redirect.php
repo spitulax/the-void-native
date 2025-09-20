@@ -34,6 +34,12 @@ class Redirect
         return $_SESSION['intended_dest'] ?? '';
     }
 
+    public function current(): self
+    {
+        $this->target = static::curLoc();
+        return $this;
+    }
+
     public function back(): self
     {
         $this->target = static::prevLoc();
