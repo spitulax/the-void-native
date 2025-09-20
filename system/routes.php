@@ -22,8 +22,10 @@ $router->post('/user/delete', [UserController::class, 'delete']);
 $router->page('view.php');
 $router->page('post.php');
 $router->page('reply.php');
+$router->page('edit.php');
 $router->post('/post', [PostController::class, 'post']);
 $router->post('/post/reply', [PostController::class, 'reply']);
+$router->post('/post/edit', [PostController::class, 'edit']);
 $router->post('/post/delete', [PostController::class, 'delete']);
 $router->post('/post/like', [LikeController::class, 'like']);
 

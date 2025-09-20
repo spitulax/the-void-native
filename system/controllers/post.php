@@ -53,6 +53,34 @@ class PostController
         return redirect('/view.php', ['post' => $post['id']]);
     }
 
+    public static function edit(array $data): Redirect
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            Response::notFound();
+        }
+
+        $data = new Validation($data)
+            ->add('id', ['required', 'integer'])
+            ->add('parent_id', ['integer'])
+            ->add('private', ['checkbox'], 'Pribadi')
+            ->add('text', ['required', 'max:2048'], 'Text')
+            ->finalize();
+        $id = $data['id'];
+
+        $usedData = [
+            'text' => $data['text'],
+        ];
+        if (!$data['parent_id']) {
+            $usedData['private'] = $data['private'];
+        }
+
+        $post = PostTable::update($id, $usedData);
+
+        return redirect('/view.php', ['post' => $id]);
+    }
+
     public static function delete(array $data): Redirect
     {
         $data = new Validation($data)

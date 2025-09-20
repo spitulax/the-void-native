@@ -39,7 +39,7 @@ function post(array $post, bool $detailed = false)
             </div>
             <hr class="mx-2 text-gray-400" />
             <a href="/view.php?post=<?= urlencode($post['id']) ?>">
-                <span><?= nl2br(h($post['text'])) ?></span>
+                <span class="whitespace-pre-wrap"><?= h($post['text']) ?></span>
             </a>
             <div>
                 <div 
@@ -56,8 +56,15 @@ function post(array $post, bool $detailed = false)
                     <span><?= h($numReplies) ?></span>
                 </div>
                 <?php if ($detailed): ?>
+                    <?php if (PostTable::canEdit($id, $user)): ?>
+                        <div>
+                            <?php button('get', '/edit.php', 'EDIT', data: ['post' => $id]) ?>
+                        </div>
+                    <?php endif; ?>
                     <?php if (PostTable::canDelete($id, $user)): ?>
-                        <?php button('post', '/post/delete', 'HAPUS', data: ['id' => $id]) ?>
+                        <div>
+                            <?php button('post', '/post/delete', 'HAPUS', data: ['id' => $id]) ?>
+                        </div>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>

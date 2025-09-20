@@ -99,4 +99,9 @@ class PostTable extends AuthoredTable
     {
         return static::owns($id, $user);
     }
+
+    public static function canEdit(int $id, null|array $user): bool
+    {
+        return static::owns($id, $user);
+    }
 }

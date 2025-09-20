@@ -84,6 +84,44 @@ class Table
         return $res;
     }
 
+    public static function update(int $id, array $data): void
+    {
+        $columns = '';
+        $values = [];
+        $i = 0;
+        foreach ($data as $key => $value) {
+            if ($i > 0)
+                $columns .= ', ';
+            $columns .= "{$key}=?";
+
+            $type = '';
+            switch ($t = gettype($value)) {
+                case 'integer':
+                    $type = 'i';
+                    break;
+                case 'double':
+                    $type = 'd';
+                    break;
+                case 'string':
+                    $type = 's';
+                    break;
+                case 'boolean':
+                    $type = 'i';
+                    $value = $value ? 1 : 0;
+                    break;
+                default:
+                    throw new Exception("Unknown type `$t`");
+            }
+
+            $values[] = [$value, $type];
+            ++$i;
+        }
+
+        $values[] = [$id, 'i'];
+
+        Database::execute('UPDATE ' . static::$name . " SET $columns WHERE id=?", $values);
+    }
+
     public static function delete(int $id): void
     {
         Database::execute('DELETE FROM ' . static::$name . ' WHERE id=?', [[$id, 'i']]);
