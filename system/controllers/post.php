@@ -28,4 +28,22 @@ class PostController
 
         return redirect('/view.php', ['post' => $post['id']]);
     }
+
+    public static function delete(array $data): Redirect
+    {
+        $data = new Validation($data)
+            ->add('id', ['required', 'integer'])
+            ->finalize();
+        $id = $data['id'];
+
+        $user = Auth::user();
+
+        if (!PostTable::canDelete($id, $user)) {
+            Response::notFound();
+        }
+
+        PostTable::delete($id);
+
+        return redirect()->current()->with('success', 'Berhasil menghapus postingan.');
+    }
 }

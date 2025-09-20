@@ -22,6 +22,7 @@ $router->post('/user/delete', [UserController::class, 'delete']);
 $router->page('post.php');
 $router->page('view.php');
 $router->post('/post', [PostController::class, 'post']);
+$router->post('/post/delete', [PostController::class, 'delete']);
 $router->post('/like', [LikeController::class, 'like']);
 
 $router->page('admin/dashboard.php');

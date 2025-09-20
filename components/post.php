@@ -38,18 +38,10 @@ function post(array $post)
                 <button type="button">LIKE</button>
                 <span></span>
             </div>
-        <!--     <button -->
-        <!--         use:inertia={{ href: `/posts/${post.id}/like`, method: "post" }} -->
-        <!--         onclick={toggleLike} -->
-        <!--         class={liked ? "font-bold" : ""}>LIKE</button -->
-        <!--     > -->
-        <!--     {likes} -->
-        <!--     {#if permissions && permissions.delete} -->
-        <!--     <button -->
-        <!--         use:inertia={{ href: `/posts/${post.id}`, method: "delete" }} -->
-        <!--     >DELETE</button -->
-        <!--     > -->
-        <!--     {/if} -->
+            <!-- TODO: Only display this in individual post page -->
+            <?php if (PostTable::canDelete($id, $user)): ?>
+                <?php button('post', '/post/delete', 'HAPUS', data: ['id' => $id]) ?>
+            <?php endif; ?>
         </div>
     </div>
 

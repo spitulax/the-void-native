@@ -13,12 +13,9 @@ class PostTable extends Table
         return $res ?: null;
     }
 
-    public static function canView(array $post, null|array $user): bool
+    public static function owns(int $id, null|array $user): bool
     {
-        $author = static::author($post['id']);
-        if ($post['private'] !== 1) {
-            return true;
-        }
+        $author = static::author($id);
         if ($user && $user['admin']) {
             return true;
         } elseif ($user && $author) {
@@ -26,6 +23,14 @@ class PostTable extends Table
         } else {
             return false;
         }
+    }
+
+    public static function canView(array $post, null|array $user): bool
+    {
+        if ($post['private'] !== 1) {
+            return true;
+        }
+        return static::owns($post['id'], $user);
     }
 
     public static function allCanView(null|array $user): mysqli_result
@@ -51,5 +56,10 @@ class PostTable extends Table
                 ELSE TRUE
             END)
             ", $args);
+    }
+
+    public static function canDelete(int $id, null|array $user): bool
+    {
+        return static::owns($id, $user);
     }
 }
