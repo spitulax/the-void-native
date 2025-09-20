@@ -88,4 +88,9 @@ class Table
     {
         Database::execute('DELETE FROM ' . static::$name . ' WHERE id=?', [[$id, 'i']]);
     }
+
+    public static function deleteWhere(string $column, string $op, array $value): void
+    {
+        Database::execute('DELETE FROM ' . static::$name . " WHERE {$column}{$op}?", [$value]);
+    }
 }

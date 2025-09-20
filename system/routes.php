@@ -3,6 +3,7 @@
 require_once 'system/router.php';
 require_once 'system/controllers/post.php';
 require_once 'system/controllers/user.php';
+require_once 'system/controllers/like.php';
 
 $router = new Router();
 
@@ -21,6 +22,7 @@ $router->post('/user/delete', [UserController::class, 'delete']);
 $router->page('post.php');
 $router->page('view.php');
 $router->post('/post', [PostController::class, 'post']);
+$router->post('/like', [LikeController::class, 'like']);
 
 $router->page('admin/dashboard.php');
 

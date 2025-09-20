@@ -13,9 +13,8 @@ class PostTable extends Table
         return $res ?: null;
     }
 
-    public static function canView(array $post): bool
+    public static function canView(array $post, null|array $user): bool
     {
-        $user = Auth::user();
         $author = static::author($post['id']);
         if ($post['private'] !== 1) {
             return true;
@@ -29,9 +28,8 @@ class PostTable extends Table
         }
     }
 
-    public static function allCanView(): mysqli_result
+    public static function allCanView(null|array $user): mysqli_result
     {
-        $user = Auth::user();
         $args = [];
         $whenPrivate = '';
         if ($user && $user['admin']) {

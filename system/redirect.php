@@ -3,6 +3,7 @@
 class Redirect
 {
     protected string $target = '';
+    protected array $flash = [];
 
     public function __construct(string $target = '', array $query = [])
     {
@@ -15,6 +16,7 @@ class Redirect
 
     public function send(): void
     {
+        $_SESSION['flash'] = $this->flash;
         header('Location: ' . $this->target);
         exit();
     }
@@ -43,7 +45,7 @@ class Redirect
     public function back(): self
     {
         $this->target = static::prevLoc();
-        $_SESSION['flash']['__back'] = true;
+        $this->flash['__back'] = true;
         return $this;
     }
 
@@ -74,8 +76,18 @@ class Redirect
 
     public function with(string $key, mixed $value): self
     {
-        $_SESSION['flash'][$key] = $value;
+        $this->flash[$key] = $value;
         return $this;
+    }
+
+    public function target(): string
+    {
+        return $this->target;
+    }
+
+    public function flash(): array
+    {
+        return $this->flash;
     }
 }
 

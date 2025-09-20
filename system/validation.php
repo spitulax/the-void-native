@@ -10,6 +10,7 @@ class Validation
 
     public function __construct(
         protected array $data,
+        protected bool $jsonRedirect = false,
     ) {}
 
     public function add(string $key, array $checks, null|string $readableName = null): self
@@ -60,7 +61,12 @@ class Validation
         }
 
         if (count($errs) > 0) {
-            redirect()->current()->with('validation_errors', $errs)->send();
+            $r = redirect()->current()->with('validation_errors', $errs);
+            if ($this->jsonRedirect) {
+                JsonResponse::redirect($r);
+            } else {
+                $r->send();
+            }
         }
 
         return $this->usedData;

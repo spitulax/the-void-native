@@ -13,9 +13,11 @@ if (!$postId) {
 $post = PostTable::fromId($postId);
 if (!$post) {
     Response::notFound();
-} elseif ($post && !PostTable::canView($post)) {
+} elseif ($post && !PostTable::canView($post, Auth::user())) {
     Response::notFound();
 }
+
+$user = Auth::user();
 
 $layout = new HTML('The Void: Post by ');
 

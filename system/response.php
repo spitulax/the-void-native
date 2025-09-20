@@ -21,3 +21,27 @@ class Response
         redirect('/login.php')->send();
     }
 }
+
+class JsonResponse
+{
+    public static function data(array $data): void
+    {
+        header('Content-Type: application/json');
+        die(json_encode($data));
+    }
+
+    public static function redirect(Redirect $redirect): void
+    {
+        header('Content-Type: application/json');
+        die(json_encode([
+            'redirect' => $redirect->target(),
+            'flash' => $redirect->flash(),
+        ]));
+    }
+
+    public static function login(): void
+    {
+        Redirect::markCurLoc();
+        static::redirect(redirect('/login.php'));
+    }
+}

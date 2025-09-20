@@ -1,0 +1,44 @@
+document.addEventListener("DOMContentLoaded", () => {
+    document
+        .querySelectorAll("[data-component='post-like']")
+        .forEach((value) => {
+            const div = value as HTMLDivElement;
+
+            let button = div.querySelector("button") as HTMLButtonElement;
+            let number = div.querySelector("span") as HTMLSpanElement;
+
+            function refresh() {
+                if (div.dataset.liked === "1") {
+                    button.classList.add("font-bold");
+                } else {
+                    button.classList.remove("font-bold");
+                }
+
+                number.textContent = div.dataset.likes ?? "0";
+            }
+
+            refresh();
+
+            button.onclick = () => {
+                const formData = new FormData();
+                formData.append("post_id", div.dataset.id!);
+
+                fetch("/like", {
+                    method: "POST",
+                    body: formData,
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.redirect) {
+                            // TODO: `flash` data is not sent
+                            window.location.href = data.redirect;
+                            return;
+                        }
+
+                        div.dataset.liked = data.liked ? "1" : "0";
+                        div.dataset.likes = String(data.likes);
+                        refresh();
+                    });
+            };
+        });
+});
