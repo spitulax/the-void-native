@@ -39,7 +39,7 @@ function post(array $post, bool $detailed = false)
             </div>
             <hr class="mx-2 text-gray-400" />
             <a href="/view.php?post=<?= urlencode($post['id']) ?>">
-                <p><?= h($post['text']) ?></p>
+                <span><?= nl2br(h($post['text'])) ?></span>
             </a>
             <div>
                 <div 
