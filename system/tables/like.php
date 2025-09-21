@@ -6,16 +6,16 @@ class LikeTable extends Table
 {
     protected static string $name = 'likes';
 
-    public static function addLike(int $id, int $userId): void
+    public static function addLike(int $postId, int $userId): void
     {
-        parent::insert(['user_id' => $userId, 'post_id' => $id]);
+        parent::insert(['user_id' => $userId, 'post_id' => $postId]);
     }
 
-    public static function removeLike(int $id, int $userId): void
+    public static function removeLike(int $postId, int $userId): void
     {
         Database::execute('
             DELETE FROM likes
             WHERE post_id=? AND user_id=?
-            ', [[$id, 'i'], [$userId, 'i']]);
+            ', [[$postId, 'i'], [$userId, 'i']]);
     }
 }

@@ -25,26 +25,40 @@ $layout = new HTML('The Void: @' . $user['username']);
 ?>
 
 <div>
-    <div class="flex gap-2 items-center">
-        <h1><?= $user['name'] ?> </h1>
-        <i>@<?= $user['username'] ?></i>
-        <?php if ($user['admin']): ?>
-            <b>[ADMIN]</b>
+    <div>
+        <div class="flex gap-2 items-center">
+            <h1><?= $user['name'] ?> </h1>
+            <i>@<?= $user['username'] ?></i>
+            <?php if ($user['admin']): ?>
+                <b>[ADMIN]</b>
+            <?php endif; ?>
+        </div>
+     
+        <?php if (UserTable::canEdit($userId, $authUser)): ?>
+            <?php button('get', '/user/edit.php', 'EDIT', data: ['user' => $userId]); ?>
+        <?php endif; ?>
+
+        <?php if (UserTable::canDelete($userId, $authUser)): ?>
+            <div
+                data-component="user-delete"
+                data-username="<?= $user['username'] ?>"
+            >
+                <?php button('post', '/user/delete', 'HAPUS', data: ['id' => $userId]); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (UserTable::canFollow($userId, $authUser['id'])): ?>
+            <div
+                data-component="user-follow"
+                data-id="<?= $userId ?>"
+                data-follows="<?= UserTable::follows($userId) ?>"
+                data-followed="<?= $user ? UserTable::userFollowed($userId, $authUser['id']) : false ?>"
+            >
+                <button type="button">IKUTI</button>
+                <span><?= UserTable::follows($userId) ?></span>
+            </div>
         <?php endif; ?>
     </div>
- 
-    <?php if (UserTable::canEdit($userId, $authUser)): ?>
-        <?php button('get', '/user/edit.php', 'EDIT', data: ['user' => $userId]); ?>
-    <?php endif; ?>
-
-    <?php if (UserTable::canDelete($userId, $authUser)): ?>
-        <div
-            data-component="user-delete"
-            data-username="<?= $user['username'] ?>"
-        >
-            <?php button('post', '/user/delete', 'HAPUS', data: ['id' => $userId]); ?>
-        </div>
-    <?php endif; ?>
 
     <hr class="my-6">
 
@@ -52,3 +66,4 @@ $layout = new HTML('The Void: @' . $user['username']);
 </div>
 
 <script src="/src/js/utils/confirmUserDelete.ts"></script>
+<script src="/src/js/utils/userFollow.ts"></script>

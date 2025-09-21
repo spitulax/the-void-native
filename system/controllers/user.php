@@ -5,6 +5,7 @@ require_once 'system/redirect.php';
 require_once 'system/response.php';
 require_once 'system/validation.php';
 require_once 'system/tables/user.php';
+require_once 'system/tables/follow.php';
 
 class UserController
 {
@@ -92,6 +93,36 @@ class UserController
         ]);
 
         return redirect('/user/view.php', ['user' => $id]);
+    }
+
+    // NOTE: Must be authenticated
+    public static function follow(array $data): void
+    {
+        if (!Auth::user()) {
+            JsonResponse::login();
+        }
+
+        $data = new Validation($data, true)
+            ->add('followed_id', ['required', 'integer'])
+            ->finalize();
+
+        $id = $data['followed_id'];
+        $userId = Auth::user()['id'];
+
+        if (UserTable::canFollow($id, $userId)) {
+            JsonResponse::data(null);
+        }
+
+        if (UserTable::userFollowed($id, $userId)) {
+            FollowTable::removeFollow($id, $userId);
+        } else {
+            FollowTable::addFollow($id, $userId);
+        }
+
+        JsonResponse::data([
+            'followed' => UserTable::userFollowed($id, $userId),
+            'follows' => UserTable::follows($id),
+        ]);
     }
 
     public static function delete(array $data): Redirect

@@ -50,7 +50,7 @@ function post(array $post, bool $detailed = false)
                     data-liked="<?= $user ? PostTable::userLiked($id, $user['id']) : false ?>"
                 >
                     <button type="button">LIKE</button>
-                    <span></span>
+                    <span><?= PostTable::likes($id) ?></span>
                 </div>
                 <div>
                     <?php button('get', '/reply.php', 'BALAS', data: ['post' => $id]) ?>
@@ -80,6 +80,6 @@ function post(array $post, bool $detailed = false)
         <?php endif; ?>
     </div>
 
-    <script src="/src/js/components/post.ts"></script>
+    <script src="/src/js/utils/postLike.ts"></script>
     <?php
 }

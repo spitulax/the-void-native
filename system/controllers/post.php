@@ -5,6 +5,7 @@ require_once 'system/redirect.php';
 require_once 'system/response.php';
 require_once 'system/validation.php';
 require_once 'system/tables/post.php';
+require_once 'system/tables/like.php';
 
 class PostController
 {
@@ -88,6 +89,32 @@ class PostController
         $post = PostTable::update($id, $usedData);
 
         return redirect('/view.php', ['post' => $id]);
+    }
+
+    // NOTE: Must be authenticated
+    public static function like(array $data): void
+    {
+        if (!Auth::user()) {
+            JsonResponse::login();
+        }
+
+        $data = new Validation($data, true)
+            ->add('post_id', ['required', 'integer'])
+            ->finalize();
+
+        $id = $data['post_id'];
+        $userId = Auth::user()['id'];
+
+        if (PostTable::userLiked($id, $userId)) {
+            LikeTable::removeLike($id, $userId);
+        } else {
+            LikeTable::addLike($id, $userId);
+        }
+
+        JsonResponse::data([
+            'liked' => PostTable::userLiked($id, $userId),
+            'likes' => PostTable::likes($id),
+        ]);
     }
 
     public static function delete(array $data): Redirect

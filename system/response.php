@@ -24,7 +24,7 @@ class Response
 
 class JsonResponse
 {
-    public static function data(array $data): void
+    public static function data(mixed $data): void
     {
         header('Content-Type: application/json');
         die(json_encode($data));

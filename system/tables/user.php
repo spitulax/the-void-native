@@ -20,6 +20,30 @@ class UserTable extends Table
         }
     }
 
+    public static function userFollowed(int $id, null|int $userId): bool
+    {
+        $res = Database::fetch('
+            SELECT COUNT(*) AS count
+            FROM follows f
+            INNER JOIN users fr ON f.follower_id=fr.id
+            INNER JOIN users fd ON f.followed_id=fd.id
+            WHERE fd.id=? AND fr.id=?
+            ', [[$id, 'i'], [$userId, 'i']])->fetch_assoc();
+        return $res ? $res['count'] > 0 : false;
+    }
+
+    public static function follows(int $id): int
+    {
+        $res = Database::fetch('
+            SELECT COUNT(*) AS count
+            FROM follows f
+            INNER JOIN users fr ON f.follower_id=fr.id
+            INNER JOIN users fd ON f.followed_id=fd.id
+            WHERE fd.id=?
+            ', [[$id, 'i']])->fetch_assoc();
+        return $res ? intval($res['count']) : 0;
+    }
+
     public static function delete(int $id): void
     {
         $res = Database::fetch('
@@ -56,5 +80,10 @@ class UserTable extends Table
     public static function canDelete(int $id, null|array $user): bool
     {
         return static::owns($id, $user);
+    }
+
+    public static function canFollow(int $id, int $userId): bool
+    {
+        return $id !== $userId;
     }
 }
