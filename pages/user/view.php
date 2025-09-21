@@ -37,7 +37,18 @@ $layout = new HTML('The Void: @' . $user['username']);
         <?php button('get', '/user/edit.php', 'EDIT', data: ['user' => $userId]); ?>
     <?php endif; ?>
 
+    <?php if (UserTable::canDelete($userId, $authUser)): ?>
+        <div
+            data-component="user-delete"
+            data-username="<?= $user['username'] ?>"
+        >
+            <?php button('post', '/user/delete', 'HAPUS', data: ['id' => $userId]); ?>
+        </div>
+    <?php endif; ?>
+
     <hr class="my-6">
 
     <span class="whitespace-pre-wrap"><?= ($bio = $user['bio']) ? h($bio) : '<i>Tidak ada bio.</i>' ?></span>
 </div>
+
+<script src="/src/js/utils/confirmUserDelete.ts"></script>

@@ -38,7 +38,10 @@ $layout = new HTML('The Void: Dashboard Admin');
                 <td><?= h($user['name']) ?> </td>
                 <td><?= $user['admin'] ? 'YA' : 'TIDAK' ?> </td>
                 <td>
-                    <div>
+                    <div
+                        data-component="user-delete"
+                        data-username="<?= $user['username'] ?>"
+                    >
                         <?= button('post', '/user/delete', 'HAPUS', data: ['id' => $user['id']]) ?>
                     </div>
                 </td>
@@ -52,4 +55,6 @@ $layout = new HTML('The Void: Dashboard Admin');
     <div><?= h($msg) ?></div>
 <?php elseif ($msg = flash('success')): ?>
     <div><?= h($msg) ?></div>
-<?php endif;
+<?php endif; ?>
+
+<script src="/src/js/utils/confirmUserDelete.ts"></script>

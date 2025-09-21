@@ -18,7 +18,7 @@ class UserController
 
     public static function register(array $data): Redirect
     {
-        $data = static::validation()
+        $data = static::validation($data)
             ->add('password', ['required', 'min:8', 'max:32'], 'Password')
             ->add('confirm_password', ['same:password'], 'Konfirmasi password')
             ->finalize();
@@ -96,18 +96,13 @@ class UserController
 
     public static function delete(array $data): Redirect
     {
-        // TODO: Let user delete themself
-        if (!Auth::isAdmin()) {
-            Response::notFound();
-        }
-
         $data = new Validation($data)
             ->add('id', ['required', 'integer'])
             ->finalize();
         $id = $data['id'];
 
-        if (Auth::user()['id'] === $id) {
-            return redirect()->current()->with('error', 'Tidak bisa menghapus diri sendiri.');
+        if (!UserTable::canDelete($id, Auth::user())) {
+            Response::notFound();
         }
 
         $user = UserTable::fromId($id);
@@ -118,6 +113,11 @@ class UserController
 
         UserTable::delete($id);
 
-        return redirect()->current()->with('success', "Berhasil menghapus @$username.");
+        if (Auth::user()['id'] === $id) {
+            Auth::get()->logout();
+            return redirect('/');
+        } else {
+            return redirect()->current()->with('success', "Berhasil menghapus @$username.");
+        }
     }
 }

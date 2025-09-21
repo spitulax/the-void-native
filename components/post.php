@@ -78,6 +78,6 @@ function post(array $post, bool $detailed = false)
         <?php endif; ?>
     </div>
 
-    <script src='src/js/components/post.ts'></script>
+    <script src="/src/js/components/post.ts"></script>
     <?php
 }
