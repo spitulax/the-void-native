@@ -36,4 +36,25 @@ class UserTable extends Table
 
         parent::delete($id);
     }
+
+    public static function owns(int $id, null|array $user): bool
+    {
+        if ($user && $user['admin']) {
+            return true;
+        } elseif ($user) {
+            return $user['id'] === $id;
+        } else {
+            return false;
+        }
+    }
+
+    public static function canEdit(int $id, null|array $user): bool
+    {
+        return static::owns($id, $user);
+    }
+
+    public static function canDelete(int $id, null|array $user): bool
+    {
+        return static::owns($id, $user);
+    }
 }

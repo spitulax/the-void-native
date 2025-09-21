@@ -87,6 +87,7 @@ class Validation
         }
     }
 
+    // NOTE: Inclusive
     private function min(string $key, int $n): void
     {
         if (strlen($this->usedData[$key] ?? '') < $n) {
@@ -94,10 +95,9 @@ class Validation
         }
     }
 
+    // NOTE: Inclusive
     private function max(string $key, int $n): void
     {
-        $this->required($key);
-        // NOTE: Let's assume inclusive, I don't really know...
         if (strlen($this->usedData[$key] ?? '') > $n) {
             $this->error($key, "maksimal sebanyak $n karakter");
         }

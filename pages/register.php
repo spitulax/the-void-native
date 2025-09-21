@@ -16,7 +16,7 @@ $layout = new HTML('The Void: Daftar');
         <div><?= h($errors['username']) ?></div>
     <?php endif; ?>
 
-    <input type="text" name="name" placeholder="Masukkan name" required />
+    <input type="text" name="name" placeholder="Masukkan nama" required />
     <?php if ($errors['name'] ?? false): ?>
         <div><?= h($errors['name']) ?></div>
     <?php endif; ?>

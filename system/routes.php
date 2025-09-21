@@ -14,9 +14,12 @@ $router->page('test.php');
 
 $router->page('login.php');
 $router->page('register.php');
+$router->page('user/view.php');
+$router->page('user/edit.php');
 $router->post('/login', [UserController::class, 'login']);
 $router->post('/logout', [UserController::class, 'logout']);
 $router->post('/register', [UserController::class, 'register']);
+$router->post('/user/edit', [UserController::class, 'edit']);
 $router->post('/user/delete', [UserController::class, 'delete']);
 
 $router->page('view.php');

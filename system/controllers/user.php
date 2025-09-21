@@ -8,11 +8,17 @@ require_once 'system/tables/user.php';
 
 class UserController
 {
+    private static function validation(array $data): Validation
+    {
+        return new Validation($data)
+            //
+            ->add('username', ['required', 'min:3', 'max:32'], 'Username')
+            ->add('name', ['required', 'min:3', 'max:64'], 'Nama');
+    }
+
     public static function register(array $data): Redirect
     {
-        $data = new Validation($data)
-            ->add('username', ['required', 'min:3', 'max:32'], 'Username')
-            ->add('name', ['required', 'min:3', 'max:64'], 'Nama')
+        $data = static::validation()
             ->add('password', ['required', 'min:8', 'max:32'], 'Password')
             ->add('confirm_password', ['same:password'], 'Konfirmasi password')
             ->finalize();
@@ -58,6 +64,34 @@ class UserController
 
         Auth::get()->logout();
         return redirect('/');
+    }
+
+    // TODO: Change password (should be separate page)
+    public static function edit(array $data): Redirect
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            Response::notFound();
+        }
+
+        $data = static::validation($data)
+            ->add('id', ['required', 'integer'])
+            ->add('bio', ['max:2048'], 'Bio')
+            ->finalize();
+        $id = $data['id'];
+
+        if (!UserTable::canEdit($id, $user)) {
+            Response::notFound();
+        }
+
+        $post = UserTable::update($id, [
+            'username' => $data['username'],
+            'name' => $data['name'],
+            'bio' => $data['bio'],
+        ]);
+
+        return redirect('/user/view.php', ['user' => $id]);
     }
 
     public static function delete(array $data): Redirect

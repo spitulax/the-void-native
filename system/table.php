@@ -92,28 +92,34 @@ class Table
         foreach ($data as $key => $value) {
             if ($i > 0)
                 $columns .= ', ';
-            $columns .= "{$key}=?";
 
-            $type = '';
-            switch ($t = gettype($value)) {
-                case 'integer':
-                    $type = 'i';
-                    break;
-                case 'double':
-                    $type = 'd';
-                    break;
-                case 'string':
-                    $type = 's';
-                    break;
-                case 'boolean':
-                    $type = 'i';
-                    $value = $value ? 1 : 0;
-                    break;
-                default:
-                    throw new Exception("Unknown type `$t`");
+            if ($value === null) {
+                $columns .= "{$key}=NULL";
+            } else {
+                $columns .= "{$key}=?";
+
+                $type = '';
+                switch ($t = gettype($value)) {
+                    case 'integer':
+                        $type = 'i';
+                        break;
+                    case 'double':
+                        $type = 'd';
+                        break;
+                    case 'string':
+                        $type = 's';
+                        break;
+                    case 'boolean':
+                        $type = 'i';
+                        $value = $value ? 1 : 0;
+                        break;
+                    default:
+                        throw new Exception("Unknown type `$t`");
+                }
+
+                $values[] = [$value, $type];
             }
 
-            $values[] = [$value, $type];
             ++$i;
         }
 
