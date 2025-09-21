@@ -27,8 +27,10 @@ function post(array $post, bool $detailed = false)
             </div>
             <div>
                 <?php if ($author = PostTable::author($id)): ?>
-                    <b><?= h($author['name']) ?></b>
-                    <i><?= h('@' . $author['username']) ?></i>
+                    <a href="/user/view.php?user=<?= urlencode($author['id']) ?>">
+                        <b><?= h($author['name']) ?></b>
+                        <i><?= h('@' . $author['username']) ?></i>
+                    </a>
                     <?php if ($post['private']): ?>
                         <i>(Pribadi)</i>
                     <?php endif; ?>
