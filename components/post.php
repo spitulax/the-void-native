@@ -26,15 +26,14 @@ function post(array $post, bool $detailed = false)
                 ID: <?= h($id) ?>
             </div>
             <div>
-                Author:
                 <?php if ($author = PostTable::author($id)): ?>
                     <b><?= h($author['name']) ?></b>
                     <i><?= h('@' . $author['username']) ?></i>
                     <?php if ($post['private']): ?>
-                        <i>(Private)</i>
+                        <i>(Pribadi)</i>
                     <?php endif; ?>
                 <?php else: ?>
-                    <i>[Deleted]</i>
+                    <i>[Dihapus]</i>
                 <?php endif; ?>
             </div>
             <hr class="mx-2 text-gray-400" />
