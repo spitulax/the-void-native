@@ -47,17 +47,17 @@ $layout = new HTML('The Void: @' . $user['username']);
             </div>
         <?php endif; ?>
 
-        <?php if (UserTable::canFollow($userId, $authUser['id'])): ?>
-            <div
-                data-component="user-follow"
-                data-id="<?= $userId ?>"
-                data-follows="<?= UserTable::follows($userId) ?>"
-                data-followed="<?= $user ? UserTable::userFollowed($userId, $authUser['id']) : false ?>"
-            >
-                <button type="button">IKUTI</button>
+        <div
+            data-component="user-follow"
+            data-id="<?= $userId ?>"
+            data-follows="<?= UserTable::follows($userId) ?>"
+            data-followed="<?= $user ? UserTable::userFollowed($userId, $authUser['id']) : false ?>"
+        >
+            <button type="button">IKUTI</button>
+            <a href="/user/followers.php?user=<?= urlencode($userId) ?>">
                 <span><?= UserTable::follows($userId) ?></span>
-            </div>
-        <?php endif; ?>
+            </a>
+        </div>
     </div>
 
     <hr class="my-6">

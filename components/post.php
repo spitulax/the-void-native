@@ -39,7 +39,7 @@ function post(array $post, bool $detailed = false)
                 <?php endif; ?>
             </div>
             <hr class="mx-2 text-gray-400" />
-            <a href="/view.php?post=<?= urlencode($post['id']) ?>">
+            <a href="/view.php?post=<?= urlencode($id) ?>">
                 <span class="whitespace-pre-wrap"><?= h($post['text']) ?></span>
             </a>
             <div>

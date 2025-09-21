@@ -44,6 +44,17 @@ class UserTable extends Table
         return $res ? intval($res['count']) : 0;
     }
 
+    public static function getFollows(int $id): mysqli_result
+    {
+        return Database::fetch('
+            SELECT fr.*
+            FROM follows f
+            INNER JOIN users fr ON f.follower_id=fr.id
+            INNER JOIN users fd ON f.followed_id=fd.id
+            WHERE fd.id=?
+            ', [[$id, 'i']]);
+    }
+
     public static function delete(int $id): void
     {
         $res = Database::fetch('

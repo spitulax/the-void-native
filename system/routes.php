@@ -14,6 +14,7 @@ $router->page('test.php');
 $router->page('login.php');
 $router->page('register.php');
 $router->page('user/view.php');
+$router->page('user/followers.php');
 $router->page('user/edit.php');
 $router->post('/login', [UserController::class, 'login']);
 $router->post('/logout', [UserController::class, 'logout']);
