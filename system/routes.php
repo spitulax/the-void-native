@@ -23,11 +23,11 @@ $router->post('/user/edit', [UserController::class, 'edit']);
 $router->post('/user/delete', [UserController::class, 'delete']);
 $router->post('/user/follow', [UserController::class, 'follow']);
 
-$router->page('view.php');
 $router->page('post.php');
-$router->page('reply.php');
-$router->page('edit.php');
-$router->page('likes.php');
+$router->page('post/view.php');
+$router->page('post/reply.php');
+$router->page('post/edit.php');
+$router->page('post/likes.php');
 $router->post('/post', [PostController::class, 'post']);
 $router->post('/post/reply', [PostController::class, 'reply']);
 $router->post('/post/edit', [PostController::class, 'edit']);

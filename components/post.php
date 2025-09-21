@@ -19,7 +19,7 @@ function post(array $post, bool $detailed = false)
     ?>
     <div>
         <?php if ($detailed && ($parentId = $post['parent_id'])): ?>
-            <?php button('get', '/view.php', 'POSTINGAN INDUK', data: ['post' => $parentId]); ?>
+            <?php button('get', '/post/view.php', 'POSTINGAN INDUK', data: ['post' => $parentId]); ?>
         <?php endif; ?>
         <div class="border m-2">
             <div>
@@ -39,7 +39,7 @@ function post(array $post, bool $detailed = false)
                 <?php endif; ?>
             </div>
             <hr class="mx-2 text-gray-400" />
-            <a href="/view.php?post=<?= urlencode($id) ?>">
+            <a href="/post/view.php?post=<?= urlencode($id) ?>">
                 <span class="whitespace-pre-wrap"><?= h($post['text']) ?></span>
             </a>
             <div>
@@ -50,18 +50,18 @@ function post(array $post, bool $detailed = false)
                     data-liked="<?= $user ? PostTable::userLiked($id, $user['id']) : false ?>"
                 >
                     <button type="button">LIKE</button>
-                    <a href="/likes.php?post=<?= urlencode($post['id']) ?>">
+                    <a href="/post/likes.php?post=<?= urlencode($post['id']) ?>">
                         <span><?= PostTable::likes($id) ?></span>
                     </a>
                 </div>
                 <div>
-                    <?php button('get', '/reply.php', 'BALAS', data: ['post' => $id]) ?>
+                    <?php button('get', '/post/reply.php', 'BALAS', data: ['post' => $id]) ?>
                     <span><?= h($numReplies) ?></span>
                 </div>
                 <?php if ($detailed): ?>
                     <?php if (PostTable::canEdit($id, $user)): ?>
                         <div>
-                            <?php button('get', '/edit.php', 'EDIT', data: ['post' => $id]) ?>
+                            <?php button('get', '/post/edit.php', 'EDIT', data: ['post' => $id]) ?>
                         </div>
                     <?php endif; ?>
                     <?php if (PostTable::canDelete($id, $user)): ?>

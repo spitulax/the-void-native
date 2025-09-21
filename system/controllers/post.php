@@ -28,7 +28,7 @@ class PostController
             'author_id' => $user['id'],
         ]);
 
-        return redirect('/view.php', ['post' => $post['id']]);
+        return redirect('/post/view.php', ['post' => $post['id']]);
     }
 
     public static function reply(array $data): Redirect
@@ -45,7 +45,8 @@ class PostController
             ->finalize();
         $parentId = $data['parent_id'];
 
-        if (!PostTable::canView($parentId, $user)) {
+        $post = PostTable::fromId($parentId);
+        if (!PostTable::canView($post, $user)) {
             Response::notFound();
         }
 
@@ -56,7 +57,7 @@ class PostController
             'parent_id' => $parentId,
         ]);
 
-        return redirect('/view.php', ['post' => $post['id']]);
+        return redirect('/post/view.php', ['post' => $post['id']]);
     }
 
     public static function edit(array $data): Redirect
@@ -88,7 +89,7 @@ class PostController
 
         $post = PostTable::update($id, $usedData);
 
-        return redirect('/view.php', ['post' => $id]);
+        return redirect('/post/view.php', ['post' => $id]);
     }
 
     // NOTE: Must be authenticated
@@ -137,7 +138,7 @@ class PostController
 
         PostTable::delete($id);
 
-        $redirectUrl = $parentId ? ('/view.php?' . http_build_query(['post' => $parentId])) : '/';
+        $redirectUrl = $parentId ? ('/post/view.php?' . http_build_query(['post' => $parentId])) : '/';
 
         return redirect($redirectUrl)->with('success', 'Berhasil menghapus postingan.');
     }
