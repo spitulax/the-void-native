@@ -50,7 +50,9 @@ function post(array $post, bool $detailed = false)
                     data-liked="<?= $user ? PostTable::userLiked($id, $user['id']) : false ?>"
                 >
                     <button type="button">LIKE</button>
-                    <span><?= PostTable::likes($id) ?></span>
+                    <a href="/likes.php?post=<?= urlencode($post['id']) ?>">
+                        <span><?= PostTable::likes($id) ?></span>
+                    </a>
                 </div>
                 <div>
                     <?php button('get', '/reply.php', 'BALAS', data: ['post' => $id]) ?>

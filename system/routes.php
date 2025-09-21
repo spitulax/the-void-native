@@ -26,6 +26,7 @@ $router->page('view.php');
 $router->page('post.php');
 $router->page('reply.php');
 $router->page('edit.php');
+$router->page('likes.php');
 $router->post('/post', [PostController::class, 'post']);
 $router->post('/post/reply', [PostController::class, 'reply']);
 $router->post('/post/edit', [PostController::class, 'edit']);

@@ -32,6 +32,17 @@ class PostTable extends AuthoredTable
         return $res ? intval($res['count']) : 0;
     }
 
+    public static function getLikes(int $id): mysqli_result
+    {
+        return Database::fetch('
+            SELECT u.*
+            FROM likes l
+            INNER JOIN users u ON l.user_id=u.id
+            INNER JOIN posts p ON l.post_id=p.id
+            WHERE p.id=?
+            ', [[$id, 'i']]);
+    }
+
     public static function getReplies(int $id): mysqli_result
     {
         return Database::fetch('
