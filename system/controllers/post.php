@@ -42,12 +42,17 @@ class PostController
             ->add('text', ['required', 'max:2048'], 'Text')
             ->add('parent_id', ['required', 'integer'])
             ->finalize();
+        $parentId = $data['parent_id'];
+
+        if (!PostTable::canView($parentId, $user)) {
+            Response::notFound();
+        }
 
         $post = PostTable::insert([
             'text' => $data['text'],
             'private' => false,
             'author_id' => $user['id'],
-            'parent_id' => $data['parent_id'],
+            'parent_id' => $parentId,
         ]);
 
         return redirect('/view.php', ['post' => $post['id']]);
@@ -68,6 +73,10 @@ class PostController
             ->add('text', ['required', 'max:2048'], 'Text')
             ->finalize();
         $id = $data['id'];
+
+        if (!PostTable::canEdit($id, $user)) {
+            Response::notFound();
+        }
 
         $usedData = [
             'text' => $data['text'],
