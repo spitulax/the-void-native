@@ -58,6 +58,10 @@ $layout = new HTML('The Void: @' . $user['username']);
                 <span><?= UserTable::follows($userId) ?></span>
             </a>
         </div>
+
+        <?php if ($user['admin']): ?>
+            <?php button('get', '/admin/dashboard.php', 'DASHBOARD'); ?>
+        <?php endif; ?>
     </div>
 
     <hr class="my-6">

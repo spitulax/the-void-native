@@ -6,12 +6,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let button = div.querySelector("button") as HTMLButtonElement;
             let number = div.querySelector("span") as HTMLSpanElement;
+            let svg = button.querySelector("svg") as SVGElement;
+
+            const offClasses = [
+                "stroke-text",
+                "fill-transparent",
+                "hover:fill-red",
+                "hover:stroke-red",
+            ];
+            const onClasses = [
+                "stroke-red",
+                "fill-red",
+                "hover:fill-transparent",
+                "hover:stroke-text",
+            ];
 
             function refresh() {
                 if (div.dataset.liked === "1") {
-                    button.classList.add("font-bold");
+                    svg.classList.remove(...offClasses);
+                    svg.classList.add(...onClasses);
+                    number.classList.add("font-bold");
                 } else {
-                    button.classList.remove("font-bold");
+                    svg.classList.remove(...onClasses);
+                    svg.classList.add(...offClasses);
+                    number.classList.remove("font-bold");
                 }
 
                 number.textContent = div.dataset.likes ?? "0";

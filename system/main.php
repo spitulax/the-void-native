@@ -1,5 +1,7 @@
 <?php
 
+require_once 'components/nav.php';
+
 class HTML
 {
     protected null|string $logStr = null;
@@ -29,10 +31,14 @@ class HTML
 
                 <link href="/src/css/tailwind.css" rel="stylesheet" />
                 <link href="/src/css/global.css" rel="stylesheet" />
+                <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml">
             </head>
 
-            <body class="w-screen h-screen">
-                <?= $output ?>
+            <body class="w-screen h-screen bg-base fg-text text-text [&::-webkit-scrollbar]:hidden">
+                <?php nav(); ?>
+                <main class="pb-10">
+                    <?= $output ?>
+                </main>
             </body>
         </html>
         <?php
