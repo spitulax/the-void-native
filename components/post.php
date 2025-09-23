@@ -23,7 +23,7 @@ function post(array $post, bool $detailed = false)
     $text = $post['text'];
 
     ?>
-    <div class="<?= $detailed ? 'p-2' : '' ?> flex-1">
+    <div class="<?= $detailed ? 'p-2' : '' ?> flex-1 bg-base-lighter">
         <?php if ($detailed): ?>
             <button type="button" onclick="history.back();" class="cursor-pointer hover:bg-dark-gray w-fit p-1 rounded-full flex items-center transition">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-8">

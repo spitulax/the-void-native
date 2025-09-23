@@ -6,8 +6,8 @@
     --font-sans: "Roboto", "Noto Color Emoji", ui-sans-serif, sans-serif;
     --font-serif: "PT Serif", ui-serif, serif;
     --font-mono: "JetBrains Mono", ui-monospace, monospace;
-    --color-base: oklch(0.28 0.01 280);
-    --color-base-dark: oklch(0.2 0.08 280);
+    --color-base: oklch(0.1 0.08 280);
+    --color-base-light: oklch(0.2 0.08 280);
     --color-dark-gray: oklch(0.4 0.01 280);
     --color-gray: oklch(0.5 0.01 280);
     --color-light-gray: oklch(0.7 0.01 280);

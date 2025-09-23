@@ -6,7 +6,7 @@ function nav(): void
 {
     $user = Auth::user();
     ?>
-    <header class="fixed bottom-0 left-0 w-full bg-base-dark shadow-md z-50">
+    <header class="fixed bottom-0 left-0 w-full bg-base-light shadow-md z-50">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-10 items-center justify-between">
                 <a href="/" class="flex items-center text-accent-light hover:text-accent gap-2 transition">

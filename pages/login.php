@@ -11,7 +11,7 @@ $layout = new HTML('The Void: Masuk');
 ?>
 
 <div class="flex flex-1 justify-center items-center">
-    <div class="p-10 lg:p-12 w-1/2 bg-base-dark rounded-xs shadow-md shadow-black flex flex-col justify-center items-center gap-10">
+    <div class="p-10 lg:p-12 w-3/4 lg:w-1/2 bg-base-light rounded-xs shadow-md shadow-black flex flex-col justify-center items-center gap-10">
         <h1 class="uppercase font-bold text-3xl text-center w-full">Masuk</h1>
 
         <form method="post" action="/login" class="w-full px-2">
@@ -38,6 +38,8 @@ $layout = new HTML('The Void: Masuk');
             <?php if ($msg = flash('error')): ?>
                 <div class="my-error"><?= h($msg) ?></div>
             <?php endif; ?>
+
+            <span class="font-bold">Belum punya akun? <a href="/register.php" class="underline text-accent">Daftar</a></span>
 
             <button type="submit" class="px-3 py-1 text-lg rounded-xs border-2 border-accent bg-transparent text-white font-bold cursor-pointer hover:border-transparent hover:bg-accent-dark transition mt-4">MASUK</button>
         </form>
