@@ -25,21 +25,11 @@ function post(array $post, bool $detailed = false)
     ?>
     <div class="<?= $detailed ? 'p-2' : '' ?> flex-1">
         <?php if ($detailed): ?>
-            <?php $parentId = $post['parent_id']; ?>
-            <?php button(
-                'get',
-                $parentId ? '/post/view.php' : '/',
-                '
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                ',
-                'cursor-pointer hover:bg-dark-gray w-fit p-1 rounded-full flex items-center transition',
-                data: $parentId
-                    ? [
-                        'post' => $parentId,
-                    ] : [],
-            ); ?>
+            <button type="button" onclick="history.back();" class="cursor-pointer hover:bg-dark-gray w-fit p-1 rounded-full flex items-center transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+            </button>
         <?php endif; ?>
         <div class="border rounded-xs border-gray mx-2 my-3 px-1">
             <div class="flex justify-between items-center h-10 px-1 py-1">
