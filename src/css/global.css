@@ -26,6 +26,18 @@ input {
     @apply border-2 border-dark-gray px-1 py-2 rounded-xs focus:outline-none focus:border-text w-full;
 }
 
+input[type="checkbox"] {
+    @apply h-4 w-4;
+}
+
+textarea {
+    @apply overflow-y-scroll [&::-webkit-scrollbar]:hidden block p-1 border w-full border-light-gray focus:border-white focus:outline-none;
+}
+
+.my-button {
+    @apply px-3 py-1 rounded-xs border-2 border-accent bg-transparent text-white font-bold cursor-pointer hover:border-transparent hover:bg-accent-dark transition;
+}
+
 .my-error {
     @apply text-red font-bold w-full;
 }

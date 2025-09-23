@@ -41,6 +41,7 @@ $layout = new HTML('The Void: Edit Postingan');
             <label for="private">Pribadi</label>
             <input
                 type="checkbox"
+                id="private"
                 name="private"
                 <?php if ($post['private']): ?>
                     checked

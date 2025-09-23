@@ -19,7 +19,7 @@ class PostController
 
         $data = new Validation($data)
             ->add('private', ['checkbox'], 'Pribadi')
-            ->add('text', ['required', 'max:2048'], 'Text')
+            ->add('text', ['required', 'max:500'], 'Text')
             ->finalize();
 
         $post = PostTable::insert([
@@ -40,7 +40,7 @@ class PostController
         }
 
         $data = new Validation($data)
-            ->add('text', ['required', 'max:2048'], 'Text')
+            ->add('text', ['required', 'max:500'], 'Text')
             ->add('parent_id', ['required', 'integer'])
             ->finalize();
         $parentId = $data['parent_id'];
@@ -72,7 +72,7 @@ class PostController
             ->add('id', ['required', 'integer'])
             ->add('parent_id', ['integer'])
             ->add('private', ['checkbox'], 'Pribadi')
-            ->add('text', ['required', 'max:2048'], 'Text')
+            ->add('text', ['required', 'max:500'], 'Text')
             ->finalize();
         $id = $data['id'];
 

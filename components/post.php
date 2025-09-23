@@ -96,17 +96,21 @@ function post(array $post, bool $detailed = false)
                     <?php endif; ?>
                 </div>
             </div>
+
             <hr class="text-gray" />
-                <?php if (!$detailed): ?>
-                    <a href="/post/view.php?post=<?= urlencode($id) ?>">
-                <?php endif; ?>
-                    <div class="px-2 md:px-3 my-2 min-h-24 flex items-center">
-                        <span class="whitespace-pre-wrap"><?= h($post['text']) ?></span>
-                    </div>
-                <?php if (!$detailed): ?>
-                    </a>
-                <?php endif; ?>
+
+            <?php if (!$detailed): ?>
+                <a href="/post/view.php?post=<?= urlencode($id) ?>">
+            <?php endif; ?>
+                <div class="px-2 md:px-3 my-2 min-h-24 flex items-center">
+                    <span class="whitespace-pre-wrap"><?= h($post['text']) ?></span>
+                </div>
+            <?php if (!$detailed): ?>
+                </a>
+            <?php endif; ?>
+
             <hr class="text-gray" />
+
             <div class="flex justify-between px-2 py-1">
                 <?php $class = 'flex gap-2 md:gap-3 lg:gap-4 items-center' ?>
                 <div class="<?= $class ?>">
@@ -148,6 +152,7 @@ function post(array $post, bool $detailed = false)
                 </div>
             </div>
         </div>
+
         <?php if ($detailed): ?>
             <div class="mx-8 flex flex-col">
                 <?php $hasReplies = false; ?>
@@ -160,9 +165,9 @@ function post(array $post, bool $detailed = false)
                 <?php endif; ?>
             </div>
         <?php endif; ?>
-
-        <script src="/src/js/postLike.ts"></script>
-        <script src="/src/js/popupMenu.ts"></script>
     </div>
+
+    <script src="/src/js/postLike.ts"></script>
+    <script src="/src/js/popupMenu.ts"></script>
     <?php
 }
