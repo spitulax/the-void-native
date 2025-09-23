@@ -24,49 +24,64 @@ $layout = new HTML('The Void: @' . $user['username']);
 
 ?>
 
-<div>
-    <div>
-        <div class="flex gap-2 items-center">
-            <h1><?= $user['name'] ?> </h1>
-            <i>@<?= $user['username'] ?></i>
+<div class="flex-1 flex flex-col">
+    <div class="flex flex-col p-2 gap-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-16 md:size-24 lg:size-32">
+            <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+        </svg>
+
+        <div class="flex items-center justify-between">
+            <div class="flex gap-2 items-center justify-center">
+                <span class="font-bold"><?= $user['name'] ?> </span>
+                <span class="font-bold text-xl">·</span>
+                <span class="text-light-gray"><?= h('@' . $user['username']) ?></span>
+            </div>
             <?php if ($user['admin']): ?>
-                <b>[ADMIN]</b>
+                <div class="flex items-center">
+                    <span class="ml-4 font-bold">ADMIN</span>
+                </div>
             <?php endif; ?>
         </div>
      
-        <?php if (UserTable::canEdit($userId, $authUser)): ?>
-            <?php button('get', '/user/edit.php', 'EDIT', data: ['user' => $userId]); ?>
-        <?php endif; ?>
-
-        <?php if (UserTable::canDelete($userId, $authUser)): ?>
+        <?php if (UserTable::canFollow($userId, $authUser['id'])): ?>
             <div
-                data-component="user-delete"
-                data-username="<?= $user['username'] ?>"
+                class="flex gap-2 items-center"
+                data-component="user-follow"
+                data-id="<?= $userId ?>"
+                data-follows="<?= UserTable::follows($userId) ?>"
+                data-followed="<?= $user ? UserTable::userFollowed($userId, $authUser['id']) : false ?>"
             >
-                <?php button('post', '/user/delete', 'HAPUS', data: ['id' => $userId]); ?>
+                <button type="button" class="my-button w-20">IKUTI</button>
+                <a href="/user/followers.php?user=<?= urlencode($userId) ?>" class="px-1">
+                    <span><?= UserTable::follows($userId) ?></span>
+                </a>
             </div>
         <?php endif; ?>
 
-        <div
-            data-component="user-follow"
-            data-id="<?= $userId ?>"
-            data-follows="<?= UserTable::follows($userId) ?>"
-            data-followed="<?= $user ? UserTable::userFollowed($userId, $authUser['id']) : false ?>"
-        >
-            <button type="button">IKUTI</button>
-            <a href="/user/followers.php?user=<?= urlencode($userId) ?>">
-                <span><?= UserTable::follows($userId) ?></span>
-            </a>
-        </div>
+        <div class="flex gap-2">
+            <!-- TODO: Move dashboard button to bottom bar -->
+            <?php if ($authUser['admin']): ?>
+                <?php button('get', '/admin/dashboard.php', 'DASHBOARD', 'my-button w-40'); ?>
+            <?php endif; ?>
 
-        <?php if ($user['admin']): ?>
-            <?php button('get', '/admin/dashboard.php', 'DASHBOARD'); ?>
-        <?php endif; ?>
+            <?php if (UserTable::canEdit($userId, $authUser)): ?>
+                <?php button('get', '/user/edit.php', 'EDIT', 'my-button w-20', data: ['user' => $userId]); ?>
+            <?php endif; ?>
+
+            <?php if (UserTable::canDelete($userId, $authUser)): ?>
+                <div
+                    data-component="user-delete"
+                    data-username="<?= $user['username'] ?>"
+                >
+                    <?php button('post', '/user/delete', 'HAPUS', 'my-button w-20', data: ['id' => $userId]); ?>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 
-    <hr class="my-6">
-
-    <span class="whitespace-pre-wrap"><?= ($bio = $user['bio']) ? h($bio) : '<i>Tidak ada bio.</i>' ?></span>
+    <span class="whitespace-pre-wrap m-2 p-4 border border-gray rounded-xs"><?= ($bio = $user['bio'])
+        ? h($bio)
+        : '<span class="italic text-light-gray">Tidak ada bio.</span>' ?></span>
 </div>
 
 <script src="/src/js/confirmUserDelete.ts"></script>
