@@ -9,7 +9,7 @@ function button(string $method, string $href, string $child, string $class = '',
             }
 
             ?>
-            <a href="<?= $href ?>" class="<?= $class ?>">
+            <a href="<?= $href ?>" class="<?= $class ?> flex items-center justify-center">
                 <button type="button" class="cursor-inherit"><?= $child ?></button>
             </a>
             <?php

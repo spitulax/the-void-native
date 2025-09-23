@@ -69,5 +69,5 @@ $layout = new HTML('The Void: @' . $user['username']);
     <span class="whitespace-pre-wrap"><?= ($bio = $user['bio']) ? h($bio) : '<i>Tidak ada bio.</i>' ?></span>
 </div>
 
-<script src="/src/js/utils/confirmUserDelete.ts"></script>
-<script src="/src/js/utils/userFollow.ts"></script>
+<script src="/src/js/confirmUserDelete.ts"></script>
+<script src="/src/js/userFollow.ts"></script>

@@ -57,4 +57,4 @@ $layout = new HTML('The Void: Dashboard Admin');
     <div><?= h($msg) ?></div>
 <?php endif; ?>
 
-<script src="/src/js/utils/confirmUserDelete.ts"></script>
+<script src="/src/js/confirmUserDelete.ts"></script>
