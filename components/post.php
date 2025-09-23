@@ -53,9 +53,15 @@ function post(array $post, bool $detailed = false)
                 </a>
             </div>
             <hr class="text-gray" />
-                <div class="px-2 md:px-3 my-2 min-h-24 flex items-center">
-                    <span class="whitespace-pre-wrap"><?= h($post['text']) ?></span>
-                </div>
+                <?php if (!$detailed): ?>
+                    <a href="/post/view.php?post=<?= urlencode($id) ?>">
+                <?php endif; ?>
+                    <div class="px-2 md:px-3 my-2 min-h-24 flex items-center">
+                        <span class="whitespace-pre-wrap"><?= h($post['text']) ?></span>
+                    </div>
+                <?php if (!$detailed): ?>
+                    </a>
+                <?php endif; ?>
             <hr class="text-gray" />
             <div class="flex justify-between px-2 py-1">
                 <?php $class = 'flex gap-2 md:gap-3 lg:gap-4 items-center' ?>
