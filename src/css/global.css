@@ -18,31 +18,18 @@
     --color-red: oklch(0.6 0.2 30);
 }
 
-/* input { */
-/*     @apply border block m-2; */
-/* } */
-/**/
-/* button { */
-/*     @apply border m-2 cursor-pointer; */
-/* } */
-/**/
-/* * { */
-/*     @apply font-sans; */
-/* } */
-/**/
-/* h1 { */
-/*     @apply text-3xl font-bold leading-12; */
-/* } */
-/**/
-/* h1 { */
-/*     @apply text-2xl font-bold leading-10; */
-/* } */
-/**/
-/* table { */
-/*     @apply table-auto border-collapse border-3 border-black; */
-/* } */
-/**/
-/* th, */
-/* td { */
-/*     @apply p-1 border border-black text-center; */
-/* } */
+form {
+    @apply flex flex-col justify-center items-center gap-4;
+}
+
+input {
+    @apply border-2 border-dark-gray px-1 py-2 rounded-xs focus:outline-none focus:border-text w-full;
+}
+
+.my-error {
+    @apply text-red font-bold w-full;
+}
+
+.cursor-pointer button {
+    cursor: pointer;
+}

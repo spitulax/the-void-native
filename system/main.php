@@ -36,7 +36,7 @@ class HTML
 
             <body class="w-screen h-screen bg-base fg-text text-text [&::-webkit-scrollbar]:hidden">
                 <?php nav(); ?>
-                <main class="pb-10">
+                <main class="min-h-screen pb-10 flex">
                     <?= $output ?>
                 </main>
             </body>

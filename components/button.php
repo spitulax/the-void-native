@@ -10,7 +10,7 @@ function button(string $method, string $href, string $child, string $class = '',
 
             ?>
             <a href="<?= $href ?>" class="<?= $class ?>">
-                <button type="button"><?= $child ?></button>
+                <button type="button" class="cursor-inherit"><?= $child ?></button>
             </a>
             <?php
 

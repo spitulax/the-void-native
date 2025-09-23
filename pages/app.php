@@ -26,7 +26,7 @@ $layout = new HTML('The Void');
     ); ?>
 <?php endif; ?>
 
-<div class="flex flex-col mx-4 md:mx-24 lg:mx-32 px-1 border-x-2 border-dark-gray">
+<div class="flex flex-1 flex-col mx-4 md:mx-24 lg:mx-32 px-1 border-x-2 border-dark-gray">
     <?php while ($post = $posts->fetch_assoc()): ?>
         <?php post($post) ?>
     <?php endwhile; ?>
