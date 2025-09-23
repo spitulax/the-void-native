@@ -18,7 +18,7 @@ $layout = new HTML('The Void: Posting');
 ?>
 
 <div class="flex-1">
-    <div class="border rounded-xs border-gray mx-2 my-3 px-1">
+    <div class="border rounded-xs border-gray m-4 lg:m-8 px-1">
         <div class="flex justify-between items-center h-10 px-1 py-1">
             <div class=" flex items-center rounded-xs px-1 h-full">
                 <span class="font-bold"><?= h($user['name']) ?></span>

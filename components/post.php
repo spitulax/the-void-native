@@ -18,6 +18,10 @@ function post(array $post, bool $detailed = false)
 
     $views = PostTable::fromId($id)['views'];
 
+    // TODO: Better alg
+    /* $text = $detailed ? $post['text'] : substr($post['text'], 0, 100); */
+    $text = $post['text'];
+
     ?>
     <div class="<?= $detailed ? 'p-2' : '' ?> flex-1">
         <?php if ($detailed): ?>
@@ -105,7 +109,7 @@ function post(array $post, bool $detailed = false)
                 <a href="/post/view.php?post=<?= urlencode($id) ?>">
             <?php endif; ?>
                 <div class="px-2 md:px-3 my-2 min-h-24 flex items-center">
-                    <span class="whitespace-pre-wrap"><?= h($post['text']) ?></span>
+                    <span class="whitespace-pre-wrap"><?= h($text) ?></span>
                 </div>
             <?php if (!$detailed): ?>
                 </a>
