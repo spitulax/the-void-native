@@ -8,9 +8,9 @@
     --font-mono: "JetBrains Mono", ui-monospace, monospace;
     --color-base: oklch(0.1 0.08 280);
     --color-base-light: oklch(0.2 0.08 280);
-    --color-dark-gray: oklch(0.4 0.01 280);
-    --color-gray: oklch(0.5 0.01 280);
-    --color-light-gray: oklch(0.7 0.01 280);
+    --color-dark-gray: oklch(0.4 0.06 280);
+    --color-gray: oklch(0.5 0.06 280);
+    --color-light-gray: oklch(0.7 0.06 280);
     --color-text: oklch(0.9 0.01 280);
     --color-accent-light: oklch(0.7 0.15 280);
     --color-accent: oklch(0.6 0.2 280);
