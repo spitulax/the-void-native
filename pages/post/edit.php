@@ -3,6 +3,7 @@
 require_once 'system/auth.php';
 require_once 'system/main.php';
 require_once 'system/response.php';
+require_once 'components/backButton.php';
 
 $user = Auth::user();
 if (!$user) {
@@ -29,6 +30,10 @@ $layout = new HTML('The Void: Edit Postingan');
 ?>
 
 <div class="flex-1">
+    <div class="mt-2 ml-2">
+        <?php backButton(); ?>
+    </div>
+
     <div class="border rounded-xs border-gray m-4 lg:m-8 px-1">
         <div class="flex justify-between items-center h-10 px-1 py-1">
             <div class=" flex items-center rounded-xs px-1 h-full">
@@ -68,7 +73,7 @@ $layout = new HTML('The Void: Edit Postingan');
                     <div class="my-error"><?= h($errors['text']) ?></div>
                 <?php endif; ?>
 
-                <button type="submit" class="my-button text-lg my-4">POST</button>
+                <button type="submit" class="my-button text-lg my-4">EDIT</button>
             </div>
         </form>
     </div>

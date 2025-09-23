@@ -33,6 +33,10 @@ $layout = new HTML('The Void: Membalas postingan oleh @' . $author['username']);
 ?>
 
 <div class="flex-1">
+    <div class="mt-2 ml-2">
+        <?php backButton(); ?>
+    </div>
+
     <?php post($post); ?>
 
     <div class="mx-8">

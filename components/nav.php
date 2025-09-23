@@ -9,7 +9,7 @@ function nav(): void
     <header class="fixed bottom-0 left-0 w-full bg-base-light shadow-md z-50">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-10 items-center justify-between">
-                <a href="/" class="flex items-center text-accent-light hover:text-accent gap-2 transition">
+                <a href="/" class="flex items-center text-accent hover:text-accent-light gap-2 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 4.23 4.23">
                         <path d="M2.12 0a2.1 2.1 0 0 0-1.09.3l.43.73a1.27 1.27 0 0 1 .66-.18 1.27 1.27 0 0 1 .65.18L3.21.3A2.1 2.1 0 0 0 2.12 0M.42.85A2.12 2.12 0 0 0 0 2.12a2.12 2.12 0 0 0 2.12 2.11 2.12 2.12 0 0 0 2.11-2.11A2.12 2.12 0 0 0 3.81.85l-.52.78a1.3 1.3 0 0 1 .1.49 1.27 1.27 0 0 1-1.27 1.27A1.27 1.27 0 0 1 .85 2.12a1.3 1.3 0 0 1 .09-.49zm1.7.59a.68.68 0 0 0-.68.68.68.68 0 0 0 .68.67.68.68 0 0 0 .67-.67.68.68 0 0 0-.67-.68" />
                     </svg>
