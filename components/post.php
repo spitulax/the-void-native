@@ -49,7 +49,7 @@ function post(array $post, bool $detailed = false)
                         <a href="/user/view.php?user=<?= urlencode($author['id']) ?>" class="<?= $class ?> hover:bg-dark-gray flex items-center">
                             <span class="font-bold"><?= h($author['name']) ?></span>
                             <span class="font-bold text-xl mx-1">·</span>
-                            <?= h('@' . $author['username']) ?>
+                            <span class="text-light-gray"><?= h('@' . $author['username']) ?></span>
                         </a>
                         <?php if ($post['private']): ?>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4.5">
@@ -133,7 +133,7 @@ function post(array $post, bool $detailed = false)
                             </svg>
                         </button>
                         <a href="/post/likes.php?post=<?= urlencode($post['id']) ?>">
-                            <span><?= PostTable::likes($id) ?></span>
+                            <span class="px-1"><?= PostTable::likes($id) ?></span>
                         </a>
                     </div>
                     <div class="flex gap-1 items-center">
@@ -144,14 +144,14 @@ function post(array $post, bool $detailed = false)
                             ', data: [
                             'post' => $id,
                         ]) ?>
-                        <span><?= h($numReplies) ?></span>
+                        <span class="px-1"><?= h($numReplies) ?></span>
                     </div>
                     <div class="flex gap-1 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         </svg>
-                        <span><?= h($views) ?></span>
+                        <span class="px-1"><?= h($views) ?></span>
                     </div>
                 </div>
                 <!-- TODO: Share button here -->
@@ -175,6 +175,9 @@ function post(array $post, bool $detailed = false)
     </div>
 
     <script src="/src/js/postLike.ts"></script>
-    <script src="/src/js/popupMenu.ts"></script>
+
+    <?php if ($detailed): ?>
+        <script src="/src/js/popupMenu.ts"></script>
+    <?php endif; ?>
     <?php
 }
