@@ -64,6 +64,13 @@ class PostTable extends AuthoredTable
         return $res ? intval($res['count']) : 0;
     }
 
+    public static function view(array $post): void
+    {
+        static::update($post['id'], [
+            'views' => $post['views'] + 1,
+        ]);
+    }
+
     public static function canView(array $post, null|array $user): bool
     {
         if ($post['private'] !== 1) {

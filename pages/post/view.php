@@ -17,6 +17,8 @@ if (!$post) {
     Response::notFound();
 }
 
+PostTable::view($post);
+
 $user = Auth::user();
 $author = PostTable::author($postId);
 
