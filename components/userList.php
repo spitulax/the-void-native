@@ -11,7 +11,6 @@ function userList(mysqli_result $users, null|array $authUser, string $emptyMsg):
                     <span class="font-bold"><?= h($user['name']) ?></span>
                     <span class="font-bold text-xl">·</span>
                     <span class="text-light-gray"><?= h('@' . $user['username']) ?></span>
-                    <!-- TODO: Add follow button here -->
                 </a>
                 <div
                     data-component="user-follow"

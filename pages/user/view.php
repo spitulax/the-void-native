@@ -65,11 +65,6 @@ $layout = new HTML('The Void: @' . $user['username']);
         <?php endif; ?>
 
         <div class="flex gap-2">
-            <!-- TODO: Move dashboard button to bottom bar -->
-            <?php if ($authUser['admin']): ?>
-                <?php button('get', '/admin/dashboard.php', 'DASHBOARD', 'my-button w-40'); ?>
-            <?php endif; ?>
-
             <?php if (UserTable::canEdit($userId, $authUser)): ?>
                 <?php button('get', '/user/edit.php', 'EDIT', 'my-button w-20', data: ['user' => $userId]); ?>
             <?php endif; ?>
