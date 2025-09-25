@@ -2,6 +2,7 @@
 
 require_once 'components/button.php';
 require_once 'components/backButton.php';
+require_once 'components/confirmDialog.php';
 require_once 'system/tables/post.php';
 require_once 'system/tables/like.php';
 
@@ -30,7 +31,13 @@ function post(array $post, bool $detailed = false)
     $domain = $protocol . $_SERVER['HTTP_HOST'];
 
     ?>
-    <div class="bg-base-lighter">
+
+    <?php if ($detailed): ?>
+        <script src="/src/js/confirmDialog.ts"></script>
+        <script src="/src/js/components/post.ts"></script>
+    <?php endif; ?>
+
+    <div>
         <div class="border rounded-xs border-gray mx-2 my-3 px-1">
             <div class="flex justify-between items-center h-10 px-1 py-1">
                 <?php $class = 'rounded-xs px-1 h-full transition'; ?>
@@ -80,10 +87,14 @@ function post(array $post, bool $detailed = false)
                                         </div>
                                     <?php endif; ?>
                                     <?php if (PostTable::canDelete($id, $user)): ?>
+                                        <?php confirmDialog(
+                                            strval($id),
+                                            'Apakah Anda yakin ingin menghapus postingan ini?',
+                                            'confirmDelete',
+                                            true,
+                                        ); ?>
                                         <div>
-                                            <?php button('post', '/post/delete', 'Hapus', $class, data: [
-                                                'id' => $id,
-                                            ]) ?>
+                                            <button type="button" onclick="showConfirm('<?= $id ?>')" class="<?= $class ?>">Hapus</button>
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -181,6 +192,7 @@ function post(array $post, bool $detailed = false)
     >
         Tersalin ke clipboard
     </div>
+
 
     <script src="/src/js/postLike.ts"></script>
     <script src="/src/js/postShare.ts"></script>

@@ -14,6 +14,7 @@
     --color-accent: oklch(0.6 0.2 280);
     --color-accent-dark: oklch(0.5 0.2 280);
     --color-red: oklch(0.6 0.2 30);
+    --color-dark-red: oklch(0.5 0.2 30);
 }
 
 .my-heading {
@@ -21,11 +22,15 @@
 }
 
 .my-button {
-    @apply px-3 py-1 rounded-xs border-2 border-accent bg-transparent text-white font-bold cursor-pointer hover:border-transparent hover:bg-accent-dark transition;
+    @apply px-3 py-1 rounded-xs border-2 border-accent bg-transparent font-bold cursor-pointer hover:border-transparent hover:bg-accent-dark transition;
 }
 
 .my-button-on {
-    @apply px-3 py-1 rounded-xs border-2 hover:border-accent hover:bg-transparent text-white font-bold cursor-pointer border-transparent bg-accent-dark transition;
+    @apply px-3 py-1 rounded-xs border-2 hover:border-accent hover:bg-transparent font-bold cursor-pointer border-transparent bg-accent-dark transition;
+}
+
+.my-button-red {
+    @apply px-3 py-1 rounded-xs border-2 hover:border-dark-red hover:bg-transparent font-bold cursor-pointer border-transparent bg-dark-red transition;
 }
 
 .my-error {

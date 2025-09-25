@@ -6,6 +6,7 @@ require_once 'system/main.php';
 require_once 'system/response.php';
 require_once 'components/button.php';
 require_once 'components/topNav.php';
+require_once 'components/confirmDialog.php';
 
 $userId = get('user');
 if (!$userId) {
@@ -24,6 +25,9 @@ $errors = flash('validation_errors') ?? [];
 $layout = new HTML('The Void: @' . $user['username']);
 
 ?>
+
+<script src="/src/js/confirmDialog.ts"></script>
+<script src="/src/js/confirmUserDelete.ts"></script>
 
 <div class="flex-1 flex flex-col">
     <?php topNav('@' . $user['username']); ?>
@@ -73,12 +77,15 @@ $layout = new HTML('The Void: @' . $user['username']);
             <?php endif; ?>
 
             <?php if (UserTable::canDelete($userId, $authUser)): ?>
-                <div
-                    data-component="user-delete"
-                    data-username="<?= $user['username'] ?>"
-                >
-                    <?php button('post', '/user/delete', 'HAPUS', 'my-button w-20', data: ['id' => $userId]); ?>
-                </div>
+                <?php confirmDialog(
+                    strval($userId),
+                    'Apakah Anda yakin ingin menghapus pengguna?',
+                    'confirmUserDelete',
+                    true,
+                ); ?>
+                <button type="button" onclick="showConfirm('<?= $userId ?>')" class="my-button w-20">
+                    HAPUS
+                </button>
             <?php endif; ?>
         </div>
     </div>
@@ -88,5 +95,4 @@ $layout = new HTML('The Void: @' . $user['username']);
         : '<span class="italic text-light-gray">Tidak ada bio.</span>' ?></span>
 </div>
 
-<script src="/src/js/confirmUserDelete.ts"></script>
 <script src="/src/js/userFollow.ts"></script>

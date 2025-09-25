@@ -1,9 +1,9 @@
-function confirmUserDelete(id: string) {
+function confirmDelete(id: string) {
     hideConfirm(id);
 
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = "/user/delete";
+    form.action = "/post/delete";
 
     const input = document.createElement("input");
     input.type = "hidden";
