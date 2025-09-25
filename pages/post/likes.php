@@ -6,6 +6,7 @@ require_once 'system/tables/post.php';
 require_once 'components/post.php';
 require_once 'components/backButton.php';
 require_once 'components/userList.php';
+require_once 'components/topNav.php';
 
 $postId = get('post');
 if (!$postId) {
@@ -30,9 +31,10 @@ $layout = new HTML('The Void: Postingan oleh @' . $author['username']);
 ?>
 
 <div class="flex-1 p-2 md:p-4">
+    <?php topNav('Postingan oleh @' . $author['username']); ?>
+
     <div class="flex gap-2 items-center">
         <div class="flex w-full items-center">
-            <?php backButton(); ?>
             <h1 class="font-bold text-3xl mx-2 my-heading">Like (<?= h($likeNum) ?>)</h1>
         </div>
         <?php button(

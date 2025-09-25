@@ -30,11 +30,7 @@ function post(array $post, bool $detailed = false)
     $domain = $protocol . $_SERVER['HTTP_HOST'];
 
     ?>
-    <div class="<?= $detailed ? 'p-2' : '' ?> flex-1 bg-base-lighter">
-        <?php if ($detailed): ?>
-            <?php backButton(); ?>
-        <?php endif; ?>
-
+    <div class="bg-base-lighter">
         <div class="border rounded-xs border-gray mx-2 my-3 px-1">
             <div class="flex justify-between items-center h-10 px-1 py-1">
                 <?php $class = 'rounded-xs px-1 h-full transition'; ?>

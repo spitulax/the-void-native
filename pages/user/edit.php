@@ -5,6 +5,7 @@ require_once 'system/main.php';
 require_once 'system/response.php';
 require_once 'system/tables/user.php';
 require_once 'components/backButton.php';
+require_once 'components/topNav.php';
 
 $user = Auth::user();
 if (!$user) {
@@ -33,9 +34,7 @@ $layout = new HTML('The Void: Edit Profil');
 ?>
 
 <div class="flex-1">
-    <div class="mt-1 ml-2">
-        <?php backButton(); ?>
-    </div>
+    <?php topNav('Edit Profil'); ?>
 
     <div class="flex gap-2 items-center justify-center py-2">
         <span class="font-bold"><?= $user['name'] ?> </span>

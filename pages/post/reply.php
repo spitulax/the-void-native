@@ -4,6 +4,7 @@ require_once 'system/auth.php';
 require_once 'system/main.php';
 require_once 'system/response.php';
 require_once 'components/post.php';
+require_once 'components/topNav.php';
 
 $user = Auth::user();
 
@@ -27,15 +28,13 @@ $author = PostTable::author($postId);
 
 $errors = flash('validation_errors') ?? [];
 
-$layout = new HTML('The Void: Membalas postingan oleh @' . $author['username']);
+$layout = new HTML('The Void: Membalas postingan @' . $author['username']);
 
 // TODO: Retain form values after refresh
 ?>
 
 <div class="flex-1">
-    <div class="mt-2 ml-2">
-        <?php backButton(); ?>
-    </div>
+    <?php topNav('Membalas postingan @' . $author['username']); ?>
 
     <?php post($post); ?>
 

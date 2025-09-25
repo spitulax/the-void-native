@@ -4,6 +4,7 @@ require_once 'system/auth.php';
 require_once 'system/main.php';
 require_once 'system/response.php';
 require_once 'components/backButton.php';
+require_once 'components/topNav.php';
 
 $user = Auth::user();
 if (!$user) {
@@ -30,9 +31,7 @@ $layout = new HTML('The Void: Edit Postingan');
 ?>
 
 <div class="flex-1">
-    <div class="mt-2 ml-2">
-        <?php backButton(); ?>
-    </div>
+    <?php topNav('Edit Postingan'); ?>
 
     <div class="border rounded-xs border-gray m-4 lg:m-8 px-1">
         <div class="flex justify-between items-center h-10 px-1 py-1">
