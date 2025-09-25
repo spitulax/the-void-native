@@ -28,7 +28,7 @@ $layout = new HTML('The Void: @' . $user['username']);
     <div class="flex gap-2 items-center">
         <div class="flex w-full items-center">
             <?php backButton(); ?>
-            <h1 class="font-bold text-3xl mx-2"> Pengikut (<?= h($followNum) ?>)</h1>
+            <h1 class="font-bold text-3xl mx-2 my-heading"> Pengikut (<?= h($followNum) ?>)</h1>
         </div>
     </div>
 

@@ -38,7 +38,7 @@ $layout = new HTML('The Void: @' . $user['username']);
             </div>
             <?php if ($user['admin']): ?>
                 <div class="flex items-center">
-                    <span class="ml-4 font-bold">ADMIN</span>
+                    <span class="ml-4 font-bold my-heading">ADMIN</span>
                 </div>
             <?php endif; ?>
         </div>
