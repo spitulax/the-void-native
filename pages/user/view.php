@@ -52,8 +52,14 @@ $layout = new HTML('The Void: @' . $user['username']);
                 data-followed="<?= $user ? UserTable::userFollowed($userId, $authUser['id']) : false ?>"
             >
                 <button type="button" class="my-button w-20">IKUTI</button>
-                <a href="/user/followers.php?user=<?= urlencode($userId) ?>" class="px-1">
-                    <span><?= UserTable::follows($userId) ?></span>
+                <a href="/user/followers.php?user=<?= urlencode($userId) ?>" class="px-1 hover:underline font-bold">
+                    <span><?= UserTable::follows($userId) ?></span> Pengikut
+                </a>
+            </div>
+        <?php else: ?>
+            <div class="flex items-center">
+                <a href="/user/followers.php?user=<?= urlencode($userId) ?>" class="hover:underline font-bold">
+                    <span><?= UserTable::follows($userId) ?></span> Pengikut
                 </a>
             </div>
         <?php endif; ?>

@@ -4,6 +4,8 @@ require_once 'system/main.php';
 require_once 'system/response.php';
 require_once 'system/tables/post.php';
 require_once 'components/post.php';
+require_once 'components/backButton.php';
+require_once 'components/userList.php';
 
 $userId = get('user');
 if (!$userId) {
@@ -22,15 +24,15 @@ $layout = new HTML('The Void: @' . $user['username']);
 
 ?>
 
-<div>
-    <h1>Pengikut (<?= h($followNum) ?>)</h1>
-
-    <?php while ($user = $follows->fetch_assoc()): ?>
-        <div class="border m-2">
-            <a href="/user/view.php?user=<?= urlencode($user['id']) ?>">
-                <b><?= h($user['name']) ?></b>
-                <i><?= h('@' . $user['username']) ?></i>
-            </a>
+<div class="flex-1 p-2 md:p-4">
+    <div class="flex gap-2 items-center">
+        <div class="flex w-full items-center">
+            <?php backButton(); ?>
+            <h1 class="font-bold text-3xl mx-2"> Pengikut (<?= h($followNum) ?>)</h1>
         </div>
-    <?php endwhile; ?>
+    </div>
+
+    <hr class="text-gray my-2" />
+
+    <?php userList($follows, Auth::user(), 'Belum ada pengikut.'); ?>
 </div>

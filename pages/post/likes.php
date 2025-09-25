@@ -5,16 +5,19 @@ require_once 'system/response.php';
 require_once 'system/tables/post.php';
 require_once 'components/post.php';
 require_once 'components/backButton.php';
+require_once 'components/userList.php';
 
 $postId = get('post');
 if (!$postId) {
     Response::notFound();
 }
 
+$user = Auth::user();
+
 $post = PostTable::fromId($postId);
 if (!$post) {
     Response::notFound();
-} elseif ($post && !PostTable::canView($post, Auth::user())) {
+} elseif ($post && !PostTable::canView($post, $user)) {
     Response::notFound();
 }
 
@@ -49,20 +52,5 @@ $layout = new HTML('The Void: Postingan oleh @' . $author['username']);
 
     <hr class="text-gray my-2" />
 
-    <div class="flex flex-col items-center gap-2 py-2">
-        <?php $hasLikes = false; ?>
-        <?php while ($user = $likes->fetch_assoc()): ?>
-            <?php $hasLikes = true; ?>
-            <a href="/user/view.php?user=<?= urlencode($user['id']) ?>" class="flex gap-2 border border-light-gray rounded-xs p-2 w-full hover:border-text hover:bg-dark-gray transition items-center">
-                <span class="font-bold"><?= h($user['name']) ?></span>
-                <span class="font-bold text-xl">·</span>
-                <span class="text-light-gray"><?= h('@' . $user['username']) ?></span>
-                <!-- TODO: Add follow button here -->
-            </a>
-        <?php endwhile; ?>
-
-        <?php if (!$hasLikes): ?>
-            <span class="italic text-light-gray">Belum ada like.</span>
-        <?php endif; ?>
-    </div>
+    <?php userList($likes, $user, 'Belum ada like.'); ?>
 </div>
