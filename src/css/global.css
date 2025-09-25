@@ -48,6 +48,15 @@ input[type="checkbox"] {
     @apply h-4 w-4;
 }
 
+th {
+    @apply font-bold tracking-wider;
+}
+
+th,
+td {
+    @apply py-1 px-2 md:px-4 text-center;
+}
+
 textarea {
     @apply overflow-y-scroll [&::-webkit-scrollbar]:hidden block p-1 border w-full border-light-gray focus:border-white focus:outline-none;
 }
