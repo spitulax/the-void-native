@@ -18,6 +18,22 @@
     --color-red: oklch(0.6 0.2 30);
 }
 
+.my-button {
+    @apply px-3 py-1 rounded-xs border-2 border-accent bg-transparent text-white font-bold cursor-pointer hover:border-transparent hover:bg-accent-dark transition;
+}
+
+.my-button-on {
+    @apply px-3 py-1 rounded-xs border-2 hover:border-accent hover:bg-transparent text-white font-bold cursor-pointer border-transparent bg-accent-dark transition;
+}
+
+.my-error {
+    @apply text-red font-bold w-full;
+}
+
+.cursor-pointer button {
+    cursor: pointer;
+}
+
 form {
     @apply flex flex-col justify-center items-center gap-4;
 }
@@ -32,16 +48,4 @@ input[type="checkbox"] {
 
 textarea {
     @apply overflow-y-scroll [&::-webkit-scrollbar]:hidden block p-1 border w-full border-light-gray focus:border-white focus:outline-none;
-}
-
-.my-button {
-    @apply px-3 py-1 rounded-xs border-2 border-accent bg-transparent text-white font-bold cursor-pointer hover:border-transparent hover:bg-accent-dark transition;
-}
-
-.my-error {
-    @apply text-red font-bold w-full;
-}
-
-.cursor-pointer button {
-    cursor: pointer;
 }

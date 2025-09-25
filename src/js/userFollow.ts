@@ -6,9 +6,11 @@ document.querySelectorAll("[data-component='user-follow']").forEach((value) => {
 
     function refresh() {
         if (div.dataset.followed === "1") {
-            button.classList.add("font-bold");
+            button.classList.add("my-button-on");
+            button.classList.remove("my-button");
         } else {
-            button.classList.remove("font-bold");
+            button.classList.add("my-button");
+            button.classList.remove("my-button-on");
         }
 
         number.textContent = div.dataset.follows ?? "0";

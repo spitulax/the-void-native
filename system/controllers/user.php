@@ -109,7 +109,7 @@ class UserController
         $id = $data['followed_id'];
         $userId = Auth::user()['id'];
 
-        if (UserTable::canFollow($id, $userId)) {
+        if (!UserTable::canFollow($id, $userId)) {
             JsonResponse::data(null);
         }
 
