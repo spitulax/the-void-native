@@ -178,6 +178,14 @@ function post(array $post, bool $detailed = false)
         <?php endif; ?>
     </div>
 
+    <div 
+        data-component="post-share-toast" 
+        class="fixed bottom-20 left-10 bg-accent-dark px-4 py-2 rounded-xs shadow-black shadow-md opacity-0 transition-opacity duration-500 cursor-pointer"
+        onclick="hideToast()"
+    >
+        Tersalin ke clipboard
+    </div>
+
     <script src="/src/js/postLike.ts"></script>
     <script src="/src/js/postShare.ts"></script>
 

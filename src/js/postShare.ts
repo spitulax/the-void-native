@@ -1,3 +1,21 @@
+function showToast() {
+    const toast = document.querySelector(
+        "[data-component='post-share-toast']",
+    ) as HTMLDivElement;
+    toast.classList.remove("opacity-0");
+    toast.classList.add("opacity-100");
+
+    setTimeout(hideToast, 3000);
+}
+
+function hideToast() {
+    const toast = document.querySelector(
+        "[data-component='post-share-toast']",
+    ) as HTMLDivElement;
+    toast.classList.remove("opacity-100");
+    toast.classList.add("opacity-0");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     document
         .querySelectorAll("[data-component='post-share']")
@@ -6,8 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const url = button.dataset.url!;
             button.onclick = () => {
                 navigator.clipboard.writeText(url);
-                // TODO: Own popup
-                alert("Telah tersalin ke clipboard");
+                showToast();
             };
         });
 });
