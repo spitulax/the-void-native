@@ -1,7 +1,11 @@
 <?php
 
+require_once 'system/auth.php';
+
 function userList(mysqli_result $users, null|array $authUser, string $emptyMsg): void
-{ ?>
+{
+    $authUser = Auth::user();
+    ?>
     <div class="flex flex-col items-center gap-2 py-2">
         <?php $has = false; ?>
         <?php while ($user = $users->fetch_assoc()): ?>
@@ -13,6 +17,7 @@ function userList(mysqli_result $users, null|array $authUser, string $emptyMsg):
                     <span class="text-light-gray"><?= h('@' . $user['username']) ?></span>
                 </a>
                 <div
+                    class="<?= UserTable::canFollow($user['id'], $authUser['id']) ? '' : 'opacity-0' ?>"
                     data-component="user-follow"
                     data-id="<?= $user['id'] ?>"
                     data-follows="<?= UserTable::follows($user['id']) ?>"
@@ -29,4 +34,5 @@ function userList(mysqli_result $users, null|array $authUser, string $emptyMsg):
     </div>
 
     <script src="/src/js/userFollow.ts"></script>
-<?php }
+<?php
+}
