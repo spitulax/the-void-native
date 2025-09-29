@@ -24,12 +24,6 @@ function post(array $post, bool $detailed = false)
     /* $text = $detailed ? $post['text'] : substr($post['text'], 0, 100); */
     $text = $post['text'];
 
-    $protocol =
-        !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443
-            ? 'https://'
-            : 'http://';
-    $domain = $protocol . $_SERVER['HTTP_HOST'];
-
     ?>
 
     <?php if ($detailed): ?>
@@ -155,13 +149,12 @@ function post(array $post, bool $detailed = false)
                         <span class="px-1"><?= h($views) ?></span>
                     </div>
                 </div>
-                <!-- TODO: Share button here -->
                 <div class="<?= $class ?>">
                     <button 
                         class="flex items-center hover:bg-dark-gray p-1 rounded-xs cursor-pointer transition"
                         type="button"
-                        data-component="post-share"
-                        data-url="<?= $domain ?>/post/view.php?post=<?= urlencode($id) ?>"
+                        data-component="share"
+                        data-url="<?= domain() ?>/post/view.php?post=<?= urlencode($id) ?>"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
                           <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
@@ -186,7 +179,7 @@ function post(array $post, bool $detailed = false)
     </div>
 
     <div 
-        data-component="post-share-toast" 
+        data-component="share-toast" 
         class="fixed bottom-20 left-10 bg-accent-dark px-4 py-2 rounded-xs shadow-black shadow-md opacity-0 transition-opacity duration-500 cursor-pointer"
         onclick="hideToast()"
     >
@@ -195,7 +188,7 @@ function post(array $post, bool $detailed = false)
 
 
     <script src="/src/js/postLike.ts"></script>
-    <script src="/src/js/postShare.ts"></script>
+    <script src="/src/js/share.ts"></script>
 
     <?php if ($detailed): ?>
         <script src="/src/js/popupMenu.ts"></script>

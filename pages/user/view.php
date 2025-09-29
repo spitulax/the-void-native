@@ -87,6 +87,19 @@ $layout = new HTML('The Void: @' . $user['username']);
                     HAPUS
                 </button>
             <?php endif; ?>
+
+            <div class="flex-1"> </div>
+
+            <button 
+                class="flex items-center hover:bg-dark-gray p-1 rounded-xs cursor-pointer transition"
+                type="button"
+                data-component="share"
+                data-url="<?= domain() ?>/user/view.php?user=<?= urlencode($userId) ?>"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                  <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
+                </svg>
+            </button>
         </div>
     </div>
 
@@ -95,4 +108,13 @@ $layout = new HTML('The Void: @' . $user['username']);
         : '<span class="italic text-light-gray">Tidak ada bio.</span>' ?></span>
 </div>
 
+<div 
+    data-component="share-toast" 
+    class="fixed bottom-20 left-10 bg-accent-dark px-4 py-2 rounded-xs shadow-black shadow-md opacity-0 transition-opacity duration-500 cursor-pointer"
+    onclick="hideToast()"
+>
+    Tersalin ke clipboard
+</div>
+
 <script src="/src/js/userFollow.ts"></script>
+<script src="/src/js/share.ts"></script>
