@@ -36,7 +36,7 @@ function nav(): void
                 <?php $buttonClass = 'px-3 py-1 text-xs rounded-xs border-2 border-accent bg-transparent text-white font-bold cursor-pointer hover:border-transparent hover:bg-accent-dark transition'; ?>
                 <?php if ($user): ?>
                     <a
-                        href="/user/view.php?<?= http_build_query(['user' => $user['id']]) ?>"
+                        href="/user/view.php?<?= http_build_query(['user' => $user['username']]) ?>"
                         class="flex gap-1 font-bold hover:underline cursor-pointer items-center justify-center"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">

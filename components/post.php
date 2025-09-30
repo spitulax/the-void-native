@@ -37,7 +37,7 @@ function post(array $post, bool $detailed = false)
                 <?php $class = 'rounded-xs px-1 h-full transition'; ?>
                 <?php if ($author = PostTable::author($id)): ?>
                     <div class="flex items-center gap-2 h-full">
-                        <a href="/user/view.php?user=<?= urlencode($author['id']) ?>" class="<?= $class ?> hover:bg-dark-gray flex items-center">
+                        <a href="/user/view.php?user=<?= urlencode($author['username']) ?>" class="<?= $class ?> hover:bg-dark-gray flex items-center">
                             <span class="font-bold"><?= h($author['name']) ?></span>
                             <span class="font-bold text-xl mx-1">·</span>
                             <span class="text-light-gray"><?= h('@' . $author['username']) ?></span>

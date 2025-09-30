@@ -11,10 +11,18 @@ class Table
         return Database::fetch('SELECT * FROM ' . static::$name);
     }
 
+    public static function from(string $column, mixed $value, string $valueType): null|array
+    {
+        $res = Database::fetch('SELECT * FROM ' . static::$name . ' WHERE ' . $column . '=?', [[
+            $value,
+            $valueType,
+        ]])->fetch_assoc();
+        return $res ?: null;
+    }
+
     public static function fromId(int $id): null|array
     {
-        $res = Database::fetch('SELECT * FROM ' . static::$name . ' WHERE id=?', [[$id, 'i']])->fetch_assoc();
-        return $res ?: null;
+        return static::from('id', $id, 'i');
     }
 
     public static function fromIdJoin(int $id, string $table, string $foreignId, string $otherId = 'id'): mysqli_result

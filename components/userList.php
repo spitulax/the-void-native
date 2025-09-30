@@ -11,7 +11,7 @@ function userList(mysqli_result $users, null|array $authUser, string $emptyMsg):
         <?php while ($user = $users->fetch_assoc()): ?>
             <?php $has = true; ?>
             <div class="flex items-center justify-between gap-2 border border-light-gray rounded-xs p-2 w-full hover:border-text hover:bg-dark-gray cursor-pointer transition items-center">
-                <a href="/user/view.php?user=<?= urlencode($user['id']) ?>" class="flex items-center gap-1">
+                <a href="/user/view.php?user=<?= urlencode($user['username']) ?>" class="flex items-center gap-1">
                     <span class="font-bold"><?= h($user['name']) ?></span>
                     <span class="font-bold text-xl">·</span>
                     <span class="text-light-gray"><?= h('@' . $user['username']) ?></span>

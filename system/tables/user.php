@@ -93,8 +93,8 @@ class UserTable extends Table
         return static::owns($id, $user);
     }
 
-    public static function canFollow(int $id, int $userId): bool
+    public static function canFollow(int $id, null|int $userId): bool
     {
-        return $id !== $userId;
+        return $userId && $id !== $userId;
     }
 }

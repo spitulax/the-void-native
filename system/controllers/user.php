@@ -92,7 +92,7 @@ class UserController
             'bio' => $data['bio'],
         ]);
 
-        return redirect('/user/view.php', ['user' => $id]);
+        return redirect('/user/view.php', ['user' => $data['username']]);
     }
 
     // NOTE: Must be authenticated

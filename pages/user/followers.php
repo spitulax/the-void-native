@@ -8,15 +8,17 @@ require_once 'components/backButton.php';
 require_once 'components/userList.php';
 require_once 'components/topNav.php';
 
-$userId = get('user');
-if (!$userId) {
+$username = get('user');
+if (!$username) {
     Response::notFound();
 }
 
-$user = UserTable::fromId($userId);
+$user = UserTable::from('username', $username, 's');
 if (!$user) {
     Response::notFound();
 }
+
+$userId = $user['id'];
 
 $followNum = UserTable::follows($userId);
 $follows = UserTable::getFollows($userId);

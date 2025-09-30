@@ -8,15 +8,17 @@ require_once 'components/button.php';
 require_once 'components/topNav.php';
 require_once 'components/confirmDialog.php';
 
-$userId = get('user');
-if (!$userId) {
+$username = get('user');
+if (!$username) {
     Response::notFound();
 }
 
-$user = UserTable::fromId($userId);
+$user = UserTable::from('username', $username, 's');
 if (!$user) {
     Response::notFound();
 }
+
+$userId = $user['id'];
 
 $authUser = Auth::user();
 
@@ -30,7 +32,7 @@ $layout = new HTML('The Void: @' . $user['username']);
 <script src="/src/js/confirmUserDelete.ts"></script>
 
 <div class="flex-1 flex flex-col">
-    <?php topNav('@' . $user['username']); ?>
+    <?php topNav('@' . $username); ?>
 
     <div class="flex flex-col p-2 gap-4">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-16 md:size-24 lg:size-32">
@@ -43,11 +45,25 @@ $layout = new HTML('The Void: @' . $user['username']);
                 <span class="font-bold text-xl">·</span>
                 <span class="text-light-gray"><?= h('@' . $user['username']) ?></span>
             </div>
+
             <?php if ($user['admin']): ?>
                 <div class="flex items-center">
                     <span class="ml-4 font-bold my-heading">ADMIN</span>
                 </div>
             <?php endif; ?>
+
+            <div class="flex-1"> </div>
+
+            <button 
+                class="flex items-center hover:bg-dark-gray p-1 rounded-xs cursor-pointer transition"
+                type="button"
+                data-component="share"
+                data-url="<?= domain() ?>/user/view.php?user=<?= urlencode($username) ?>"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                  <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
+                </svg>
+            </button>
         </div>
      
         <?php if (UserTable::canFollow($userId, $authUser['id'])): ?>
@@ -59,13 +75,13 @@ $layout = new HTML('The Void: @' . $user['username']);
                 data-followed="<?= $user ? UserTable::userFollowed($userId, $authUser['id']) : false ?>"
             >
                 <button type="button" class="my-button w-20">IKUTI</button>
-                <a href="/user/followers.php?user=<?= urlencode($userId) ?>" class="px-1 hover:underline font-bold">
+                <a href="/user/followers.php?user=<?= urlencode($username) ?>" class="px-1 hover:underline font-bold">
                     <span><?= UserTable::follows($userId) ?></span> Pengikut
                 </a>
             </div>
         <?php else: ?>
             <div class="flex items-center">
-                <a href="/user/followers.php?user=<?= urlencode($userId) ?>" class="hover:underline font-bold">
+                <a href="/user/followers.php?user=<?= urlencode($username) ?>" class="hover:underline font-bold">
                     <span><?= UserTable::follows($userId) ?></span> Pengikut
                 </a>
             </div>
@@ -73,7 +89,7 @@ $layout = new HTML('The Void: @' . $user['username']);
 
         <div class="flex gap-2">
             <?php if (UserTable::canEdit($userId, $authUser)): ?>
-                <?php button('get', '/user/edit.php', 'EDIT', 'my-button w-20', data: ['user' => $userId]); ?>
+                <?php button('get', '/user/edit.php', 'EDIT', 'my-button w-20', data: ['user' => $username]); ?>
             <?php endif; ?>
 
             <?php if (UserTable::canDelete($userId, $authUser)): ?>
@@ -87,19 +103,6 @@ $layout = new HTML('The Void: @' . $user['username']);
                     HAPUS
                 </button>
             <?php endif; ?>
-
-            <div class="flex-1"> </div>
-
-            <button 
-                class="flex items-center hover:bg-dark-gray p-1 rounded-xs cursor-pointer transition"
-                type="button"
-                data-component="share"
-                data-url="<?= domain() ?>/user/view.php?user=<?= urlencode($userId) ?>"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
-                  <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
-                </svg>
-            </button>
         </div>
     </div>
 

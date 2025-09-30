@@ -7,24 +7,26 @@ require_once 'system/tables/user.php';
 require_once 'components/backButton.php';
 require_once 'components/topNav.php';
 
-$user = Auth::user();
-if (!$user) {
+$authUser = Auth::user();
+if (!$authUser) {
     Response::login();
 }
 
-$userId = get('user');
-if (!$userId) {
+$username = get('user');
+if (!$username) {
     Response::notFound();
 }
 
-if (!UserTable::canEdit($userId, $user)) {
-    Response::notFound();
-}
-
-$user = UserTable::fromId($userId);
+$user = UserTable::from('username', $username, 's');
 if (!$user) {
     Response::notFound();
 }
+
+if (!UserTable::canEdit($user['id'], $authUser)) {
+    Response::notFound();
+}
+
+$userId = $user['id'];
 
 $errors = flash('validation_errors') ?? [];
 
