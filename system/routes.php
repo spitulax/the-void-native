@@ -13,6 +13,7 @@ $router->page('test.php');
 
 $router->page('login.php');
 $router->page('register.php');
+$router->page('notifs.php');
 $router->page('user/view.php');
 $router->page('user/followers.php');
 $router->page('user/edit.php');
@@ -22,6 +23,9 @@ $router->post('/register', [UserController::class, 'register']);
 $router->post('/user/edit', [UserController::class, 'edit']);
 $router->post('/user/delete', [UserController::class, 'delete']);
 $router->post('/user/follow', [UserController::class, 'follow']);
+$router->post('/notif/data', [UserController::class, 'notifData']);
+$router->post('/notif/clear', [UserController::class, 'clearNotifs']);
+$router->post('/notif/delete', [UserController::class, 'deleteNotif']);
 
 $router->page('post.php');
 $router->page('post/view.php');
