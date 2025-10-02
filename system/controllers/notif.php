@@ -31,7 +31,7 @@ class NotifController
 
     public static function notifData(array $data): void
     {
-        $data = new Validation($data)
+        $data = new Validation($data, true)
             ->add('id', ['required', 'integer'])
             ->finalize();
         $id = $data['id'];
@@ -47,7 +47,7 @@ class NotifController
 
     public static function clearNotifs(array $data): void
     {
-        $data = new Validation($data)
+        $data = new Validation($data, true)
             ->add('id', ['required', 'integer'])
             ->finalize();
         $id = $data['id'];
@@ -61,7 +61,7 @@ class NotifController
 
     public static function deleteNotif(array $data): void
     {
-        $data = new Validation($data)
+        $data = new Validation($data, true)
             ->add('id', ['required', 'integer'])
             ->finalize();
         $id = $data['id'];

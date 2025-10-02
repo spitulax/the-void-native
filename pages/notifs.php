@@ -27,7 +27,7 @@ $layout = new HTML('The Void: Notifikasi');
 
     <div
         id="container"
-        data-userId="<?= $user['id'] ?>"
+        data-user-id="<?= $user['id'] ?>"
         class="flex flex-col items-center gap-2 py-2"
     >
         <?php $hasNotifs = false; ?>

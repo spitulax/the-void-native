@@ -61,7 +61,6 @@ class Validation
         }
 
         if (count($errs) > 0) {
-            die(print_r($errs));
             $r = redirect()->current()->with('validation_errors', $errs);
             if ($this->jsonRedirect) {
                 JsonResponse::redirect($r);

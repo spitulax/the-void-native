@@ -6,7 +6,11 @@ function nav(): void
 {
     $user = Auth::user();
     ?>
-    <header class="fixed bottom-0 left-0 w-screen bg-base-light z-50">
+    <header
+        id="bottom-nav"
+        class="fixed bottom-0 left-0 w-screen bg-base-light z-50"
+        <?= $user ? ('data-user-id="' . $user['id'] . '"') : '' ?>
+    >
         <div class="flex px-4 sm:px-6 lg:px-8 h-10 items-center justify-between">
             <a href="/" class="flex items-center text-accent hover:text-accent-light gap-2 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4.23 4.23" class="size-6">
@@ -25,12 +29,12 @@ function nav(): void
                     </svg>
                     ', $class); ?>
 
-                    <!-- FIXME: A little circle above the icon to indicate unread notifs -->
                     <?php button('get', '/notifs.php', '
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
                           <path fill-rule="evenodd" d="M5.25 9a6.75 6.75 0 0 1 13.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 0 1-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 1 1-7.48 0 24.585 24.585 0 0 1-4.831-1.244.75.75 0 0 1-.298-1.205A8.217 8.217 0 0 0 5.25 9.75V9Zm4.502 8.9a2.25 2.25 0 1 0 4.496 0 25.057 25.057 0 0 1-4.496 0Z" clip-rule="evenodd" />
                         </svg>
-                    ', $class) ?>
+                        <span id="notif-alert" class="absolute bg-red h-2 w-2 top-0 right-0 rounded-full z-20 hidden"></span>
+                    ', $class . ' relative') ?>
 
                     <?php if ($user['admin']): ?>
                         <?php button('get', '/admin/dashboard.php', '
@@ -62,5 +66,7 @@ function nav(): void
             </div>
         </div>
     </header>
+
+    <script src="/src/js/components/nav.ts"></script>
     <?php
 }

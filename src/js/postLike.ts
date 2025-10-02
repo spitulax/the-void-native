@@ -47,14 +47,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                     .then((res) => res.json())
                     .then((data) => {
-                        if (data.redirect) {
-                            // TODO: `flash` data is not sent
-                            window.location.href = data.redirect;
-                            return;
-                        }
+                        if (data) {
+                            if (data.redirect) {
+                                // TODO: `flash` data is not sent
+                                window.location.href = data.redirect;
+                                return;
+                            }
 
-                        div.dataset.liked = data.liked ? "1" : "0";
-                        div.dataset.likes = String(data.likes);
+                            div.dataset.liked = data.liked ? "1" : "0";
+                            div.dataset.likes = String(data.likes);
+                        }
                         refresh();
                     });
             };
