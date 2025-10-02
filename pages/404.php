@@ -16,6 +16,6 @@ $layout = new HTML('The Void: Halaman Tidak Ditemukan');
 
     <div class="p-10 lg:p-12 w-3/4 md:w-1/2 flex flex-col justify-center items-center gap-10 w-full">
         <span class="font-extrabold my-heading text-2xl md:text-3xl lg:text-4xl text-center uppercase">Halaman tidak ditemukan</span>
-        <a onclick="history.back();" class="hover:underline cursor-pointer font-bold my-heading text-xl">Kembali</a>
+        <a onclick="history.back();" class="hover:underline cursor-pointer font-bold my-heading text-xl text-accent hover:text-accent-light">Kembali</a>
     </div>
 </div>

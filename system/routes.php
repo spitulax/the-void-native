@@ -3,6 +3,7 @@
 require_once 'system/router.php';
 require_once 'system/controllers/post.php';
 require_once 'system/controllers/user.php';
+require_once 'system/controllers/notif.php';
 
 $router = new Router();
 
@@ -23,9 +24,10 @@ $router->post('/register', [UserController::class, 'register']);
 $router->post('/user/edit', [UserController::class, 'edit']);
 $router->post('/user/delete', [UserController::class, 'delete']);
 $router->post('/user/follow', [UserController::class, 'follow']);
-$router->post('/notif/data', [UserController::class, 'notifData']);
-$router->post('/notif/clear', [UserController::class, 'clearNotifs']);
-$router->post('/notif/delete', [UserController::class, 'deleteNotif']);
+$router->post('/notif/notify', [NotifController::class, 'notify']);
+$router->post('/notif/data', [NotifController::class, 'notifData']);
+$router->post('/notif/clear', [NotifController::class, 'clearNotifs']);
+$router->post('/notif/delete', [NotifController::class, 'deleteNotif']);
 
 $router->page('post.php');
 $router->page('post/view.php');
@@ -39,5 +41,6 @@ $router->post('/post/delete', [PostController::class, 'delete']);
 $router->post('/post/like', [PostController::class, 'like']);
 
 $router->page('admin/dashboard.php');
+$router->page('admin/notify.php');
 
 $router->dispatch();

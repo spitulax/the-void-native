@@ -152,49 +152,4 @@ class UserController
             return redirect()->current()->with('success', "Berhasil menghapus @$username.");
         }
     }
-
-    public static function notifData(array $data): void
-    {
-        $data = new Validation($data)
-            ->add('id', ['required', 'integer'])
-            ->finalize();
-        $id = $data['id'];
-
-        if (!UserTable::canEdit($id, Auth::user())) {
-            Response::notFound();
-        }
-
-        JsonResponse::data([
-            'count' => NotifTable::count($id),
-            'unreadCount' => NotifTable::unreadCount($id),
-        ]);
-    }
-
-    public static function clearNotifs(array $data): void
-    {
-        $data = new Validation($data)
-            ->add('id', ['required', 'integer'])
-            ->finalize();
-        $id = $data['id'];
-
-        if (!UserTable::canEdit($id, Auth::user())) {
-            Response::notFound();
-        }
-
-        NotifTable::clearAll($id);
-    }
-
-    public static function deleteNotif(array $data): void
-    {
-        $data = new Validation($data)
-            ->add('id', ['required', 'integer'])
-            ->finalize();
-        $id = $data['id'];
-
-        if (!UserTable::canEdit($id, Auth::user())) {
-            Response::notFound();
-        }
-
-        NotifTable::delete($id);
-    }
 }

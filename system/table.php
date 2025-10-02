@@ -40,7 +40,7 @@ class Table
         );
     }
 
-    public static function insert(array $data): array
+    public static function insert(array $data, null|string $timestampCol = null): array
     {
         $keys = array_keys($data);
         $columns = '';
@@ -80,6 +80,11 @@ class Table
 
             $values[] = [$value, $type];
             ++$i;
+        }
+
+        if ($timestampCol) {
+            $columns .= ', ' . $timestampCol;
+            $placeholder .= ', NOW()';
         }
 
         $res = Database::fetch(

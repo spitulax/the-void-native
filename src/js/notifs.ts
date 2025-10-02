@@ -11,7 +11,7 @@ function refresh() {
     fetch("/notif/data", { method: "POST", body: formData })
         .then((res) => res.json())
         .then((data) => {
-            topNavTitle.textContent = `Notifikasi (${data.unreadCount} belum dibaca dari ${data.count})`;
+            topNavTitle.textContent = `Notifikasi (${data.count})`;
         });
 }
 
@@ -30,6 +30,7 @@ clearAll.onclick = () => {
 
 document.querySelectorAll("#notif").forEach((value) => {
     const div = value as HTMLDivElement;
+
     const deleteButton = value.querySelector("#delete") as HTMLButtonElement;
     deleteButton.onclick = () => {
         div.classList.add("hidden");

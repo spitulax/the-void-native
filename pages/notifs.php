@@ -27,18 +27,13 @@ $layout = new HTML('The Void: Notifikasi');
 
     <div
         id="container"
-        data-user-id="<?= $user['id'] ?>"
+        data-userId="<?= $user['id'] ?>"
         class="flex flex-col items-center gap-2 py-2"
     >
         <?php $hasNotifs = false; ?>
         <?php while ($notif = $notifs->fetch_assoc()): ?>
             <?php $hasNotifs = true; ?>
-            <?php $class = 'flex flex-col min-h-16 justify-center gap-2 border rounded-xs p-2 w-full'; ?>
-            <?php if ($notif['viewed']): ?>
-                <?php $class .= ' border-gray'; ?>
-            <?php else: ?>
-                <?php $class .= ' border-light-gray'; ?>
-            <?php endif; ?>
+            <?php $class = 'flex flex-col min-h-16 justify-center gap-2 border rounded-xs p-2 w-full border-light-gray'; ?>
 
             <div 
                 id="notif"
@@ -46,9 +41,9 @@ $layout = new HTML('The Void: Notifikasi');
                 class="<?= $class ?>"
             >
                 <div class="flex items-center justify-center">
-                    <span class="font-bold cursor-pointer">
+                    <h1 class="font-bold">
                         <?= h($notif['heading']) ?>
-                    </span>
+                    </h1>
                     <div class="flex-1"></div>
                     <span class="italic text-light-gray mx-2">
                         <?= h(date_format(date_create($notif['timestamp']), 'd/m/y H:i')) ?>
@@ -67,11 +62,12 @@ $layout = new HTML('The Void: Notifikasi');
                 <?php endif; ?>
             </div>
         <?php endwhile; ?>
+
         <?php if (!$hasNotifs): ?>
-        <div class="italic text-light-gray flex flex-col w-full items-center">
-            <span>¯\_(ツ)_/¯</span>
-            <span>Belum ada notifikasi.</span>
-        </div>
+            <div class="italic text-light-gray flex flex-col w-full items-center">
+                <span>¯\_(ツ)_/¯</span>
+                <span>Belum ada notifikasi.</span>
+            </div>
         <?php endif; ?>
     </div>
 </div>

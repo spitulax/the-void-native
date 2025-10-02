@@ -16,16 +16,6 @@ class NotifTable extends Table
         return $res['count'] ?? 0;
     }
 
-    public static function unreadCount(int $userId): int
-    {
-        $res = Database::fetch('
-            SELECT COUNT(*) AS count
-            FROM notifs
-            WHERE recipient_id=? AND viewed=0
-            ', [[$userId, 'i']])->fetch_assoc();
-        return $res['count'] ?? 0;
-    }
-
     public static function getNotifs(int $userId): mysqli_result
     {
         return Database::fetch('
