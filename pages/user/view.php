@@ -30,6 +30,7 @@ $layout = new HTML('The Void: @' . $user['username']);
 
 <script src="/src/js/confirmDialog.ts"></script>
 <script src="/src/js/confirmUserDelete.ts"></script>
+<script src="/src/js/toast.ts"></script>
 
 <div class="flex-1 flex flex-col">
     <?php topNav('@' . $username); ?>
@@ -112,9 +113,9 @@ $layout = new HTML('The Void: @' . $user['username']);
 </div>
 
 <div 
-    data-component="share-toast" 
+    id="share-toast" 
     class="fixed bottom-20 left-10 bg-accent-dark px-4 py-2 rounded-xs shadow-black shadow-md opacity-0 transition-opacity duration-500 cursor-pointer"
-    onclick="hideToast()"
+    onclick="hideToast('share-toast')"
 >
     Tersalin ke clipboard
 </div>

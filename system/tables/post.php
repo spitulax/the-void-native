@@ -73,7 +73,7 @@ class PostTable extends AuthoredTable
 
     public static function canView(array $post, null|array $user): bool
     {
-        if ($post['private'] !== 1) {
+        if ($post['private'] !== 1 && $post['approved'] === 1) {
             return true;
         }
         return static::owns($post['id'], $user);
@@ -83,14 +83,14 @@ class PostTable extends AuthoredTable
     {
         $args = [];
 
-        $whenPrivate = '';
+        $onlyOwner = '';
         if ($user && $user['admin']) {
-            $whenPrivate = 'TRUE';
+            $onlyOwner = 'TRUE';
         } elseif ($user) {
-            $whenPrivate = 'u.id=?';
+            $onlyOwner = 'u.id=?';
             $args[] = [$user['id'], 'i'];
         } else {
-            $whenPrivate = 'FALSE';
+            $onlyOwner = 'FALSE';
         }
 
         $whenExcludeReplies = 'TRUE';
@@ -110,13 +110,32 @@ class PostTable extends AuthoredTable
             ON p.author_id=u.id
             WHERE
                 (CASE
-                    WHEN p.private=1 THEN {$whenPrivate}
+                    WHEN p.private=1 THEN {$onlyOwner}
                     ELSE TRUE
                 END)
+                AND
+                    p.approved=1
                 AND
                 {$whenExcludeReplies}
                 {$sortNewest}
             ", $args);
+    }
+
+    public static function allNotApproved(bool $newest = true): mysqli_result
+    {
+        $sortNewest = '';
+        if ($newest) {
+            $sortNewest = 'ORDER BY p.id DESC';
+        }
+
+        return Database::fetch("
+            SELECT p.*
+            FROM posts p
+            LEFT JOIN users u
+            ON p.author_id=u.id
+            WHERE p.approved=0
+            {$sortNewest}
+            ");
     }
 
     public static function canDelete(int $id, null|array $user): bool

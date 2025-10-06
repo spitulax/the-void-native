@@ -8,16 +8,16 @@ require_once 'system/tables/notif.php';
 
 class NotifController
 {
-    public static function notify(array $data): Redirect
+    public static function notify(array $data): void
     {
-        $data = new Validation($data)
+        $data = new Validation($data, true)
             ->add('id', ['required', 'integer'])
             ->add('text', ['required', 'max:500'], 'Text')
             ->finalize();
 
         $user = Auth::user();
         if (!($user && $user['admin'])) {
-            Response::notFound();
+            JsonResponse::unauthorized();
         }
 
         NotifTable::insert([
@@ -25,15 +25,11 @@ class NotifController
             'text' => $data['text'],
             'recipient_id' => $data['id'],
         ], 'timestamp');
-
-        return redirect('/admin/dashboard.php');
     }
 
     public static function notifData(array $data): void
     {
-        $data = new Validation($data, true)
-            ->add('id', ['required', 'integer'])
-            ->finalize();
+        $data = new Validation($data, true)->add('id', ['required', 'integer'])->finalize();
         $id = $data['id'];
 
         if (!UserTable::canEdit($id, Auth::user())) {
@@ -47,9 +43,7 @@ class NotifController
 
     public static function clearNotifs(array $data): void
     {
-        $data = new Validation($data, true)
-            ->add('id', ['required', 'integer'])
-            ->finalize();
+        $data = new Validation($data, true)->add('id', ['required', 'integer'])->finalize();
         $id = $data['id'];
 
         if (!UserTable::canEdit($id, Auth::user())) {
@@ -61,9 +55,7 @@ class NotifController
 
     public static function deleteNotif(array $data): void
     {
-        $data = new Validation($data, true)
-            ->add('id', ['required', 'integer'])
-            ->finalize();
+        $data = new Validation($data, true)->add('id', ['required', 'integer'])->finalize();
         $id = $data['id'];
 
         if (!UserTable::canEdit($id, Auth::user())) {

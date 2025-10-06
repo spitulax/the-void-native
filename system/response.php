@@ -30,6 +30,14 @@ class JsonResponse
         die(json_encode($data));
     }
 
+    public static function unauthorized(): void
+    {
+        http_response_code(401);
+        die('Unauthorized');
+    }
+
+    // FIXME: Just flat out reject the request, why does it need to be here in the first place?
+    // Also change the code in validation
     public static function redirect(Redirect $redirect): void
     {
         header('Content-Type: application/json');

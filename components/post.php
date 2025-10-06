@@ -6,7 +6,7 @@ require_once 'components/confirmDialog.php';
 require_once 'system/tables/post.php';
 require_once 'system/tables/like.php';
 
-function post(array $post, bool $detailed = false)
+function post(array $post, string $mode = 'minimal')
 {
     $user = Auth::user();
     $id = intval($post['id']);
@@ -14,11 +14,13 @@ function post(array $post, bool $detailed = false)
     $numReplies = PostTable::replies($id);
 
     $replies = null;
-    if ($detailed) {
+    if ($mode === 'detailed') {
         $replies = PostTable::getReplies($id);
     }
 
     $views = PostTable::fromId($id)['views'];
+
+    $approved = boolval($post['approved']);
 
     // TODO: Better alg
     /* $text = $detailed ? $post['text'] : substr($post['text'], 0, 100); */
@@ -26,12 +28,14 @@ function post(array $post, bool $detailed = false)
 
     ?>
 
-    <?php if ($detailed): ?>
+    <?php if ($mode === 'detailed'): ?>
         <script src="/src/js/confirmDialog.ts"></script>
         <script src="/src/js/components/post.ts"></script>
     <?php endif; ?>
 
-    <div>
+    <script src="/src/js/toast.ts"></script>
+
+    <div id="post-root">
         <div class="border rounded-xs border-gray mx-2 my-3 px-1">
             <div class="flex justify-between items-center h-10 px-1 py-1">
                 <?php $class = 'rounded-xs px-1 h-full transition'; ?>
@@ -45,6 +49,11 @@ function post(array $post, bool $detailed = false)
                         <?php if ($post['private']): ?>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                            </svg>
+                        <?php endif; ?>
+                        <?php if (!$approved): ?>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
                         <?php endif; ?>
                     </div>
@@ -61,12 +70,16 @@ function post(array $post, bool $detailed = false)
                     <div class="italic text-light-gray mx-2">
                         <?= h(date_format(date_create($post['created_at']), 'd/m/y H:i')) ?>
                     </div>
-                    <a href="/post/view.php?post=<?= urlencode($id) ?>" class="<?= $class ?> hover:bg-dark-gray flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                        </svg>
-                    </a>
-                    <?php if ($detailed): ?>
+
+                    <?php if ($mode !== 'approving'): ?>
+                        <a href="/post/view.php?post=<?= urlencode($id) ?>" class="<?= $class ?> hover:bg-dark-gray flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                            </svg>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if ($mode === 'detailed'): ?>
                         <div class="relative h-full">
                             <button id="menu-button" class="<?= $class ?> hover:bg-dark-gray flex items-center cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
@@ -103,71 +116,89 @@ function post(array $post, bool $detailed = false)
 
             <hr class="text-gray" />
 
-            <?php if (!$detailed): ?>
+            <?php if ($mode === 'minimal'): ?>
                 <a href="/post/view.php?post=<?= urlencode($id) ?>">
             <?php endif; ?>
                 <div class="px-2 md:px-3 my-2 min-h-24 flex items-center">
                     <span class="whitespace-pre-wrap"><?= h($text) ?></span>
                 </div>
-            <?php if (!$detailed): ?>
+            <?php if ($mode === 'minimal'): ?>
                 </a>
             <?php endif; ?>
 
             <hr class="text-gray" />
 
-            <div class="flex justify-between px-2 py-1">
-                <?php $class = 'flex gap-2 md:gap-3 lg:gap-4 items-center' ?>
-                <div class="<?= $class ?>">
-                    <div 
-                        class="flex gap-1 items-center"
-                        data-component="post-like"
-                        data-id="<?= $id ?>"
-                        data-likes="<?= PostTable::likes($id) ?>"
-                        data-liked="<?= $user ? PostTable::userLiked($id, $user['id']) : false ?>"
-                    >
-                        <button type="button">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" class="size-5 stroke-text fill-transparent hover:fill-red hover:stroke-red transition cursor-pointer">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+            <?php if ($mode === 'approving'): ?>
+                <div
+                    id="approval-buttons"
+                    class="flex gap-4 py-1 px-2"
+                    data-id="<?= $id ?>"
+                    data-author-id="<?= $author['id'] ?>"
+                >
+                    <button id="reject" type="button" class="flex-1 my-button-red">TOLAK</button>
+                    <button id="approve" type="button" class="flex-1 my-button-on">SETUJUI</button>
+                </div>
+
+            <?php elseif ($approved): ?>
+                <div class="flex justify-between px-2 py-1">
+                    <?php $class = 'flex gap-2 md:gap-3 lg:gap-4 items-center' ?>
+                    <div class="<?= $class ?>">
+                        <div 
+                            class="flex gap-1 items-center"
+                            data-component="post-like"
+                            data-id="<?= $id ?>"
+                            data-likes="<?= PostTable::likes($id) ?>"
+                            data-liked="<?= $user ? PostTable::userLiked($id, $user['id']) : false ?>"
+                        >
+                            <button type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" class="size-5 stroke-text fill-transparent hover:fill-red hover:stroke-red transition cursor-pointer">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                </svg>
+                            </button>
+                            <a href="/post/likes.php?post=<?= urlencode($post['id']) ?>" class="hover:underline">
+                                <span class="px-1"><?= PostTable::likes($id) ?></span>
+                            </a>
+                        </div>
+                        <div class="flex gap-1 items-center">
+                            <?php button('get', '/post/reply.php', '
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" class="size-5 stroke-text fill-transparent hover:fill-text transition cursor-pointer">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                                </svg>
+                                ', data: [
+                                'post' => $id,
+                            ]) ?>
+                            <span class="px-1"><?= h($numReplies) ?></span>
+                        </div>
+                        <div class="flex gap-1 items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                            <span class="px-1"><?= h($views) ?></span>
+                        </div>
+                    </div>
+                    <div class="<?= $class ?>">
+                        <button 
+                            class="flex items-center hover:bg-dark-gray p-1 rounded-xs cursor-pointer transition"
+                            type="button"
+                            data-component="share"
+                            data-url="<?= domain() ?>/post/view.php?post=<?= urlencode($id) ?>"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                              <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <a href="/post/likes.php?post=<?= urlencode($post['id']) ?>" class="hover:underline">
-                            <span class="px-1"><?= PostTable::likes($id) ?></span>
-                        </a>
-                    </div>
-                    <div class="flex gap-1 items-center">
-                        <?php button('get', '/post/reply.php', '
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" class="size-5 stroke-text fill-transparent hover:fill-text transition cursor-pointer">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-                            </svg>
-                            ', data: [
-                            'post' => $id,
-                        ]) ?>
-                        <span class="px-1"><?= h($numReplies) ?></span>
-                    </div>
-                    <div class="flex gap-1 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>
-                        <span class="px-1"><?= h($views) ?></span>
                     </div>
                 </div>
-                <div class="<?= $class ?>">
-                    <button 
-                        class="flex items-center hover:bg-dark-gray p-1 rounded-xs cursor-pointer transition"
-                        type="button"
-                        data-component="share"
-                        data-url="<?= domain() ?>/post/view.php?post=<?= urlencode($id) ?>"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
-                          <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
+
+            <?php else: ?>
+                <div class="flex items-center justify-center px-2 py-1">
+                    <span class="italic text-light-gray">Menunggu post untuk disetujui admin.</span>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
 
-        <?php if ($detailed): ?>
+        <?php if ($mode === 'detailed' && $approved): ?>
             <div class="mx-8 flex flex-col">
                 <?php $hasReplies = false; ?>
                 <?php while ($reply = $replies->fetch_assoc()): ?>
@@ -181,20 +212,22 @@ function post(array $post, bool $detailed = false)
         <?php endif; ?>
     </div>
 
-    <div 
-        data-component="share-toast" 
-        class="fixed bottom-20 left-10 bg-accent-dark px-4 py-2 rounded-xs shadow-black shadow-md opacity-0 transition-opacity duration-500 cursor-pointer"
-        onclick="hideToast()"
-    >
-        Tersalin ke clipboard
-    </div>
-
+    <?php if ($approved): ?>
+        <div 
+            id="share-toast" 
+            class="fixed bottom-20 left-10 bg-accent-dark px-4 py-2 rounded-xs shadow-black shadow-md opacity-0 transition-opacity duration-500 cursor-pointer"
+            onclick="hideToast('share-toast')"
+        >
+            Tersalin ke clipboard
+        </div>
+    <?php endif; ?>
 
     <script src="/src/js/postLike.ts"></script>
     <script src="/src/js/share.ts"></script>
 
-    <?php if ($detailed): ?>
+    <?php if ($mode === 'detailed'): ?>
         <script src="/src/js/popupMenu.ts"></script>
     <?php endif; ?>
+
     <?php
 }

@@ -40,7 +40,7 @@ $layout = new HTML('The Void: Mengirim notifikasi ke @' . $username);
 
             <hr class="text-gray" />
 
-            <form method="post" action="/notif/notify">
+            <form id="notify-form" method="post">
                 <input type="hidden" name="id" value="<?= $user['id'] ?>">
 
                 <div class="flex flex-col w-full px-4 py-4 justify-center items-center gap-4">
@@ -56,3 +56,5 @@ $layout = new HTML('The Void: Mengirim notifikasi ke @' . $username);
         </div>
     </div>
 </div>
+
+<script src="/src/js/admin/notify.ts"></script>

@@ -99,9 +99,7 @@ class PostController
             JsonResponse::login();
         }
 
-        $data = new Validation($data, true)
-            ->add('post_id', ['required', 'integer'])
-            ->finalize();
+        $data = new Validation($data, true)->add('post_id', ['required', 'integer'])->finalize();
 
         $id = $data['post_id'];
         $userId = Auth::user()['id'];
@@ -118,11 +116,35 @@ class PostController
         ]);
     }
 
+    public static function approve(array $data): void
+    {
+        if (!Auth::isAdmin()) {
+            JsonResponse::unauthorized();
+        }
+
+        $data = new Validation($data, true)->add('id', ['required', 'integer'])->finalize();
+        $id = $data['id'];
+
+        PostTable::update($id, [
+            'approved' => 1,
+        ]);
+    }
+
+    public static function reject(array $data): void
+    {
+        if (!Auth::isAdmin()) {
+            JsonResponse::unauthorized();
+        }
+
+        $data = new Validation($data, true)->add('id', ['required', 'integer'])->finalize();
+        $id = $data['id'];
+
+        PostTable::delete($id);
+    }
+
     public static function delete(array $data): Redirect
     {
-        $data = new Validation($data)
-            ->add('id', ['required', 'integer'])
-            ->finalize();
+        $data = new Validation($data)->add('id', ['required', 'integer'])->finalize();
         $id = $data['id'];
 
         $user = Auth::user();
@@ -138,7 +160,7 @@ class PostController
 
         PostTable::delete($id);
 
-        $redirectUrl = $parentId ? ('/post/view.php?' . http_build_query(['post' => $parentId])) : '/';
+        $redirectUrl = $parentId ? '/post/view.php?' . http_build_query(['post' => $parentId]) : '/';
 
         return redirect($redirectUrl)->with('success', 'Berhasil menghapus postingan.');
     }
