@@ -29,22 +29,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const formData = new FormData();
                 formData.append("followed_id", div.dataset.id!);
 
+                // TODO: Report error
                 fetch("/user/follow", {
                     method: "POST",
                     body: formData,
                 })
                     .then((res) => res.json())
                     .then((data) => {
-                        if (data) {
-                            if (data.redirect) {
-                                // TODO: `flash` data is not sent
-                                window.location.href = data.redirect;
-                                return;
-                            }
-
-                            div.dataset.followed = data.followed ? "1" : "0";
-                            div.dataset.follows = String(data.follows);
-                        }
+                        div.dataset.followed = data.followed ? "1" : "0";
+                        div.dataset.follows = String(data.follows);
 
                         refresh();
                     });

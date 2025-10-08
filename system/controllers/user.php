@@ -100,12 +100,10 @@ class UserController
     public static function follow(array $data): void
     {
         if (!Auth::user()) {
-            JsonResponse::login();
+            JsonResponse::unauthorized();
         }
 
-        $data = new Validation($data, true)
-            ->add('followed_id', ['required', 'integer'])
-            ->finalize();
+        $data = new Validation($data, true)->add('followed_id', ['required', 'integer'])->finalize();
 
         $id = $data['followed_id'];
         $userId = Auth::user()['id'];
@@ -128,9 +126,7 @@ class UserController
 
     public static function delete(array $data): Redirect
     {
-        $data = new Validation($data)
-            ->add('id', ['required', 'integer'])
-            ->finalize();
+        $data = new Validation($data)->add('id', ['required', 'integer'])->finalize();
         $id = $data['id'];
 
         if (!UserTable::canDelete($id, Auth::user())) {

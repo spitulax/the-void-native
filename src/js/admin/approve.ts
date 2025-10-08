@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
             formData.append("id", div.dataset.id!);
 
             approve.onclick = () => {
-                // FIXME: Catch error response
+                // TODO: Report error
                 fetch("/admin/approve", {
                     method: "POST",
                     body: formData,
@@ -30,11 +30,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     "link_address",
                     `/post/view.php?post=${div.dataset.id!}`,
                 );
+                // TODO: Report error
                 fetch("/notif/notify", { method: "POST", body: formData });
             };
 
             reject.onclick = () => {
-                // FIXME: Catch error response
+                // TODO: Report error
                 fetch("/admin/reject", {
                     method: "POST",
                     body: formData,

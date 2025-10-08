@@ -10,17 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData();
         formData.append("id", userId);
         fetch("/notif/data", { method: "POST", body: formData })
+            // TODO: Report error
             .then((res) => res.json())
             .then((data) => {
-                if (data) {
-                    if (data.redirect) {
-                        // TODO: `flash` data is not sent
-                        window.location.href = data.redirect;
-                        return;
-                    }
-
-                    topNavTitle.textContent = `Notifikasi (${data.count})`;
-                }
+                topNavTitle.textContent = `Notifikasi (${data.count})`;
             });
     }
 
@@ -33,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const formData = new FormData();
         formData.append("id", userId);
+        // TODO: Report error
         fetch("/notif/clear", { method: "POST", body: formData });
         refresh();
     };
@@ -47,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
             div.classList.add("hidden");
             const formData = new FormData();
             formData.append("id", div.dataset.id!);
+            // TODO: Report error
             fetch("/notif/delete", { method: "POST", body: formData });
             refresh();
         };

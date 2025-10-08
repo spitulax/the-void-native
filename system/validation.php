@@ -61,11 +61,10 @@ class Validation
         }
 
         if (count($errs) > 0) {
-            $r = redirect()->current()->with('validation_errors', $errs);
             if ($this->jsonRedirect) {
-                JsonResponse::redirect($r);
+                JsonResponse::error($errs);
             } else {
-                $r->send();
+                redirect()->current()->with('validation_errors', $errs)->send();
             }
         }
 

@@ -96,7 +96,7 @@ class PostController
     public static function like(array $data): void
     {
         if (!Auth::user()) {
-            JsonResponse::login();
+            JsonResponse::unauthorized();
         }
 
         $data = new Validation($data, true)->add('post_id', ['required', 'integer'])->finalize();

@@ -6,21 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (userId) {
         const formData = new FormData();
         formData.append("id", userId);
+        // TODO: Report error
         fetch("/notif/data", { method: "POST", body: formData })
             .then((res) => res.json())
             .then((data) => {
-                if (data) {
-                    if (data.redirect) {
-                        // TODO: `flash` data is not sent
-                        window.location.href = data.redirect;
-                        return;
-                    }
-
-                    if (data.count > 0) {
-                        notifAlert.classList.remove("hidden");
-                    } else {
-                        notifAlert.classList.add("hidden");
-                    }
+                if (data.count > 0) {
+                    notifAlert.classList.remove("hidden");
+                } else {
+                    notifAlert.classList.add("hidden");
                 }
             });
     }

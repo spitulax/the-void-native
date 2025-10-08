@@ -45,18 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     method: "POST",
                     body: formData,
                 })
+                    // TODO: Report error
                     .then((res) => res.json())
                     .then((data) => {
-                        if (data) {
-                            if (data.redirect) {
-                                // TODO: `flash` data is not sent
-                                window.location.href = data.redirect;
-                                return;
-                            }
-
-                            div.dataset.liked = data.liked ? "1" : "0";
-                            div.dataset.likes = String(data.likes);
-                        }
+                        div.dataset.liked = data.liked ? "1" : "0";
+                        div.dataset.likes = String(data.likes);
                         refresh();
                     });
             };

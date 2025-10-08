@@ -30,26 +30,16 @@ class JsonResponse
         die(json_encode($data));
     }
 
+    public static function error(mixed $data): void
+    {
+        header('Content-Type: application/json');
+        http_response_code(400);
+        die(json_encode(['error' => $data]));
+    }
+
     public static function unauthorized(): void
     {
         http_response_code(401);
         die('Unauthorized');
-    }
-
-    // FIXME: Just flat out reject the request, why does it need to be here in the first place?
-    // Also change the code in validation
-    public static function redirect(Redirect $redirect): void
-    {
-        header('Content-Type: application/json');
-        die(json_encode([
-            'redirect' => $redirect->target(),
-            'flash' => $redirect->flash(),
-        ]));
-    }
-
-    public static function login(): void
-    {
-        Redirect::markCurLoc();
-        static::redirect(redirect('/login.php'));
     }
 }

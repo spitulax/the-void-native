@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.onsubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(form);
+        // TODO: Report error
         fetch("/notif/notify", { method: "POST", body: formData });
         form.reset();
     };
