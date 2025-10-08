@@ -13,6 +13,8 @@ class NotifController
         $data = new Validation($data, true)
             ->add('id', ['required', 'integer'])
             ->add('text', ['required', 'max:500'], 'Text')
+            ->add('link_text', ['max:100'], 'Text Link')
+            ->add('link_address', ['max:100'], 'Alamat Link')
             ->finalize();
 
         $user = Auth::user();
@@ -20,11 +22,18 @@ class NotifController
             JsonResponse::unauthorized();
         }
 
-        NotifTable::insert([
+        $cols = [
             'heading' => 'Notifikasi dari admin',
             'text' => $data['text'],
             'recipient_id' => $data['id'],
-        ], 'timestamp');
+        ];
+
+        if ($data['link_text'] && $data['link_address']) {
+            $cols['link_text'] = $data['link_text'];
+            $cols['link_address'] = $data['link_address'];
+        }
+
+        NotifTable::insert($cols, 'timestamp');
     }
 
     public static function notifData(array $data): void

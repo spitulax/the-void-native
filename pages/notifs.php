@@ -60,6 +60,15 @@ $layout = new HTML('The Void: Notifikasi');
                         <?= h($text) ?>
                     </span>
                 <?php endif; ?>
+
+                <?php if ($notif['link_text'] && $notif['link_address']): ?>
+                    <hr class="text-gray">
+                    <div class="flex">
+                        <a class="text-sm text-accent hover:text-accent-light underline" href="<?= $notif['link_address'] ?>"><?= h(
+                            $notif['link_text'],
+                        ) ?></a>
+                    </div>
+                <?php endif; ?>
             </div>
         <?php endwhile; ?>
 

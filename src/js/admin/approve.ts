@@ -21,10 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 formData = new FormData();
                 formData.append("id", div.dataset.authorId!);
-                // FIXME: Add link to the post
                 formData.append(
                     "text",
                     "Postingan anda telah disetujui admin.",
+                );
+                formData.append("link_text", "Pergi ke postingan");
+                formData.append(
+                    "link_address",
+                    `/post/view.php?post=${div.dataset.id!}`,
                 );
                 fetch("/notif/notify", { method: "POST", body: formData });
             };
