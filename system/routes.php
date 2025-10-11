@@ -44,6 +44,7 @@ $router->post('/post/like', [PostController::class, 'like']);
 $router->page('admin/dashboard.php');
 $router->page('admin/notify.php');
 $router->page('admin/approve.php');
+$router->post('/admin/approve-data', [PostController::class, 'approveData']);
 $router->post('/admin/approve', [PostController::class, 'approve']);
 $router->post('/admin/reject', [PostController::class, 'reject']);
 

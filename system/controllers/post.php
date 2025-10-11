@@ -146,6 +146,17 @@ class PostController
         PostTable::delete($id);
     }
 
+    public static function approveData(array $data): void
+    {
+        if (!Auth::isAdmin()) {
+            JsonResponse::unauthorized();
+        }
+
+        JsonResponse::data([
+            'pending' => PostTable::pendingApprovalCount(),
+        ]);
+    }
+
     public static function delete(array $data): Redirect
     {
         $data = new Validation($data)->add('id', ['required', 'integer'])->finalize();

@@ -138,6 +138,16 @@ class PostTable extends AuthoredTable
             ");
     }
 
+    public static function pendingApprovalCount(): int
+    {
+        $res = Database::fetch('
+            SELECT COUNT(*) AS count
+            FROM posts p
+            WHERE p.approved=0
+            ')->fetch_assoc();
+        return $res ? intval($res['count']) : 0;
+    }
+
     public static function canDelete(int $id, null|array $user): bool
     {
         return static::owns($id, $user);
