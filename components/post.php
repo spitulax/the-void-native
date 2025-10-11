@@ -26,6 +26,11 @@ function post(array $post, string $mode = 'minimal')
     /* $text = $detailed ? $post['text'] : substr($post['text'], 0, 100); */
     $text = $post['text'];
 
+    $parentPost = null;
+    if ($post['parent_id']) {
+        $parentPost = PostTable::fromId($post['parent_id']);
+    }
+
     ?>
 
     <?php if ($mode === 'detailed'): ?>
@@ -37,6 +42,19 @@ function post(array $post, string $mode = 'minimal')
 
     <div id="post-root">
         <div class="border rounded-xs border-gray mx-2 my-3 px-1">
+            <?php if ($mode === 'detailed' && $parentPost): ?>
+                <?php $parentPostAuthor = PostTable::author($parentPost['id']); ?>
+                <div class="flex py-1 h-10 w-full justify-center items-center">
+                    <a
+                        class="font-bold hover:bg-dark-gray rounded-xs flex items-center px-1 h-full" href="/post/view.php?post=<?= $parentPost['id'] ?>"
+                    >
+                        Membalas <?= $parentPostAuthor ? '@' . $parentPostAuthor['username'] : '[Pengguna Dihapus]' ?>
+                    </a>
+                </div>
+
+                <hr class="text-gray" />
+            <?php endif; ?>
+
             <div class="flex justify-between items-center h-10 px-1 py-1">
                 <?php $class = 'rounded-xs px-1 h-full transition'; ?>
                 <?php if ($author = PostTable::author($id)): ?>
@@ -203,7 +221,7 @@ function post(array $post, string $mode = 'minimal')
                 <?php $hasReplies = false; ?>
                 <?php while ($reply = $replies->fetch_assoc()): ?>
                     <?php $hasReplies = true; ?>
-                    <?php post($reply, false); ?>
+                    <?php post($reply); ?>
                 <?php endwhile; ?>
                 <?php if (!$hasReplies): ?>
                     <span class="text-center text-light-gray w-full italic">Belum ada balasan.</span>
