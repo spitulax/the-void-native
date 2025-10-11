@@ -30,13 +30,13 @@ $userId = $user['id'];
 
 $errors = flash('validation_errors') ?? [];
 
-$layout = new HTML('The Void: Edit Profil');
+$layout = new HTML('The Void: Ubah Password');
 
 // TODO: Retain form values after refresh
 ?>
 
 <div class="flex-1">
-    <?php topNav('Edit Profil'); ?>
+    <?php topNav('Ubah Password'); ?>
 
     <div class="flex flex-col gap-2 items-center justify-center py-2">
         <div class="flex gap-2 items-center justify-center">
@@ -44,27 +44,30 @@ $layout = new HTML('The Void: Edit Profil');
             <span class="font-bold text-xl">·</span>
             <span class="text-light-gray"><?= h('@' . $user['username']) ?></span>
         </div>
-        <a href="/user/changePassword.php?user=<?= $user['username'] ?>" class="underline text-accent hover:text-accent-light cursor-pointer">Ubah password</a>
     </div>
 
-    <form method="post" action="/user/edit" class="mx-4">
+    <form method="post" action="/user/change-password" class="mx-4">
         <input type="hidden" name="id" value="<?= $userId ?>">
 
-        <input type="text" name="username" value="<?= $user['username'] ?>" required />
-        <?php if ($errors['username'] ?? false): ?>
-            <div class="my-error"><?= h($errors['username']) ?></div>
+        <input type="password" name="old_password" placeholder="Masukkan password lama..." required />
+        <?php if ($errors['old_password'] ?? false): ?>
+            <div class="my-error"><?= h($errors['old_password']) ?></div>
         <?php endif; ?>
 
-        <input type="text" name="name" value="<?= $user['name'] ?>" required />
-        <?php if ($errors['name'] ?? false): ?>
-            <div class="my-error"><?= h($errors['name']) ?></div>
+        <input type="password" name="new_password" placeholder="Masukkan password baru..." required />
+        <?php if ($errors['new_password'] ?? false): ?>
+            <div class="my-error"><?= h($errors['new_password']) ?></div>
         <?php endif; ?>
 
-        <textarea class="min-h-10 h-[30vh]" name="bio" placeholder="Tulis biomu di sini..."><?= h($user['bio'] ?? '') ?></textarea>
-        <?php if ($errors['bio'] ?? false): ?>
-            <div class="my-error"><?= h($errors['bio']) ?></div>
+        <input type="password" name="confirm_password" placeholder="Konfirmasi password baru..." required />
+        <?php if ($errors['confirm_password'] ?? false): ?>
+            <div class="my-error"><?= h($errors['confirm_password']) ?></div>
         <?php endif; ?>
 
-        <button type="submit" class="my-button">EDIT</button>
+        <?php if ($msg = flash('error')): ?>
+            <div class="my-error"><?= h($msg) ?></div>
+        <?php endif; ?>
+
+        <button type="submit" class="my-button">UBAH</button>
     </form>
-<div>
+</div>

@@ -68,7 +68,6 @@ class UserController
         return redirect('/');
     }
 
-    // TODO: Change password (should be separate page)
     public static function edit(array $data): Redirect
     {
         $user = Auth::user();
@@ -87,13 +86,45 @@ class UserController
             Response::notFound();
         }
 
-        $post = UserTable::update($id, [
+        UserTable::update($id, [
             'username' => $data['username'],
             'name' => $data['name'],
             'bio' => $data['bio'],
         ]);
 
         return redirect('/user/view.php', ['user' => $data['username']]);
+    }
+
+    public static function changePassword(array $data): Redirect
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            Response::notFound();
+        }
+
+        $data = new Validation($data)
+            ->add('id', ['required', 'integer'])
+            ->add('old_password', ['required', 'min:8', 'max:32'], 'Password lama')
+            ->add('new_password', ['required', 'min:8', 'max:32'], 'Password baru')
+            ->add('confirm_password', ['same:new_password'], 'Konfirmasi password')
+            ->finalize();
+        $id = $data['id'];
+
+        if (!UserTable::canEdit($id, $user)) {
+            Response::notFound();
+        }
+
+        $editedUser = UserTable::fromId($id);
+        if (!password_verify($data['old_password'], $editedUser['password'])) {
+            return redirect()->current()->with('error', 'Password lama yang dimasukkan tidak cocok.');
+        }
+
+        UserTable::update($id, [
+            'password' => password_hash($data['new_password'], null),
+        ]);
+
+        return redirect('/user/view.php', ['user' => $editedUser['username']]);
     }
 
     // NOTE: Must be authenticated
