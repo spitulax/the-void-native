@@ -23,6 +23,7 @@ $router->post('/logout', [UserController::class, 'logout']);
 $router->post('/register', [UserController::class, 'register']);
 $router->post('/user/edit', [UserController::class, 'edit']);
 $router->post('/user/delete', [UserController::class, 'delete']);
+$router->post('/user/mute', [UserController::class, 'mute']);
 $router->post('/user/follow', [UserController::class, 'follow']);
 $router->post('/notif/notify', [NotifController::class, 'notify']);
 $router->post('/notif/data', [NotifController::class, 'notifData']);

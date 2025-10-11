@@ -49,6 +49,10 @@ $layout = new HTML('The Void: Posting');
                 <?php endif; ?>
 
                 <button type="submit" class="my-button text-lg my-4">POST</button>
+
+                <?php if ($err = flash('error')): ?>
+                    <div class="my-error"><?= h($err) ?></div>
+                <?php endif; ?>
             </div>
         </form>
     </div>

@@ -16,4 +16,5 @@ Bahasa Indonesia (Indonesian) is used throughout the UI.
 - Edit posts
 - Like posts
 - Follow accounts
+- Moderation (post checking and muting)
 - And much more coming up

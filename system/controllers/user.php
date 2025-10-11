@@ -124,6 +124,34 @@ class UserController
         ]);
     }
 
+    public static function mute(array $data): Redirect
+    {
+        $data = new Validation($data)->add('id', ['required', 'integer'])->finalize();
+        $id = $data['id'];
+
+        if (!Auth::isAdmin()) {
+            Response::notFound();
+        }
+
+        $user = UserTable::fromId($id);
+        if (!$user) {
+            return redirect()->current()->with('error', "Pengguna dengan ID `$id` tidak ditemukan.");
+        }
+        $username = $user['username'];
+
+        $unmuting = boolval($user['muted']);
+        UserTable::update($id, [
+            'muted' => $unmuting ? 0 : 1,
+        ]);
+
+        NotifTable::insert([
+            'heading' => $unmuting ? 'Kamu sudah tidak lagi dibisukan oleh admin' : 'Kamu telah dibisukan oleh admin',
+            'recipient_id' => $id,
+        ], 'timestamp');
+
+        return redirect()->current()->with('success', "Berhasil membisukan @$username.");
+    }
+
     public static function delete(array $data): Redirect
     {
         $data = new Validation($data)->add('id', ['required', 'integer'])->finalize();

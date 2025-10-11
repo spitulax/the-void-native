@@ -13,6 +13,10 @@ class PostController
     {
         $user = Auth::user();
 
+        if ($user['muted']) {
+            return redirect()->current()->with('error', 'Kamu dibisukan oleh admin.');
+        }
+
         if (!$user) {
             Response::notFound();
         }
