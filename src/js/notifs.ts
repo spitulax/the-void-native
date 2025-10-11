@@ -31,12 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
         refresh();
     };
 
-    document.querySelectorAll("#notif").forEach((value) => {
-        const div = value as HTMLDivElement;
-
-        const deleteButton = value.querySelector(
-            "#delete",
-        ) as HTMLButtonElement;
+    document.querySelectorAll<HTMLDivElement>("#notif").forEach((div) => {
+        const deleteButton = div.querySelector("#delete") as HTMLButtonElement;
         deleteButton.onclick = () => {
             div.classList.add("hidden");
             const formData = new FormData();

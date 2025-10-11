@@ -5,8 +5,9 @@ require_once 'system/auth.php';
 require_once 'system/main.php';
 require_once 'system/response.php';
 require_once 'components/button.php';
-require_once 'components/topNav.php';
 require_once 'components/confirmDialog.php';
+require_once 'components/topNav.php';
+require_once 'components/post.php';
 
 $username = get('user');
 if (!$username) {
@@ -21,6 +22,9 @@ if (!$user) {
 $userId = $user['id'];
 
 $authUser = Auth::user();
+
+$posts = PostTable::allCanView($authUser, false, authorId: $userId);
+$likedPosts = UserTable::getLikedPost($userId);
 
 $errors = flash('validation_errors') ?? [];
 
@@ -123,6 +127,39 @@ $layout = new HTML('The Void: @' . $user['username']);
     <span class="whitespace-pre-wrap m-2 p-4 border border-gray rounded-xs"><?= ($bio = $user['bio'])
         ? h($bio)
         : '<span class="italic text-light-gray">Tidak ada bio.</span>' ?></span>
+
+    <div class="flex justify-between items-center m-2">
+        <button
+            class="tab-button flex-1 px-4 py-1 text-accent hover:text-accent cursor-pointer border-b-2 border-accent hover:border-accent transition"
+            data-tab="tab1"
+        >
+            Postingan
+        </button>
+        <button
+            class="tab-button flex-1 px-4 py-1 hover:text-accent cursor-pointer border-b-2 border-gray hover:border-accent transition"
+            data-tab="tab2"
+        >
+            Disukai
+        </button>
+    </div>
+
+    <div class="tab-content flex flex-col mx-4" id="tab1">
+        <?php while ($post = $posts->fetch_assoc()): ?>
+            <?php post($post); ?>
+        <?php endwhile; ?>
+    </div>
+
+    <div class="tab-content flex flex-col mx-4 hidden" id="tab2">
+        <?php $hasLiked = false; ?>
+        <?php while ($post = $likedPosts->fetch_assoc()): ?>
+            <?php $hasLiked = true; ?>
+            <?php post($post); ?>
+        <?php endwhile; ?>
+
+        <?php if (!$hasLiked): ?>
+            <span class="text-center text-light-gray w-full italic">Pengguna belum menyukai apa-apa.</span>
+        <?php endif; ?>
+    </div>
 </div>
 
 <div 
@@ -135,3 +172,4 @@ $layout = new HTML('The Void: @' . $user['username']);
 
 <script src="/src/js/userFollow.ts"></script>
 <script src="/src/js/share.ts"></script>
+<script src="/src/js/user/view.ts"></script>

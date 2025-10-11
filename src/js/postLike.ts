@@ -1,9 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     document
-        .querySelectorAll("[data-component='post-like']")
-        .forEach((value) => {
-            const div = value as HTMLDivElement;
-
+        .querySelectorAll<HTMLDivElement>("[data-component='post-like']")
+        .forEach((div) => {
             let button = div.querySelector("button") as HTMLButtonElement;
             let number = div.querySelector("span") as HTMLSpanElement;
             let svg = button.querySelector("svg") as SVGElement;

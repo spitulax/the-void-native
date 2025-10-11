@@ -55,6 +55,17 @@ class UserTable extends Table
             ', [[$id, 'i']]);
     }
 
+    public static function getLikedPost(int $id): mysqli_result
+    {
+        return Database::fetch('
+            SELECT p.*
+            FROM likes l
+            INNER JOIN users u ON l.user_id=u.id
+            INNER JOIN posts p ON l.post_id=p.id
+            WHERE u.id=?
+            ', [[$id, 'i']]);
+    }
+
     public static function delete(int $id): void
     {
         $res = Database::fetch('

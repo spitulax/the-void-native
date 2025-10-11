@@ -1,9 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     document
-        .querySelectorAll("[data-component='user-follow']")
-        .forEach((value) => {
-            const div = value as HTMLDivElement;
-
+        .querySelectorAll<HTMLDivElement>("[data-component='user-follow']")
+        .forEach((div) => {
             let button = div.querySelector("button") as HTMLButtonElement;
             let number = div.querySelector("span") as
                 | HTMLSpanElement

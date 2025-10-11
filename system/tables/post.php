@@ -79,8 +79,12 @@ class PostTable extends AuthoredTable
         return static::owns($post['id'], $user);
     }
 
-    public static function allCanView(null|array $user, bool $excludeReplies = true, bool $newest = true): mysqli_result
-    {
+    public static function allCanView(
+        null|array $user,
+        bool $excludeReplies = true,
+        bool $newest = true,
+        null|int $authorId = null,
+    ): mysqli_result {
         $args = [];
 
         $onlyOwner = '';
@@ -96,6 +100,11 @@ class PostTable extends AuthoredTable
         $whenExcludeReplies = 'TRUE';
         if ($excludeReplies) {
             $whenExcludeReplies = 'p.parent_id IS NULL';
+        }
+
+        $fromUser = 'TRUE';
+        if ($authorId) {
+            $fromUser = 'p.author_id=' . $authorId;
         }
 
         $sortNewest = '';
@@ -116,6 +125,8 @@ class PostTable extends AuthoredTable
                 END)
                 AND
                 {$whenExcludeReplies}
+                AND
+                {$fromUser}
                 {$sortNewest}
             ", $args);
     }
