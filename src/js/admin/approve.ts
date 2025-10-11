@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 formData = new FormData();
                 formData.append("id", div.dataset.authorId!);
                 formData.append(
-                    "text",
+                    "heading",
                     "Postingan anda telah disetujui admin.",
                 );
                 formData.append("link_text", "Pergi ke postingan");

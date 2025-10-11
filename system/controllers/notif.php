@@ -12,8 +12,9 @@ class NotifController
     {
         $data = new Validation($data, true)
             ->add('id', ['required', 'integer'])
-            ->add('text', ['required', 'max:500'], 'Text')
-            ->add('link_text', ['max:100'], 'Text Link')
+            ->add('heading', ['required', 'max:100'], 'Judul')
+            ->add('text', ['max:500'], 'Teks')
+            ->add('link_text', ['max:100'], 'Teks Link')
             ->add('link_address', ['max:100'], 'Alamat Link')
             ->finalize();
 
@@ -23,8 +24,8 @@ class NotifController
         }
 
         $cols = [
-            'heading' => 'Notifikasi dari admin',
-            'text' => $data['text'],
+            'heading' => $data['heading'],
+            'text' => $data['text'] ?? '',
             'recipient_id' => $data['id'],
         ];
 
@@ -42,7 +43,7 @@ class NotifController
         $id = $data['id'];
 
         if (!UserTable::canEdit($id, Auth::user())) {
-            Response::notFound();
+            JsonResponse::unauthorized();
         }
 
         JsonResponse::data([
@@ -56,7 +57,7 @@ class NotifController
         $id = $data['id'];
 
         if (!UserTable::canEdit($id, Auth::user())) {
-            Response::notFound();
+            JsonResponse::unauthorized();
         }
 
         NotifTable::clearAll($id);
@@ -67,8 +68,10 @@ class NotifController
         $data = new Validation($data, true)->add('id', ['required', 'integer'])->finalize();
         $id = $data['id'];
 
-        if (!UserTable::canEdit($id, Auth::user())) {
-            Response::notFound();
+        $notif = NotifTable::fromId($id);
+
+        if (!UserTable::canEdit($notif['recipient_id'], Auth::user())) {
+            JsonResponse::unauthorized();
         }
 
         NotifTable::delete($id);

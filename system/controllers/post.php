@@ -23,7 +23,7 @@ class PostController
 
         $data = new Validation($data)
             ->add('private', ['checkbox'], 'Pribadi')
-            ->add('text', ['required', 'max:500'], 'Text')
+            ->add('text', ['required', 'max:500'], 'Teks')
             ->finalize();
 
         $post = PostTable::insert([
@@ -32,6 +32,10 @@ class PostController
             'author_id' => $user['id'],
             'approved' => $user['admin'] ? 1 : 0,
         ]);
+
+        if ($post['approved'] === 1) {
+            static::notifyFollowers($post['id']);
+        }
 
         return redirect('/post/view.php', ['post' => $post['id']]);
     }
@@ -45,7 +49,7 @@ class PostController
         }
 
         $data = new Validation($data)
-            ->add('text', ['required', 'max:500'], 'Text')
+            ->add('text', ['required', 'max:500'], 'Teks')
             ->add('parent_id', ['required', 'integer'])
             ->finalize();
         $parentId = $data['parent_id'];
@@ -77,7 +81,7 @@ class PostController
             ->add('id', ['required', 'integer'])
             ->add('parent_id', ['integer'])
             ->add('private', ['checkbox'], 'Pribadi')
-            ->add('text', ['required', 'max:500'], 'Text')
+            ->add('text', ['required', 'max:500'], 'Teks')
             ->finalize();
         $id = $data['id'];
 
@@ -130,6 +134,8 @@ class PostController
         $data = new Validation($data, true)->add('id', ['required', 'integer'])->finalize();
         $id = $data['id'];
 
+        static::notifyFollowers($id);
+
         PostTable::update($id, [
             'approved' => 1,
         ]);
@@ -179,5 +185,19 @@ class PostController
         $redirectUrl = $parentId ? '/post/view.php?' . http_build_query(['post' => $parentId]) : '/';
 
         return redirect($redirectUrl)->with('success', 'Berhasil menghapus postingan.');
+    }
+
+    private static function notifyFollowers(int $id): void
+    {
+        $author = PostTable::author($id);
+        $follows = UserTable::getFollows($author['id']);
+        while ($follower = $follows->fetch_assoc()) {
+            NotifTable::insert([
+                'heading' => '@' . $author['username'] . ' telah memposting.',
+                'recipient_id' => $follower['id'],
+                'link_text' => 'Pergi ke postingan',
+                'link_address' => '/post/view.php?post=' . $id,
+            ], 'timestamp');
+        }
     }
 }

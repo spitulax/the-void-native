@@ -42,6 +42,7 @@ $layout = new HTML('The Void: Mengirim notifikasi ke @' . $username);
 
             <form id="notify-form" method="post">
                 <input type="hidden" name="id" value="<?= $user['id'] ?>">
+                <input type="hidden" name="heading" value="Notifikasi dari admin.">
 
                 <div class="flex flex-col w-full px-4 py-4 justify-center items-center gap-4">
                     <textarea class="min-h-10 h-[30vh]" name="text" placeholder="Tulis isi notifikasi di sini..."

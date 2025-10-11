@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
-    if (userAdmin) {
+    if (userAdmin === "1") {
         const approveAlert = nav.querySelector(
             "#approve-alert",
         ) as HTMLSpanElement;
