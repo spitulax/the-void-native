@@ -23,6 +23,8 @@ if (!$post) {
     Response::notFound();
 }
 
+$author = PostTable::author($postId);
+
 $errors = flash('validation_errors') ?? [];
 
 $layout = new HTML('The Void: Edit Postingan');
@@ -36,9 +38,9 @@ $layout = new HTML('The Void: Edit Postingan');
     <div class="border rounded-xs border-gray m-4 lg:m-8 px-1">
         <div class="flex justify-between items-center h-10 px-1 py-1">
             <div class="flex items-center rounded-xs px-1 h-full">
-                <span class="font-bold"><?= h($user['name']) ?></span>
+                <span class="font-bold"><?= h($author['name']) ?></span>
                 <span class="font-bold text-xl mx-1">·</span>
-                <?= h('@' . $user['username']) ?>
+                <?= h('@' . $author['username']) ?>
             </div>
         </div>
 

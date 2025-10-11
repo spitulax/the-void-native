@@ -111,10 +111,9 @@ class PostTable extends AuthoredTable
             WHERE
                 (CASE
                     WHEN p.private=1 THEN {$onlyOwner}
+                    WHEN p.private=0 THEN p.approved=1
                     ELSE TRUE
                 END)
-                AND
-                    p.approved=1
                 AND
                 {$whenExcludeReplies}
                 {$sortNewest}
@@ -133,7 +132,7 @@ class PostTable extends AuthoredTable
             FROM posts p
             LEFT JOIN users u
             ON p.author_id=u.id
-            WHERE p.approved=0
+            WHERE p.approved=0 AND p.private=0
             {$sortNewest}
             ");
     }
@@ -143,7 +142,7 @@ class PostTable extends AuthoredTable
         $res = Database::fetch('
             SELECT COUNT(*) AS count
             FROM posts p
-            WHERE p.approved=0
+            WHERE p.approved=0 AND p.private=0
             ')->fetch_assoc();
         return $res ? intval($res['count']) : 0;
     }

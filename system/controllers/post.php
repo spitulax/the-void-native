@@ -30,6 +30,7 @@ class PostController
             'text' => $data['text'],
             'private' => $data['private'],
             'author_id' => $user['id'],
+            'approved' => $user['admin'] ? 1 : 0,
         ]);
 
         return redirect('/post/view.php', ['post' => $post['id']]);

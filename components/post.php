@@ -20,7 +20,7 @@ function post(array $post, string $mode = 'minimal')
 
     $views = PostTable::fromId($id)['views'];
 
-    $approved = boolval($post['approved']);
+    $unapproved = !$post['approved'] && !$post['private'];
 
     // TODO: Better alg
     /* $text = $detailed ? $post['text'] : substr($post['text'], 0, 100); */
@@ -51,7 +51,7 @@ function post(array $post, string $mode = 'minimal')
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                             </svg>
                         <?php endif; ?>
-                        <?php if (!$approved): ?>
+                        <?php if ($unapproved): ?>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
@@ -139,7 +139,7 @@ function post(array $post, string $mode = 'minimal')
                     <button id="approve" type="button" class="flex-1 my-button-on">SETUJUI</button>
                 </div>
 
-            <?php elseif ($approved): ?>
+            <?php elseif (!$unapproved): ?>
                 <div class="flex justify-between px-2 py-1">
                     <?php $class = 'flex gap-2 md:gap-3 lg:gap-4 items-center' ?>
                     <div class="<?= $class ?>">
@@ -198,7 +198,7 @@ function post(array $post, string $mode = 'minimal')
             <?php endif; ?>
         </div>
 
-        <?php if ($mode === 'detailed' && $approved): ?>
+        <?php if ($mode === 'detailed' && !$unapproved): ?>
             <div class="mx-8 flex flex-col">
                 <?php $hasReplies = false; ?>
                 <?php while ($reply = $replies->fetch_assoc()): ?>
@@ -212,7 +212,7 @@ function post(array $post, string $mode = 'minimal')
         <?php endif; ?>
     </div>
 
-    <?php if ($approved): ?>
+    <?php if (!$unapproved): ?>
         <div 
             id="share-toast" 
             class="fixed bottom-20 left-10 bg-accent-dark px-4 py-2 rounded-xs shadow-black shadow-md opacity-0 transition-opacity duration-500 cursor-pointer"
