@@ -131,8 +131,13 @@ class PostTable extends AuthoredTable
             ", $args);
     }
 
-    public static function allNotApproved(bool $newest = true): mysqli_result
+    public static function allNotApproved(bool $newest = true, null|int $authorId = null): mysqli_result
     {
+        $fromUser = 'TRUE';
+        if ($authorId) {
+            $fromUser = 'p.author_id=' . $authorId;
+        }
+
         $sortNewest = '';
         if ($newest) {
             $sortNewest = 'ORDER BY p.id DESC';
@@ -143,7 +148,12 @@ class PostTable extends AuthoredTable
             FROM posts p
             LEFT JOIN users u
             ON p.author_id=u.id
-            WHERE p.approved=0 AND p.private=0
+            WHERE
+                p.approved=0
+                AND
+                p.private=0
+                AND
+                {$fromUser}
             {$sortNewest}
             ");
     }

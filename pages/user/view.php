@@ -144,9 +144,15 @@ $layout = new HTML('The Void: @' . $user['username']);
     </div>
 
     <div class="tab-content flex flex-col mx-4" id="tab1">
+        <?php $hasPost = false; ?>
         <?php while ($post = $posts->fetch_assoc()): ?>
+            <?php $hasPost = true; ?>
             <?php post($post); ?>
         <?php endwhile; ?>
+
+        <?php if (!$hasPost): ?>
+            <span class="text-center text-light-gray w-full italic">Pengguna belum memposting apa-apa.</span>
+        <?php endif; ?>
     </div>
 
     <div class="tab-content flex flex-col mx-4 hidden" id="tab2">

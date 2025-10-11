@@ -19,6 +19,7 @@ $router->page('user/view.php');
 $router->page('user/followers.php');
 $router->page('user/edit.php');
 $router->page('user/changePassword.php');
+$router->page('user/pendingPosts.php');
 $router->post('/login', [UserController::class, 'login']);
 $router->post('/logout', [UserController::class, 'logout']);
 $router->post('/register', [UserController::class, 'register']);
