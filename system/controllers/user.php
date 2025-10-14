@@ -31,7 +31,7 @@ class UserController
                 ->current()
                 ->with(
                     'error',
-                    'Username hanya boleh terdiri dari huruf kecil (a-z), angka (0-9), titik, dan garis bawah.',
+                    'Username hanya boleh terdiri dari huruf kecil (a-z), angka (0-9), titik (.), dan garis bawah (_).',
                 );
         }
 
