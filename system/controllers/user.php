@@ -15,7 +15,7 @@ class UserController
         return new Validation($data)
             //
             ->add('username', ['required', 'min:3', 'max:32'], 'Username')
-            ->add('name', ['required', 'min:3', 'max:64'], 'Nama');
+            ->add('name', ['required', 'max:64'], 'Nama');
     }
 
     public static function register(array $data): Redirect
@@ -25,7 +25,16 @@ class UserController
             ->add('confirm_password', ['same:password'], 'Konfirmasi password')
             ->finalize();
 
-        $username = strtolower($data['username']);
+        $username = $data['username'];
+        if (!preg_match('#^[a-z0-9._]+$#', $username)) {
+            return redirect()
+                ->current()
+                ->with(
+                    'error',
+                    'Username hanya boleh terdiri dari huruf kecil (a-z), angka (0-9), titik, dan garis bawah.',
+                );
+        }
+
         if (Database::fetch('SELECT * FROM users WHERE username=?', [[$username, 's']])->fetch_assoc()) {
             return redirect()->current()->with('error', "Pengguna @$username telah terdaftar.");
         }
