@@ -18,14 +18,8 @@ class UserController
             ->add('name', ['required', 'max:64'], 'Nama');
     }
 
-    public static function register(array $data): Redirect
+    private static function validateUsername(string $username, bool $validateUse = true): null|Redirect
     {
-        $data = static::validation($data)
-            ->add('password', ['required', 'min:8', 'max:32'], 'Password')
-            ->add('confirm_password', ['same:password'], 'Konfirmasi password')
-            ->finalize();
-
-        $username = $data['username'];
         if (!preg_match('#^[a-z0-9._]+$#', $username)) {
             return redirect()
                 ->current()
@@ -35,8 +29,25 @@ class UserController
                 );
         }
 
-        if (Database::fetch('SELECT * FROM users WHERE username=?', [[$username, 's']])->fetch_assoc()) {
-            return redirect()->current()->with('error', "Pengguna @$username telah terdaftar.");
+        if ($validateUse) {
+            if (UserTable::from('username', $username, 's')) {
+                return redirect()->current()->with('error', 'Username @' . $username . ' telah dipakai.');
+            }
+        }
+
+        return null;
+    }
+
+    public static function register(array $data): Redirect
+    {
+        $data = static::validation($data)
+            ->add('password', ['required', 'min:8', 'max:32'], 'Password')
+            ->add('confirm_password', ['same:password'], 'Konfirmasi password')
+            ->finalize();
+
+        $username = $data['username'];
+        if ($res = static::validateUsername($username)) {
+            return $res;
         }
 
         $user = UserTable::insert([
@@ -79,9 +90,9 @@ class UserController
 
     public static function edit(array $data): Redirect
     {
-        $user = Auth::user();
+        $authUser = Auth::user();
 
-        if (!$user) {
+        if (!$authUser) {
             Response::notFound();
         }
 
@@ -91,8 +102,13 @@ class UserController
             ->finalize();
         $id = $data['id'];
 
-        if (!UserTable::canEdit($id, $user)) {
+        if (!UserTable::canEdit($id, $authUser)) {
             Response::notFound();
+        }
+
+        $user = UserTable::fromId($id);
+        if ($res = static::validateUsername($data['username'], $data['username'] !== $user['username'])) {
+            return $res;
         }
 
         UserTable::update($id, [

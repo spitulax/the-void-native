@@ -66,5 +66,9 @@ $layout = new HTML('The Void: Edit Profil');
         <?php endif; ?>
 
         <button type="submit" class="my-button">EDIT</button>
+
+        <?php if ($err = flash('error')): ?>
+            <div class="my-error"><?= h($err) ?></div>
+        <?php endif; ?>
     </form>
 <div>
