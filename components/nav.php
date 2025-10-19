@@ -63,7 +63,7 @@ function nav(): void
             </div>
 
             <div class="flex items-center space-x-4 gap-0 md:gap-1">
-                <?php $buttonClass = 'px-3 py-1 text-xs rounded-xs border-2 border-accent bg-transparent text-white font-bold cursor-pointer hover:border-transparent hover:bg-accent-dark transition'; ?>
+                <?php $buttonClass = 'my-button px-3 py-1 text-xs text-bold text-white'; ?>
                 <?php if ($user): ?>
                     <a
                         href="/user/view.php?<?= http_build_query(['user' => $user['username']]) ?>"
