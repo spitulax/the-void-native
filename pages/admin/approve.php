@@ -14,12 +14,12 @@ if (!Auth::isAdmin()) {
 
 $posts = PostTable::allNotApproved();
 
-$layout = new HTML('The Void: Menyetujui Post');
+$layout = new HTML('The Void: Setujui Postingan');
 
 ?>
 
 <div class="flex flex-1 flex-col mx-4 md:mx-24 lg:mx-32 px-1 border-x-2 border-dark-gray">
-    <?php topNav('Menyetujui Post'); ?>
+    <?php topNav('Setujui Postingan'); ?>
 
     <?php $has = false; ?>
     <?php while ($post = $posts->fetch_assoc()): ?>
