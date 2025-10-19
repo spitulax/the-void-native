@@ -34,7 +34,7 @@ class HTML
                 <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml">
             </head>
 
-            <body class="w-screen h-screen bg-gradient-to-r from-base-light from-[-50%] via-base via-50% to-base-light to-150% fg-text text-text [&::-webkit-scrollbar]:hidden">
+            <body class="w-screen h-screen bg-gradient-to-r from-base-light from-[-50%] md:from-[-25%] via-base via-50% to-base-light to-150% md:to-125% fg-text text-text [&::-webkit-scrollbar]:hidden">
                 <?php nav(); ?>
                 <main class="min-h-screen pb-10 flex">
                     <?= $output ?>

@@ -10,7 +10,7 @@ $router = new Router();
 $router->page('/', 'app.php');
 $router->page('404.php');
 
-$router->page('test.php');
+$router->page('about.php');
 
 $router->page('login.php');
 $router->page('register.php');

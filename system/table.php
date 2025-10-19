@@ -150,6 +150,12 @@ class Table
     {
         Database::execute('DELETE FROM ' . static::$name . " WHERE {$column}{$op}?", [$value]);
     }
+
+    public static function len(): int
+    {
+        $res = Database::fetch('SELECT COUNT(*) AS count FROM ' . static::$name)->fetch_assoc();
+        return $res ? intval($res['count']) : 0;
+    }
 }
 
 class AuthoredTable extends Table
