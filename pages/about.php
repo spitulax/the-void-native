@@ -8,7 +8,7 @@ $layout = new HTML('The Void: Tentang');
 
 function info(string $label, string $value, string $icon): void
 { ?>
-    <div class="flex justify-center items-stretch border-2 border-gray rounded-xs px-2 gap-2 md:gap-4 w-[80vw] md:w-[40vw]">
+    <div class="flex justify-center bg-base-light items-stretch border-2 border-gray rounded-xs px-2 gap-2 md:gap-4 w-[80vw] md:w-[40vw]">
         <div class="flex py-8 items-center justify-center">
             <?= $icon ?>
         </div>
@@ -71,7 +71,7 @@ $totalUsers = UserTable::len();
 
         <div class="flex items-center justify-between w-full">
             <span class="text-gray italic">Copyright &copy; 2025 The Void</span>
-            <a class="font-bold text-gray" target="_blank" href="https://codeberg.org/spitulax/the-void-native">Source Code</a>
+            <a class="font-bold text-gray hover:underline" target="_blank" href="https://codeberg.org/spitulax/the-void-native">Source Code</a>
         </div>
     </div>
 </div>
