@@ -170,10 +170,10 @@ class PostController
         $id = $data['id'];
 
         $user = Auth::user();
-        $parent = PostTable::fromIdJoin($id, 'posts', 'parent_id');
+        $parent = PostTable::fromIdJoin($id, 'posts', 'parent_id')->fetch_assoc();
         $parentId = null;
         if ($parent) {
-            $parentId = $parent->fetch_assoc()['id'];
+            $parentId = $parent['id'];
         }
 
         if (!PostTable::canDelete($id, $user)) {
