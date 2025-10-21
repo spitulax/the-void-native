@@ -76,7 +76,7 @@ $layout = new HTML('The Void: @' . $user['username']);
             </button>
         </div>
      
-        <?php if (UserTable::canFollow($userId, $authUser['id'])): ?>
+        <?php if (UserTable::canFollow($userId, $authUser ? $authUser['id'] : null)): ?>
             <div
                 class="flex gap-2 items-center"
                 data-component="user-follow"
