@@ -37,7 +37,7 @@ function nav(): void
                 </svg>
             </a>
 
-            <div class="h-full flex flex-1 items-center justify-start mx-8 gap-4">
+            <div class="h-full flex flex-1 items-center justify-start mx-4 gap-2 md:mx-8 md:gap-4">
                 <?php $class = 'hover:[&_svg]:fill-accent-light cursor-pointer hover:scale-110 transition'; ?>
 
                 <?php if ($user): ?>
