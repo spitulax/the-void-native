@@ -71,7 +71,7 @@ $totalUsers = UserTable::len();
 
         <div class="flex items-center justify-between w-full">
             <span class="text-gray italic">Copyright &copy; 2025 The Void</span>
-            <a class="font-bold text-gray hover:underline" target="_blank" href="https://codeberg.org/spitulax/the-void-native">Source Code</a>
+            <a class="font-bold text-gray hover:underline" target="_blank" href="https://github.com/spitulax/the-void-native">Source Code</a>
         </div>
     </div>
 </div>
