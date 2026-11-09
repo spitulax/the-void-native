@@ -180,6 +180,14 @@ class PostController
             Response::notFound();
         }
 
+        $author = PostTable::author($id);
+        if (Auth::isAdmin()) {
+            NotifTable::insert([
+                'heading' => 'Postingan Anda telah dihapus oleh admin.',
+                'recipient_id' => $author['id'],
+            ], 'timestamp');
+        }
+
         PostTable::delete($id);
 
         $redirectUrl = $parentId ? '/post/view.php?' . http_build_query(['post' => $parentId]) : '/';
